@@ -1,7 +1,7 @@
 site_name: 浙江大学24年秋冬操作系统实验 
-site_url: https://zju-sec.github.io/os24fall-stu/
-repo_url: https://github.com/ZJU-SEC/os24fall-stu
-repo_name: ZJU-SEC/os24fall-stu
+site_url: https://juniorsny.github.io/zju-os-sld/
+repo_url: https://github.com/JuniorSNy/zju-os-sld
+repo_name: JuniorSNy/zju-os-sld
 edit_uri: tree/main/docs
 
 theme: jekyll-theme-minimal
