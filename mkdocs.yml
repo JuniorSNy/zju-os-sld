@@ -4,6 +4,8 @@ repo_url: https://github.com/JuniorSNy/zju-os-sld
 repo_name: JuniorSNy/zju-os-sld
 edit_uri: tree/main/docs
 
+remote_theme: jekyll-theme-minimal
+
 theme: jekyll-theme-minimal
   name: material
   icon:
