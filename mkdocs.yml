@@ -4,10 +4,9 @@ repo_url: https://github.com/JuniorSNy/zju-os-sld
 repo_name: JuniorSNy/zju-os-sld
 edit_uri: tree/main/docs
 
-remote_theme: jekyll-theme-minimal
 
 theme: 
-  name: jekyll-theme-minimal
+  name: material
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil
