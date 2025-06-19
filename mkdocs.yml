@@ -4,7 +4,7 @@ repo_url: https://github.com/ZJU-SEC/os24fall-stu
 repo_name: ZJU-SEC/os24fall-stu
 edit_uri: tree/main/docs
 
-theme:
+theme: jekyll-theme-minimal
   name: material
   icon:
     repo: fontawesome/brands/github
