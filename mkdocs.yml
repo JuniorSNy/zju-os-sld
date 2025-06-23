@@ -1,4 +1,4 @@
-site_name: 浙江大学24年秋冬操作系统实验 
+site_name: 浙江大学25年秋冬操作系统实验 
 site_url: https://juniorsny.github.io/zju-os-sld/
 repo_url: https://github.com/JuniorSNy/zju-os-sld
 repo_name: JuniorSNy/zju-os-sld
@@ -86,5 +86,5 @@ extra_css:
 
 plugins:
   - search
-  - heti:
-      disable_serve: false
+    #- heti:
+    # disable_serve: false
