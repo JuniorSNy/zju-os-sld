@@ -1,0 +1,2280 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://juniorsny.github.io/zju-os-sld/lab1/">
+      
+      
+        <link rel="prev" href="../lab0/">
+      
+      
+        <link rel="next" href="../lab2/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>实验指导一 - 浙江大学25年秋冬操作系统实验</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:500,500i,600,600i&display=fallback">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-1-rv64" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-header__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            浙江大学25年秋冬操作系统实验
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验指导一
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-nav__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    浙江大学25年秋冬操作系统实验
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导零
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    实验指导一
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导一
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验基础知识介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验基础知识介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rv64" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 内核引导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 内核引导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 手册
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risc-v_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 的三种特权模式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#os" class="md-nav__link">
+    <span class="md-ellipsis">
+      从计算机上电到 OS 运行
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbi-opensbi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SBI 与 OpenSBI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-make" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNU Make
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      内联汇编
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译相关知识介绍
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 时钟中断处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 时钟中断处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-interrupt-exception" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 中的 interrupt 和 exception
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      上下文处理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      trap 处理程序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      时钟中断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 内核引导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 内核引导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      完善 Makefile 脚本
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heads" class="md-nav__link">
+    <span class="md-ellipsis">
+      编写 head.S
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbic" class="md-nav__link">
+    <span class="md-ellipsis">
+      补充 sbi.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defs" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 defs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 时钟中断处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 时钟中断处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trap_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      开启 trap 处理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现上下文切换
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 trap 处理函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现时钟中断相关函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 test 函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译及测试
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aarch64" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他架构的交叉编译——以 Aarch64 为例
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其他架构的交叉编译——以 Aarch64 为例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      交叉编译工具链的安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      怎么获得编译过程的中间产物
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导二
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导三
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导五
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导六
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spike 工具链使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aigc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AIGC 使用指北
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题及解答
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    附录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验基础知识介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验基础知识介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rv64" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 内核引导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 内核引导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 手册
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risc-v_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 的三种特权模式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#os" class="md-nav__link">
+    <span class="md-ellipsis">
+      从计算机上电到 OS 运行
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbi-opensbi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SBI 与 OpenSBI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-make" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNU Make
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      内联汇编
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译相关知识介绍
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 时钟中断处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 时钟中断处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-interrupt-exception" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V 中的 interrupt 和 exception
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      上下文处理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      trap 处理程序
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      时钟中断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 内核引导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 内核引导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      完善 Makefile 脚本
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heads" class="md-nav__link">
+    <span class="md-ellipsis">
+      编写 head.S
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbic" class="md-nav__link">
+    <span class="md-ellipsis">
+      补充 sbi.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defs" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 defs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rv64_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      RV64 时钟中断处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RV64 时钟中断处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trap_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      开启 trap 处理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现上下文切换
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 trap 处理函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现时钟中断相关函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 test 函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译及测试
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aarch64" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他架构的交叉编译——以 Aarch64 为例
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其他架构的交叉编译——以 Aarch64 为例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      交叉编译工具链的安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      怎么获得编译过程的中间产物
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/JuniorSNy/zju-os-sld/tree/main/docs/lab1.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="lab-1-rv64">Lab 1: RV64 内核引导与时钟中断处理<a class="headerlink" href="#lab-1-rv64" title="Permanent link">&para;</a></h1>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>学习 RISC-V 汇编，编写 head.S 实现跳转到内核运行的第一个 C 函数；</li>
+<li>学习 OpenSBI，理解 OpenSBI 在实验中所起到的作用，并调用 OpenSBI 提供的接口完成字符的输出；</li>
+<li>学习 Makefile 相关知识，补充项目中的 Makefile 文件，来完成对整个工程的管理；</li>
+<li>学习 RISC-V 的 trap 处理相关寄存器与指令，完成对 trap 处理的初始化；</li>
+<li>理解 CPU 上下文切换机制，并正确实现上下文切换功能；</li>
+<li>编写 trap 处理函数，完成对特定 trap 的处理；</li>
+<li>调用 OpenSBI 提供的接口，完成对时钟中断事件的设置。</li>
+</ul>
+<h2 id="_2">实验环境<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Environment in Lab0</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Ubuntu 22.04 可能遇到兼容性问题</p>
+<p>由于 Ubuntu 22.04 apt 中的 qemu 只有 6.2 版本，而这个版本下的 OpenSBI 也很老，而且在后续页表等实验中也会有严重的潜在 bug，所以请同学们通过 <code>qemu-system-riscv64 --version</code> 自查 qemu 版本，保证其在 8.2.2 及以上（Ubuntu 24.04 apt 中 qemu 为 8.2.2）。如果版本过低，请参考 <a href="https://wiki.qemu.org/Hosts/Linux">QEMU Wiki</a> 自行编译新版 qemu：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/qemu/qemu.git
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>qemu
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>libglib2.0-dev<span class="w"> </span>libfdt-dev<span class="w"> </span>libpixman-1-dev<span class="w"> </span>zlib1g-dev<span class="w"> </span>ninja-build
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>./configure<span class="w"> </span>--target-list<span class="o">=</span>riscv64-softmmu
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+</code></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">升级到 Ubuntu 24.04</p>
+<p>已经安装 Ubuntu 22.04 或更旧版本的同学可以选择参考<a href="../faq/#ubuntu-2404">常见问题及解答 - 如何升级到 Ubuntu 24.04</a> 进行升级。</p>
+<p>升级后，APT 会自动将 QEMU 等软件包升级到软件仓库中较新的版本。</p>
+</div>
+<h2 id="_3">实验基础知识介绍<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="rv64">RV64 内核引导<a class="headerlink" href="#rv64" title="Permanent link">&para;</a></h3>
+<h4 id="risc-v">RISC-V 手册<a class="headerlink" href="#risc-v" title="Permanent link">&para;</a></h4>
+<p>为了顺利完成 OS 实验，我们需要很多 RISC-V 指令集的基础知识，这些课堂上大部分不会讲授，请同学们通过阅读以下几份手册文档进行自学：</p>
+<ul>
+<li><a href="https://github.com/riscv-non-isa/riscv-asm-manual/blob/main/src/asm-manual.adoc">RISC-V Assembly Programmer's Manual</a></li>
+<li><a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/unpriv-isa-asciidoc.pdf">RISC-V Unprivileged Spec</a></li>
+<li><a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/priv-isa-asciidoc.pdf">RISC-V Privileged Spec</a></li>
+<li><a href="https://github.com/riscv-non-isa/riscv-sbi-doc/releases/download/v2.0/riscv-sbi.pdf">RISC-V Supervisor Binary Interface Specification</a>（SBI）</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">指令速查以及快速学习可以参考 <a href="https://note.tonycrane.cc/cs/pl/riscv/">https://note.tonycrane.cc/cs/pl/riscv/</a></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">一切均以 spec 为准，不可跳过阅读 spec 这一步骤；中文版 RISC-V 手册质量良莠不齐，请谨慎参考并以英文版内容为准。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">关于手册版本</p>
+<p>RISC-V ISA 的手册已经更新到当前最新的 ratified 版本，即 20240411 版本。过去的老版本为 20191213 的非特权级 ISA 和 20211203 的特权级 ISA，相比之下当前的文档样式和内容上都有所改变，一切以最新 ratified spec 为准。</p>
+<p>除去 RISC-V ISA 的手册外，其他 RISC-V 的技术规范也可以在 <a href="https://wiki.riscv.org/display/HOME/RISC-V+Technical+Specifications">RISC-V Wiki - RISC-V Tecnical Specifications</a> 中找到，感兴趣的同学可以自行查阅。</p>
+</div>
+<h4 id="risc-v_1">RISC-V 的三种特权模式<a class="headerlink" href="#risc-v_1" title="Permanent link">&para;</a></h4>
+<p>RISC-V 有三个特权模式：U（user）模式、S（supervisor）模式和 M（machine）模式。</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Encoding</th>
+<th>Name</th>
+<th>Abbreviation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>00</td>
+<td>User/Application</td>
+<td>U</td>
+</tr>
+<tr>
+<td>1</td>
+<td>01</td>
+<td>Supervisor</td>
+<td>S</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>11</td>
+<td>Machine</td>
+<td>M</td>
+</tr>
+</tbody>
+</table>
+<p>其中：</p>
+<ul>
+<li>M 模式是对硬件操作的抽象，有<strong>最高</strong>级别的权限；</li>
+<li>S 模式介于 M 模式和 U 模式之间，在操作系统中对应于内核态（kernel）。当用户需要内核资源时，向内核申请，并切换到内核态进行处理；</li>
+<li>U 模式用于执行用户程序，在操作系统中对应于用户态，有<strong>最低</strong>级别的权限。</li>
+</ul>
+<h4 id="os">从计算机上电到 OS 运行<a class="headerlink" href="#os" title="Permanent link">&para;</a></h4>
+<p>我们以最基础的嵌入式系统为例，计算机上电后，首先硬件进行一些基础的初始化后，将 CPU 的 Program Counter 移动到内存中 bootloader 的起始地址。</p>
+<p>Bootloader 是操作系统内核运行之前，用于初始化硬件，加载操作系统内核。</p>
+<p>在 RISC-V 架构里，bootloader 运行在 M 模式下。Bootloader 运行完毕后就会把当前模式切换到 S 模式下，机器随后开始运行 kernel。</p>
+<p>这个过程简单而言就是这样：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   Hardware             RISC-V M Mode           RISC-V S Mode 
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>+------------+         +--------------+         +----------+
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>|  Power On  |  ----&gt;  |  Bootloader  |  ----&gt;  |  Kernel  |
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>+------------+         +--------------+         +----------+
+</code></pre></div>
+<h4 id="sbi-opensbi">SBI 与 OpenSBI<a class="headerlink" href="#sbi-opensbi" title="Permanent link">&para;</a></h4>
+<p>SBI（Supervisor Binary Interface）是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 <a href="https://github.com/riscv-software-src/opensbi">OpenSBI</a> 是一个 <a href="https://github.com/riscv-non-isa/riscv-sbi-doc/releases/download/v2.0/riscv-sbi.pdf">RISC-V SBI 规范</a>的开源实现。RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。</p>
+<p>简单的说，为了使操作系统内核适配不同硬件，OpenSBI 提出了一系列规范对 M-mode 下的硬件进行了统一定义，运行在 S-mode 下的内核可以按照这些规范对不同硬件进行操作。</p>
+<p><img alt="RISC-V SBI 介绍" src="../img/riscv-sbi.png" /></p>
+<p>为降低实验难度，我们选择 OpenSBI 作为 bootloader 来完成机器启动时 M-mode 下的硬件初始化与寄存器设置，并使用 OpenSBI 所提供的接口完成诸如字符打印的操作。</p>
+<p>在实验中，QEMU 已经内置了 OpenSBI 作为 bootloader，我们可以使用 <code>-bios default</code> 启用。如果启用，QEMU 会将 OpenSBI 代码加载到 <code>0x80000000</code> 起始处。OpenSBI 初始化完成后，会跳转到 <code>0x80200000</code> 处（也就是 kernel 的起始地址）。因此，我们所编译的代码需要放到 <code>0x80200000</code> 处。</p>
+<div class="admonition note">
+<p class="admonition-title">如果你对 RISC-V 架构的 boot 流程有更多的好奇，可以参考这份 <a href="https://riscv.org/wp-content/uploads/2019/12/Summit_bootflow.pdf">bootflow</a></p>
+</div>
+<h4 id="gnu-make">GNU Make<a class="headerlink" href="#gnu-make" title="Permanent link">&para;</a></h4>
+<p>GNU Make 是一个用于自动化编译的工具，它通过读取 Makefile 文件中的规则来执行编译过程。Makefile 文件中包含了一系列的规则，描述了源文件之间的依赖关系，以及如何编译和链接这些源文件。在阅读了 <a href="https://seisman.github.io/how-to-write-makefile/introduction.html">Makefile 介绍</a>这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。</p>
+<h4 id="_4">内联汇编<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>内联汇编（通常由 <code class="highlight"><span class="k">asm</span></code> 或者 <code class="highlight"><span class="n">__asm__</span></code> 关键字引入）提供了将汇编语言源代码嵌入 C 程序的能力。</p>
+<p>内联汇编的详细介绍请参考 <a href="https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html">Assembler Instructions with C Expression Operands</a> 。</p>
+<p>下面简要介绍一下这次实验会用到的一些内联汇编知识，内联汇编基本格式为：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span><span class="n">__asm__</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">        </span><span class="s">&quot;instruction1</span><span class="se">\n</span><span class="s">&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="s">&quot;instruction2</span><span class="se">\n</span><span class="s">&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="p">......</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="p">......</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="s">&quot;instruction3</span><span class="se">\n</span><span class="s">&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">out1</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">v1</span><span class="p">),[</span><span class="n">out2</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">in1</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">v1</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">in2</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;memory&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">);</span>
+</code></pre></div>
+<p>其中，三个 <code>:</code> 将汇编部分分成了四部分：</p>
+<ul>
+<li>第一部分是汇编指令，指令末尾需要添加 <code>\n</code>；</li>
+<li>第二部分是输出操作数部分；</li>
+<li>第三部分是输入操作数部分；</li>
+<li>第四部分是可能影响的寄存器或存储器，用于告知编译器当前内联汇编语句可能会对某些寄存器或内存进行修改，使得编译器在优化时将其因素考虑进去。</li>
+</ul>
+<p>这四部分中后三部分不是必须的。</p>
+<details class="example">
+<summary>示例一</summary>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">s_example</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">arg0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ret_val</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">        </span><span class="s">&quot;mv x10, %[type]</span><span class="se">\n</span><span class="s">&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">        </span><span class="s">&quot;mv x11, %[arg0]</span><span class="se">\n</span><span class="s">&quot;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="s">&quot;mv %[ret_val], x12&quot;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">ret_val</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">type</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">type</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">arg0</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">arg0</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;memory&quot;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret_val</span><span class="p">;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
+</code></pre></div>
+示例一中指令部分，<code>%[type]</code>、<code>%[arg0]</code> 以及 <code>%[ret_val]</code> 代表着特定的寄存器或是内存。</p>
+<p>输入输出部分中，<code>[type] "r" (type)</code>代表着将 <code>()</code> 中的变量 <code>type</code> 放入寄存器中（<code>"r"</code> 指放入寄存器，如果是 <code>"m"</code> 则为放入内存），并且绑定到 <code>[]</code> 中命名的符号中去。<code>[ret_val] "=r" (ret_val)</code> 代表着将汇编指令中 <code>%[ret_val]</code> 的值更新到变量 <code>ret_val</code>中。</p>
+</details>
+<details class="example">
+<summary>示例二</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define write_csr(reg, val) ({ asm volatile (&quot;csrw &quot; #reg &quot;, %0&quot; :: &quot;r&quot;(val)); })</span>
+</code></pre></div>
+<p>示例二定义了一个宏，其中 <code>%0</code> 代表着输出输入部分的第一个符号，即 <code>val</code>。</p>
+<p><code>#reg</code> 是c语言的一个特殊宏定义语法，相当于将reg进行宏替换并用双引号包裹起来。</p>
+<p>例如 <code>write_csr(sstatus,val)</code> 经宏展开会得到：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">({</span><span class="w"> </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;csrw &quot;</span><span class="w"> </span><span class="s">&quot;sstatus&quot;</span><span class="w"> </span><span class="s">&quot;, %0&quot;</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">val</span><span class="p">));</span><span class="w"> </span><span class="p">})</span>
+</code></pre></div>
+<p>此外，这个示例中的 <code>({...})</code> 还涉及了一个 GNU 对 C 的扩展，用于将一段代码块作为一个表达式来使用，可以参考 <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statements and Declarations in Expressions</a>。比如以下代码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define max(a, b)            \</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">({                         \</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="cp">    __typeof__(a) __a = (a); \</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="cp">    __typeof__(b) __b = (b); \</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="cp">    __a &gt; __b ? __a : __b;   \</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="cp">})</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="o">++</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">++</span><span class="p">);</span>
+</code></pre></div>
+<p>在宏展开之后就变成了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">({</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">__typeof__</span><span class="p">(</span><span class="n">x</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">__a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">++</span><span class="p">);</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">__typeof__</span><span class="p">(</span><span class="n">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">__b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="o">++</span><span class="p">);</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">__a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">__b</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">__a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">__b</span><span class="p">;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">});</span>
+</code></pre></div>
+<p>这样的写法可以避免宏展开后的副作用，在上面的例子中 <code>x++</code> 和 <code>y++</code> 只会被执行一次，同学们可以自行比较其与 <code class="highlight"><span class="cp">#define max(a, b) ((a) &gt; (b) ? (a) : (b))</span></code> 的区别。</p>
+</details>
+<h4 id="_5">编译相关知识介绍<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h5 id="vmlinuxlds">vmlinux.lds<a class="headerlink" href="#vmlinuxlds" title="Permanent link">&para;</a></h5>
+<p>GNU ld 即链接器，用于将 <code>*.o</code> 文件（和库文件）链接成可执行文件。在操作系统开发中，为了指定程序的内存布局，ld 使用链接脚本（Linker Script）来控制，在 Linux kernel 中链接脚本被命名为 vmlinux.lds。更多关于 ld 的介绍可以使用 <code>man ld</code> 命令。</p>
+<p>下面给出一个 <code>vmlinux.lds</code> 的例子：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/* 目标架构 */
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>OUTPUT_ARCH(&quot;riscv&quot;)
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>/* 程序入口 */
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>ENTRY(_start)
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>/* kernel 代码起始位置 */
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>BASE_ADDR = 0x80200000;
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>SECTIONS {
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    /* . 代表当前地址 */
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    . = BASE_ADDR;
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    /* 记录 kernel 代码的起始地址 */
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    _skernel = .;
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    /* ALIGN(0x1000) 表示 4KiB 对齐 */
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    /* _stext, _etext 分别记录了 text 段的起始与结束地址 */
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    .text : ALIGN(0x1000) {
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        _stext = .;
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>        *(.text.entry)
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>        *(.text .text.*)
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>        _etext = .;
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    }
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    .rodata : ALIGN(0x1000) {
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>        _srodata = .;
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>        *(.rodata .rodata.*)
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>        _erodata = .;
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>    }
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>    .data : ALIGN(0x1000) {
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>        _sdata = .;
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        *(.data .data.*)
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>        _edata = .;
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>    }
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>    .bss : ALIGN(0x1000) {
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>        _sbss = .;
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>        *(.bss.stack)
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>        sbss = .;
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>        *(.bss .bss.*)
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>        _ebss = .;
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a>    }
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a>
+<a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a>    /* 记录 kernel 代码的结束地址 */
+<a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a>    _ekernel = .;
+<a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>}
+</code></pre></div>
+<ul>
+<li><code>OUTPUT_ARCH</code> 指定了架构为 RISC-V；</li>
+<li><code>ENTRY</code> 指定程序入口点为 <code>_start</code> 函数，程序入口点即程序启动时运行的函数，经过这样的指定后在 head.S 中需要编写 <code>_start</code> 函数，程序才能正常运行；</li>
+<li>链接脚本中有 <code>.</code> <code>*</code> 两个重要的符号：<ul>
+<li>单独的 <code>.</code> 在链接脚本代表当前地址，它有赋值、被赋值、自增等操作；</li>
+<li><code>*</code> 有两种用法，其一是 <code>*()</code> 在大括号中表示将所有文件中符合括号内要求的段放置在当前位置，其二是作为通配符；</li>
+</ul>
+</li>
+<li>
+<p>链接脚本的主体是 <code>SECTIONS</code> 部分，在这里链接脚本的工作是将程序的各个段按顺序放在各个地址上；</p>
+<ul>
+<li>在例子中就是从 <code>0x80200000</code> 地址开始放置了 <code>.text</code>、<code>.rodata</code>、<code>.data</code> 和 <code>.bss</code> 段，各个段的作用可以简要概括成：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>段名</th>
+<th>主要作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.text</code></td>
+<td>通常存放程序执行代码</td>
+</tr>
+<tr>
+<td><code>.rodata</code></td>
+<td>通常存放常量等只读数据</td>
+</tr>
+<tr>
+<td><code>.data</code></td>
+<td>通常存放已初始化的全局变量、静态变量</td>
+</tr>
+<tr>
+<td><code>.bss</code></td>
+<td>通常存放未初始化的全局变量、静态变量</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>在链接脚本中可以自定义符号，例如以上所有 <code>_s</code> 与 <code>_e</code> 开头的符号都是我们自己定义的。</p>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">更多有关链接脚本语法可以参考 <a href="https://sourceware.org/binutils/docs/ld/Scripts.html">ld script 文档</a></p>
+</div>
+<h5 id="vmlinux">vmlinux<a class="headerlink" href="#vmlinux" title="Permanent link">&para;</a></h5>
+<p>vmlinux 通常指 Linux kernel 编译出的可执行文件（Executable and Linkable Format，ELF），特点是未压缩的，带调试信息和符号表的。在整套 OS 实验中，vmlinux 通常指将你的代码进行编译，链接后生成的可供 QEMU 运行的 RV64 架构程序。如果对 vmlinux 使用 <code>file</code> 命令，你将看到如下信息：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>file<span class="w"> </span>vmlinux<span class="w"> </span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>vmlinux:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>executable,<span class="w"> </span>UCB<span class="w"> </span>RISC-V,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>SYSV<span class="o">)</span>,<span class="w"> </span>statically<span class="w"> </span>linked,<span class="w"> </span>not<span class="w"> </span>stripped
+</code></pre></div>
+<h5 id="systemmap">System.map<a class="headerlink" href="#systemmap" title="Permanent link">&para;</a></h5>
+<p>System.map 是内核符号表（Kernel Symbol Table）文件，是存储了所有内核符号及其地址的一个列表。“符号”通常指的是函数名，全局变量名等等。使用 <code>nm vmlinux</code> 命令即可打印 vmlinux 的符号表，符号表的样例如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>0000000000000800 A __vdso_rt_sigreturn
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>ffffffe000000000 T __init_begin
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>ffffffe000000000 T _sinittext
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>ffffffe000000000 T _start
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>ffffffe000000040 T _start_kernel
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>ffffffe000000076 t clear_bss
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>ffffffe000000080 t clear_bss_done
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>ffffffe0000000c0 t relocate
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>ffffffe00000017c t set_reset_devices
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>ffffffe000000190 t debug_kernel
+</code></pre></div>
+<p>使用 System.map 可以方便地读出函数或变量的地址，为 debug 提供了方便。</p>
+<h3 id="rv64_1">RV64 时钟中断处理<a class="headerlink" href="#rv64_1" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>本 3.1 节涉及到很多 RISC-V 特权级指令的知识，在学习中请同时参考 <a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/priv-isa-asciidoc.pdf">RISC-V Privileged Spec</a> 阅读详细信息，如果本文档和 spec 中有任何出入的地方，请以 spec 为准，并及时向助教反馈。</p>
+<p>关于 RISC-V 特权级 ISA，也可以参考 <a href="https://note.tonycrane.cc/cs/pl/riscv/privileged/">https://note.tonycrane.cc/cs/pl/riscv/privileged/</a>。</p>
+</div>
+<p>如果完成了 <strong>3.1</strong> 中的 <strong>RV64 内核引导</strong>，我们能成功地将一个最简单的 OS 启动起来，但还没有办法与之交互。我们在课程中讲过操作系统启动之后由<strong>事件</strong>（<strong>event</strong>）驱动，在本次实验的后半部分中，我们将引入一种重要的事件 <strong>trap</strong>。</p>
+<p>trap 给了 OS 与硬件、软件交互的能力。在 <strong>3.1</strong> 中我们介绍了在 RISC-V 中有三种特权级（M 态、S 态、U 态），在 boot 阶段，OpenSBI 已经帮我们将 M 态的 trap 处理进行了初始化，这一部分不需要我们再去实现，因此后续我们重点关注 S 态的 trap 处理。</p>
+<h4 id="risc-v-interrupt-exception">RISC-V 中的 interrupt 和 exception<a class="headerlink" href="#risc-v-interrupt-exception" title="Permanent link">&para;</a></h4>
+<h5 id="interrupt-exception">什么是 interrupt 和 exception<a class="headerlink" href="#interrupt-exception" title="Permanent link">&para;</a></h5>
+<div class="admonition abstract">
+<p class="admonition-title"><a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/unpriv-isa-asciidoc.pdf">RISC-V Unprivileged Spec</a> 1.6 节中对于 trap、interrupt 与 exception 的描述</p>
+<p>We use the term <em>exception</em> to refer to an unusual condition occurring at run time <strong>associated with an instruction</strong> in the current RISC-V hart. We use the term <em>interrupt</em> to refer to an <strong>external asynchronous event</strong> that may cause a RISC-V hart to experience an unexpected transfer of control. We use the term <em>trap</em> to refer to <strong>the transfer of control to a trap handler</strong> caused by either an exception or an interrupt.</p>
+</div>
+<p>总结起来 interrupt 与 exception 的主要区别如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Interrupt</th>
+<th style="text-align: left;">Exception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Hardware generate</td>
+<td style="text-align: left;">Software generate</td>
+</tr>
+<tr>
+<td style="text-align: left;">These are <strong>asynchronous external requests</strong> for service (like keyboard or printer needs service).</td>
+<td style="text-align: left;">These are <strong>synchronous internal requests</strong> for service based upon abnormal events (think of illegal instructions, illegal address, overflow etc).</td>
+</tr>
+<tr>
+<td style="text-align: left;">These are <strong>normal events</strong> and shouldn’t interfere with the normal running of a computer.</td>
+<td style="text-align: left;">These are <strong>abnormal events</strong> and often result in the termination of a program</td>
+</tr>
+</tbody>
+</table>
+<p>上文中的 trap 描述的是一种控制转移的过程，这个过程是由 interrupt 或者 exception 引起的。这里为了方便起见，我们在这里约定 trap 为 interrput 与 exception 的总称。</p>
+<h5 id="_6">相关寄存器<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h5>
+<p>除了 32 个通用寄存器之外，RISC-V 架构还有大量的<strong>控制状态寄存器</strong>（Control and Status Registers，CSRs），下面将介绍几个和 trap 机制相关的重要寄存器。</p>
+<p>Supervisor Mode 下 trap 相关寄存器:</p>
+<ul>
+<li><code>sstatus</code>（Supervisor Status Register）中存在一个 <code>SIE</code>（Supervisor Interrupt Enable）比特位，当该比特位设置为 1 时，会<strong>响应</strong>所有的 S 态 trap，否则将会禁用所有 S 态 trap。</li>
+<li><code>sie</code>（Supervisor Interrupt Enable Register），在 RISC-V 中，interrupt 被划分为三类 software interrupt、timer interrupt、external interrupt。在开启了 <code>sstatus[SIE]</code> 之后，系统会根据 <code>sie</code> 中的相关比特位来决定是否对该 interrupt 进行<strong>处理</strong>。</li>
+<li><code>stvec</code>（Supervisor Trap Vector Base Address Register）即所谓的“中断向量表基址”。<code>stvec</code> 有两种模式：<ul>
+<li>Direct 模式，适用于系统中只有一个中断处理程序，其指向中断处理入口函数（本次实验中我们所用的模式）。</li>
+<li>Vectored 模式，指向中断向量表，适用于系统中有多个中断处理程序（该模式可以参考 <a href="https://elixir.bootlin.com/linux/v6.11/source/arch/riscv/kernel/entry.S#L340">RISC-V 内核源码</a>）。</li>
+</ul>
+</li>
+<li><code>scause</code>（Supervisor Cause Register），会记录 trap 发生的原因，还会记录该 trap 是 interrupt 还是 exception。</li>
+<li><code>sepc</code>（Supervisor Exception Program Counter），会记录触发 exception 的那条指令的地址。</li>
+</ul>
+<p>Machine Mode 异常相关寄存器:</p>
+<ul>
+<li>类似于 Supervisor Mode，Machine Mode 也有相对应的寄存器，但由于本实验同学不需要操作这些寄存器，故不在此作介绍。</li>
+</ul>
+<h5 id="_7">相关特权指令<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>ecall</code>（Environment Call）：<ul>
+<li>当我们在 S 态执行这条指令时，会触发一个 <code>ecall-from-s-mode-exception</code>，从而进入 M Mode 下的处理流程（如设置定时器等）</li>
+<li>当我们在 U 态执行这条指令时，会触发一个 <code>ecall-from-u-mode-exception</code>，从而进入 S Mode 下的处理流程（常用来进行系统调用）；</li>
+</ul>
+</li>
+<li><code>sret</code> 用于 S 态 trap 返回，通过 <code>sepc</code> 来设置 <code>pc</code> 的值，返回到之前程序继续运行。</li>
+</ul>
+<h4 id="_8">上下文处理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>由于在处理 trap 时，有可能会改变系统的状态。所以在真正处理 trap 之前，我们有必要对系统的当前状态进行保存，在处理完成之后，我们再将系统恢复至原先的状态，就可以确保之前的程序继续正常运行。这里的系统状态通常是指寄存器，这些寄存器也叫做 CPU 的上下文（Context）。</p>
+<h4 id="trap">trap 处理程序<a class="headerlink" href="#trap" title="Permanent link">&para;</a></h4>
+<p>trap 处理程序根据 <code>scause</code> 的值，进入不同的处理逻辑，在本次试验中我们需要关心的只有 Superviosr Timer Interrupt。</p>
+<h4 id="_9">时钟中断<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>时钟中断需要 CPU 硬件的支持。CPU 以“时钟周期”为工作的基本时间单位，对逻辑门的时序电路进行同步。而时钟中断实际上就是“每隔若干个时钟周期执行一次的程序”。下面介绍与时钟中断相关的寄存器以及如何产生时钟中断。</p>
+<ul>
+<li><code>mtime</code> 与 <code>mtimecmp</code>（Machine Timer Register）：<ul>
+<li><code>mtime</code> 是一个实时计时器，由硬件以恒定的频率自增</li>
+<li><code>mtimecmp</code> 中保存着下一次时钟中断发生的时间点，当 <code>mtime</code> 的值大于或等于 <code>mtimecmp</code> 的值，系统就会触发一次时钟中断</li>
+<li>因此我们只需要更新 <code>mtimecmp</code> 中的值，就可以设置下一次时钟中断的触发点。OpenSBI 已经为我们提供了更新 <code>mtimecmp</code> 的接口 <code>sbi_set_timer</code>（见 <code>lab1</code> 4.2.3 节）。</li>
+</ul>
+</li>
+<li><code>mcounteren</code>（Counter-Enable Registers）：<ul>
+<li>由于 <code>mtime</code> 是属于 M 态的寄存器，我们在 S 态无法直接对其读写，幸运的是 OpenSBI 在 M 态已经通过设置 <code>mcounteren</code> 寄存器的 <code>TM</code> 比特位，让我们可以在 S 态中可以通过 <code>time</code> 这个<strong>只读</strong>寄存器读取到 <code>mtime</code> 的当前值，相关汇编指令是 <code>rdtime</code>。</li>
+</ul>
+</li>
+</ul>
+<details class="note">
+<summary>为什么不要直接读写 <code>mtimecmp</code>？</summary>
+<p>同学们在自己尝试或阅读资料（如 <a href="https://danielmangum.com/posts/risc-v-bytes-timer-interrupts/">RISC-V Bytes: Timer Interrupts · Daniel Mangum</a> 和 <a href="https://github.com/riscv-non-isa/riscv-asm-manual/blob/main/src/asm-manual.adoc#control-and-status-registers">RISC-V Assembly Programmer's Manual#Control and Status Registers</a>）时可能会直接读写 <code>mtimecmp</code> 寄存器来设置时钟中断的方法。然而标准规定 <code>mtime</code> 和 <code>mtimecmp</code> 是 M 模式下读写的内存映射的寄存器：</p>
+<blockquote>
+<p>Platforms provide a real-time counter, exposed as a memory-mapped <strong>machine-mode read-write</strong> register, <code>mtime</code>.</p>
+<p>Platforms provide a 64-bit memory-mapped <strong>machine-mode</strong> timer compare register (<code>mtimecmp</code>).</p>
+<p>From <em>The RISC-V Instruction Set Manual: Volume II 3.2.1</em></p>
+</blockquote>
+<p>现在我们在 S 模式，是无法读写这两个寄存器的。如果去读写，就会触发 Store/AMO Access Fault 异常。因此<strong>只能</strong>通过 ecall 交给 <code>sbi_set_timer</code> 来设置 <code>mtimecmp</code> 的值，从而实现时钟中断的设置。</p>
+<details class="note">
+<summary><code>sbi_set_timer</code> 是如何工作的？</summary>
+<p>但如果去读 OpenSBI <a href="https://github.com/riscv-software-src/opensbi/blob/c4940a9517486413cd676fc8032bb55f9d4e2778/lib/sbi/sbi_timer.c#L132">源码</a>，又会发现它也不是直接写 <code>mtimecmp</code> 的，而是写入了 <code>stimecmp</code>：</p>
+<div class="highlight"><span class="filename">opensbi/lib/sbi/sbi_timer.c</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sbi_timer_event_start</span><span class="p">(</span><span class="n">u64</span><span class="w"> </span><span class="n">next_event</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="n">sbi_pmu_ctr_incr_fw</span><span class="p">(</span><span class="n">SBI_PMU_FW_SET_TIMER</span><span class="p">);</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="cm">/**</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="cm">    * Update the stimecmp directly if available. This allows</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="cm">    * the older software to leverage sstc extension on newer hardware.</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="cm">    */</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sbi_hart_has_extension</span><span class="p">(</span><span class="n">sbi_scratch_thishart_ptr</span><span class="p">(),</span><span class="w"> </span><span class="n">SBI_HART_EXT_SSTC</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="cp"># if __riscv_xlen == 32</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">        </span><span class="n">csr_write</span><span class="p">(</span><span class="n">CSR_STIMECMP</span><span class="p">,</span><span class="w"> </span><span class="n">next_event</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xFFFFFFFF</span><span class="p">);</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">        </span><span class="n">csr_write</span><span class="p">(</span><span class="n">CSR_STIMECMPH</span><span class="p">,</span><span class="w"> </span><span class="n">next_event</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">32</span><span class="p">);</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="cp"># else</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">        </span><span class="n">csr_write</span><span class="p">(</span><span class="n">CSR_STIMECMP</span><span class="p">,</span><span class="w"> </span><span class="n">next_event</span><span class="p">);</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="cp"># endif</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">timer_dev</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">timer_dev</span><span class="o">-&gt;</span><span class="n">timer_event_start</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">        </span><span class="n">timer_dev</span><span class="o">-&gt;</span><span class="n">timer_event_start</span><span class="p">(</span><span class="n">next_event</span><span class="p">);</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">        </span><span class="n">csr_clear</span><span class="p">(</span><span class="n">CSR_MIP</span><span class="p">,</span><span class="w"> </span><span class="n">MIP_STIP</span><span class="p">);</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="n">csr_set</span><span class="p">(</span><span class="n">CSR_MIE</span><span class="p">,</span><span class="w"> </span><span class="n">MIP_MTIP</span><span class="p">);</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="p">}</span>
+</code></pre></div>
+<p>这是因为 <a href="https://tools.cloudbear.ru/docs/riscv-sstc-0.5.4-20211013.pdf">RISC-V SSTC 扩展</a>，该扩展的简介也阐明了 RISC-V 各个模式的时钟中断处理机制：</p>
+<blockquote>
+<p>The current Privileged arch specification only defines a hardware mechanism for generating machine-mode timer
+interrupts (based on the mtime and mtimecmp registers). With the resultant requirement that timer services for
+S-mode/HS-mode (and for VS-mode) have to all be provided by M-mode - via SBI calls from S/HS-mode up to
+M-mode (or VS-mode calls to HS-mode and then to M-mode).</p>
+<p>This extension serves to provide supervisor mode with its own CSR-based timer interrupt facility that it can
+directly manage to provide its own timer service (in the form of having its own stimecmp register) - thus
+eliminating the large overheads for emulating S/HS-mode timers and timer interrupt generation up in M-mode.
+Further, this extension adds a similar facility to the Hypervisor extension for VS-mode.</p>
+<p>总结：在当前 RISC-V 特权架构中，S 模式和 HS 模式的定时器服务需要依赖 M 模式提供，这导致了额外的开销。为了解决这个问题，该扩展引入了 S 模式的独立定时器中断机制，允许 S 模式直接管理自己的定时器，降低了对 M 模式的依赖。此外，VS 模式也获得了类似的功能，简化了定时器的管理和中断生成。</p>
+</blockquote>
+<p>目前，QEMU 的 RISC-V 模拟器已经支持了 SSTC 扩展，因此我们<strong>可以直接通过 <code>stimecmp</code> 来设置时钟中断。但为了兼容性考虑</strong>，仍应当使用 <code>sbi_set_timer</code> 来设置时钟中断，这样在 SSTC 扩展不被支持的情况下，将 fallback 到 M 模式下的时钟中断处理机制。</p>
+</details>
+</details>
+<h2 id="_10">实验步骤<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<h3 id="_11">准备工程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>从 <a href="https://github.com/ZJU-SEC/os24fall-stu">repo</a> 同步实验代码框架。为了减少大家的工作量，在这里我们提供了系统二助教 <a href="https://github.com/45gfg9">45gfg9</a> 编写的 <code>printk</code> 来输出格式化字符串。</p>
+<div class="admonition note">
+<p class="admonition-title">printk 和之前大家用过的 printf 用法一致，遇到什么输出上的 bug 请及时联系助教</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>├── arch
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>│   └── riscv
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>│       ├── include
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>│       │   ├── defs.h
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>│       │   └── sbi.h
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>│       ├── kernel
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>│       │   ├── head.S
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>│       │   ├── Makefile
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>│       │   ├── sbi.c
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>│       │   └── vmlinux.lds
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>│       └── Makefile
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>├── include
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>│   ├── printk.h
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>│   ├── stddef.h
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>│   └── stdint.h
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>├── init
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>│   ├── main.c
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>│   ├── Makefile
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>│   └── test.c
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>├── lib
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>│   ├── Makefile
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>│   └── printk.c
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>└── Makefile
+</code></pre></div>
+<p>完成 <strong>RV64 内核引导</strong>，需要完善以下文件，删除 Unimplemented 的提示并完成代码：</p>
+<ul>
+<li><code>lib/Makefile</code></li>
+<li><code>arch/riscv/kernel/head.S</code></li>
+<li><code>arch/riscv/kernel/sbi.c</code></li>
+<li><code>arch/riscv/include/defs.h</code></li>
+</ul>
+<p>完成 <strong>RV64 时钟中断处理</strong>，需要完善 / 添加以下文件：</p>
+<ul>
+<li><code>arch/riscv/kernel/head.S</code></li>
+<li><code>arch/riscv/kernel/entry.S</code></li>
+<li><code>arch/riscv/kernel/trap.c</code></li>
+<li><code>arch/riscv/kernel/clock.c</code></li>
+<li><code>arch/riscv/include/clock.h</code></li>
+<li><code>arch/riscv/kernel/sbi.c</code></li>
+</ul>
+<h3 id="rv64_2">RV64 内核引导<a class="headerlink" href="#rv64_2" title="Permanent link">&para;</a></h3>
+<h4 id="makefile">完善 Makefile 脚本<a class="headerlink" href="#makefile" title="Permanent link">&para;</a></h4>
+<p>阅读文档中关于 <a href="#gnu-make">GNU Make</a> 的章节，以及工程文件中的 Makefile 文件，根据注释学会 Makefile 的使用规则后，补充 <code>lib/Makefile</code>，使工程得以编译。</p>
+<div class="admonition tip">
+<p class="admonition-title">可参考其他文件夹的 Makefile</p>
+</div>
+<p>完成此步后在工程根文件夹执行 make，可以看到不会再提示 Makefile 的错误，而是 C 或汇编代码中的 <code class="highlight"><span class="cp">#error</span></code> 错误。</p>
+<h4 id="heads">编写 head.S<a class="headerlink" href="#heads" title="Permanent link">&para;</a></h4>
+<p>学习 RISC-V 汇编，并完成 <code>arch/riscv/kernel/head.S</code>。</p>
+<p>我们首先为即将运行的第一个 C 函数设置程序栈（栈的大小可以设置为 4KiB），并将该栈放置在 <code>.bss.stack</code> 段。接下来我们只需要通过跳转指令，跳转至 main.c 中的 <code>start_kernel</code> 函数即可。</p>
+<h4 id="sbic">补充 sbi.c<a class="headerlink" href="#sbic" title="Permanent link">&para;</a></h4>
+<p>OpenSBI 在 M 态，为 S 态提供了多种接口，比如字符串输入输出。因此我们需要实现调用 OpenSBI 接口的功能。给出函数定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sbiret</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">};</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sbiret</span><span class="w"> </span><span class="n">sbi_ecall</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">eid</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">fid</span><span class="p">,</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">                        </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg1</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg2</span><span class="p">,</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">                        </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg3</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg4</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">arg5</span><span class="p">);</span>
+</code></pre></div>
+<p><code>sbi_ecall</code> 函数中，需要完成以下内容：</p>
+<ol>
+<li>将 <code>eid</code>（Extension ID）放入寄存器 <code>a7</code> 中，<code>fid</code>（Function ID）放入寄存器 <code>a6</code> 中，将 <code>arg[0-5]</code> 放入寄存器 <code>a[0-5]</code> 中。</li>
+<li>使用 <code>ecall</code> 指令。<code>ecall</code> 之后系统会进入 M 模式，之后 OpenSBI 会完成相关操作。</li>
+<li>OpenSBI 的返回结果会存放在寄存器 <code>a0</code>，<code>a1</code> 中，其中 <code>a0</code> 为 error code，<code>a1</code> 为返回值，我们用 <code>sbiret</code> 来接受这两个返回值。</li>
+</ol>
+<p>同学们可以参照内联汇编的示例一完成该函数的编写。</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<p>编写成功后，调用 <code>sbi_ecall(0x4442434E, 0x2, 0x30, 0, 0, 0, 0, 0)</code> 将会输出字符 <code>'0'</code>，其中：</p>
+<ul>
+<li><code>0x4442434E</code> 代表 Debug Console Extension 的 Extension ID（<code>DBCN</code>）</li>
+<li><code>0x2</code> 代表 Console Write Byte 的 FunctionID</li>
+<li><code>0x30</code> 代表 '0' 的 ascii 值</li>
+<li>其余参数填 0</li>
+</ul>
+</details>
+<p>请在 <code>arch/riscv/kernel/sbi.c</code> 中补充 <code>sbi_ecall()</code>。</p>
+<p>下面列出了一些在后续的实验中可能需要使用的功能，也可以在 <code>sbi.c</code> 及 <code>sbi.h</code> 中一并实现：</p>
+<table>
+<thead>
+<tr>
+<th>Function Name</th>
+<th>Description</th>
+<th>Extension ID</th>
+<th>Function ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sbi_set_timer</code></td>
+<td>设置时钟相关寄存器</td>
+<td>0x54494d45</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>sbi_debug_console_write</code></td>
+<td>向终端写入数据</td>
+<td>0x4442434e</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>sbi_debug_console_read</code></td>
+<td>从终端读取数据</td>
+<td>0x4442434e</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>sbi_debug_console_write_byte</code></td>
+<td>向终端写入单个字符</td>
+<td>0x4442434e</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>sbi_system_reset</code></td>
+<td>重置系统（关机或重启）</td>
+<td>0x53525354</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>关于 OpenSBI 的更多接口，请参考 <a href="https://github.com/riscv-non-isa/riscv-sbi-doc/releases/download/v2.0/riscv-sbi.pdf">RISC-V SBI v2.0 Specification</a>。</p>
+<p><code>printk</code> 会调用 <code>putc</code> 来输出单个字符，而其中调用了 <code>sbi_debug_console_write_byte</code>，所以为了使用 <code>printk</code> 请在 <code>sbi.c</code> 中正确利用 <code>sbi_ecall</code> 实现这个函数。</p>
+<p><code>test.c</code> 中在 kernel 运行的结尾会调用 <code>sbi_system_reset(0, 0)</code> 来 shutdown，所以你也需要在 <code>sbi.c</code> 中正确实现 <code>sbi_system_reset</code>。</p>
+<details class="note">
+<summary>关于 SBI 版本问题</summary>
+<p>曾经的实验文档中使用 <code>sbi_ecall(0x1, 0x0, 0x30, 0, 0, 0, 0, 0)</code> 达到了和 <code>sbi_ecall(0x4442434E, 0x2, 0x30, 0, 0, 0, 0, 0)</code> 一样的效果，并且 <code>sbi_set_timer</code> 等函数的 EID 都很小（0x00 - 0x0F），这些实际上都是 v0.1 的旧版 SBI 规范，目前称为 Legacy Extensions，已经弃用很久了。具体可见 <a href="https://github.com/riscv-non-isa/riscv-sbi-doc/releases/download/v2.0/riscv-sbi.pdf">RISC-V Supervisor Binary Interface Specification</a> 的 Chapter 5。因此推荐大家均按照本文档要求使用新版 SBI 规范。</p>
+</details>
+<div class="admonition warning">
+<p class="admonition-title"><code>sbi_ecall</code> 正确执行但仍没有输出的问题处理</p>
+<p>如果你的 <code>sbi_ecall</code> 函数正确执行了，但是没有任何效果，可能是使用的 OpenSBI 版本过低。如果你还在使用从 Ubuntu 22.04 apt 直接安装的 qemu 的话很可能是这个问题。OpenSBI v1.3 及以上才开始支持这些 SBI 调用，所以你可以在 <code>make run</code> 后观察 OpenSBI banner 前的版本号来自查，如果小于 v1.3 的话，那么你就需要更新 qemu 或者 opensbi 了。</p>
+<p>最好的解决办法是根据本页<a href="#_2">实验环境</a>部分手动编译最新版 qemu，新版 qemu 的 default bios 就是较新版本的 OpenSBI（目前是 v1.5.1），而且更新 qemu 也会消除掉后续实验中的很多潜在 bug。</p>
+<p>如果你实在不想更新 qemu，也可以尝试更新 OpenSBI，即不使用 <code>-bios default</code>，我们提供了一个 v1.5 的 OpenSBI 在 <code>src/lab1/fw_jump.bin</code>，你可以通过将 <code>-bios default</code> 替换为 <code>-bios fw_jump.bin</code> 来使用它。你也可以通过 <a href="https://github.com/riscv-software-src/opensbi">OpenSBI README</a> 的指导来自行编译出这个 <code>fw_jump.bin</code>。</p>
+</div>
+<h4 id="defs">修改 defs<a class="headerlink" href="#defs" title="Permanent link">&para;</a></h4>
+<p>学习了解了内联汇编的相关知识后，补充 <code>arch/riscv/include/defs.h</code> 中的代码，完成 <code>read_csr</code> 的宏定义。</p>
+<p>完成以上内容后再次执行 <code>make</code>，可以看到在根目录下成功生成了 <code>vmlinux</code>。</p>
+<p>运行 <code>make run</code> 即可执行，检测你的程序是否正确地打印出了欢迎信息 <code>2024 ZJU Operating System</code> 并正常退出。</p>
+<h3 id="rv64_3">RV64 时钟中断处理<a class="headerlink" href="#rv64_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>准备工作，先修改 <code>vmlinux.lds</code> 以及 <code>head.S</code>
+    <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">(diff) arch/riscv/kernel/vmlinux.lds</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-20">20</a></span>
+<span class="normal"><a href="#__codelineno-14-21">21</a></span>
+<span class="normal"><a href="#__codelineno-14-22">22</a></span>
+<span class="normal"><a href="#__codelineno-14-23">23</a></span>
+<span class="normal"><a href="#__codelineno-14-24">24</a></span>
+<span class="normal"><a href="#__codelineno-14-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-20" name="__codelineno-14-20"></a><span class="w"> </span>     .text : ALIGN(0x1000) {
+<a id="__codelineno-14-21" name="__codelineno-14-21"></a><span class="w"> </span>         _stext = .;
+<a id="__codelineno-14-22" name="__codelineno-14-22"></a>
+<a id="__codelineno-14-23" name="__codelineno-14-23"></a><span class="gi">+         *(.text.init)         &lt;- 添加 .text.init 段</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24"></a><span class="w"> </span>         *(.text.entry)        &lt;- 后续中断处理程序在 .text.entry 段
+<a id="__codelineno-14-25" name="__codelineno-14-25"></a><span class="w"> </span>         *(.text .text.*)
+</code></pre></div></td></tr></table></div></p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">(diff) arch/riscv/kernel/head.S</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="w"> </span>     .extern start_kernel
+<a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="gs">!     .section .text.init       &lt;- .text.entry 改为 .text.init</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="w"> </span>     .globl _start
+<a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="w"> </span> _start:
+</code></pre></div></td></tr></table></div>
+</li>
+</ul>
+<h4 id="trap_1">开启 trap 处理<a class="headerlink" href="#trap_1" title="Permanent link">&para;</a></h4>
+<p>在运行 <code>start_kernel</code> 之前，我们要对上面提到的 CSR 进行初始化，初始化包括以下几个步骤：</p>
+<ol>
+<li>设置 <code>stvec</code><ul>
+<li>将 <code>_traps</code>（<code>_traps</code> 在 4.3.2 中实现）所表示的地址写入 <code>stvec</code></li>
+<li>这里我们采用 Direct 模式，而 <code>_traps</code> 则是 trap 处理入口函数的基地址。</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">可以使用 <code>la</code> 指令以及刚才写过的 CSR 读写指令</p>
+</div>
+</li>
+<li>开启时钟中断，将 <code>sie[STIE]</code> 置 1</li>
+<li>
+<p>设置第一次时钟中断，参考 <code>clock_set_next_event()</code>（<code>clock_set_next_event()</code> 在 4.3.4 中介绍）中的逻辑用汇编实现</p>
+<div class="admonition tip">
+<p class="admonition-title">可通过 <code>rdtime</code> 指令获取时间，<code>sbi_set_timer</code> 设置下一次时钟中断</p>
+</div>
+</li>
+<li>
+<p>开启 S 态下的中断响应，将 <code>sstatus[SIE]</code> 置 1</p>
+</li>
+</ol>
+<p>按照下方模版修改 <code>arch/riscv/kernel/head.S</code>，并补全 <code>_start</code> 中的逻辑:</p>
+<div class="highlight"><span class="filename">arch/riscv/kernel/head.S</span><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="w">    </span><span class="na">.extern</span><span class="w"> </span><span class="no">start_kernel</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.text.init</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">_start</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nl">_start:</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="c1"># (previous) initialize stack</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="c1"># set stvec = _traps</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="c1"># set sie[STIE] = 1</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="c1"># set first time interrupt</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="c1"># set sstatus[SIE] = 1</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="c1"># (previous) jump to start_kernel</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="na">...</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Debug 提示</p>
+<p>可以先不实现 <code>stvec</code> 和 first time interrupt，先关注 <code>sie</code> 和 <code>sstatus</code> 是否设置正确。</p>
+<p>如果在这部分过程中调用了额外的函数，例如 <code>sbi_set_timer</code>，则你需要保证在这之前已经设置好了 <code>sp</code>，否则涉及到函数调用则会直接出现异常。</p>
+</div>
+<h4 id="_12">实现上下文切换<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p>我们要使用汇编实现上下文切换机制，包含以下几个步骤：</p>
+<ol>
+<li>在 <code>arch/riscv/kernel/</code> 目录下添加 <code>entry.S</code> 文件</li>
+<li>保存 CPU 的寄存器（上下文）到内存中（栈上）</li>
+<li>将 <code>scause</code> 和 <code>sepc</code> 中的值传入 trap 处理函数 <code>trap_handler</code>（<code>trap_handler</code> 在 4.3.3 中介绍），我们将会在 <code>trap_handler</code> 中实现对 trap 的处理</li>
+<li>在完成对 trap 的处理之后，我们从内存中（栈上）恢复 CPU 的寄存器（上下文）</li>
+<li>从 trap 中返回</li>
+</ol>
+<p>按照下方模版修改 <code>arch/riscv/kernel/entry.S</code>，并补全 <code>_traps</code> 中的逻辑：</p>
+<div class="highlight"><span class="filename">arch/riscv/kernel/entry.S</span><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="w">    </span><span class="na">.extern</span><span class="w"> </span><span class="no">trap_handler</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.text.entry</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="na">.align</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">_traps</span><span class="w"> </span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="no">_traps</span><span class="p">:</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="c1">#error Unimplemented</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="c1"># 1. save 32 registers and sepc to stack</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="c1"># 2. call trap_handler</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="c1"># 3. restore sepc and 32 registers (x2(sp) should be restore last) from stack</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">    </span><span class="c1"># 4. return from trap</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Debug 提示</p>
+<p>可以先不实现 call trap_handler，先实现上下文切换逻辑。通过 gdb 跟踪各个寄存器，确保上下文的 save 与 restore 正确实现并正确返回。</p>
+</div>
+<h4 id="trap_2">实现 trap 处理函数<a class="headerlink" href="#trap_2" title="Permanent link">&para;</a></h4>
+<ol>
+<li>在 <code>arch/riscv/kernel/</code> 目录下添加 <code>trap.c</code> 文件</li>
+<li>在 <code>trap.c</code> 中实现 trap 处理函数 <code>trap_handler()</code>，其接收的两个参数分别是 <code>scause</code> 和 <code>sepc</code> 两个寄存器中的值。</li>
+</ol>
+<div class="highlight"><span class="filename">arch/riscv/kernel/trap.c</span><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stdint.h&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">trap_handler</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">scause</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">sepc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="c1">// 通过 `scause` 判断 trap 类型</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="c1">// 如果是 interrupt 判断是否是 timer interrupt</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="c1">// 如果是 timer interrupt 则打印输出相关信息，并通过 `clock_set_next_event()` 设置下一次时钟中断</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="c1">// `clock_set_next_event()` 见 4.3.4 节</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="c1">// 其他 interrupt / exception 可以直接忽略，推荐打印出来供以后调试</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="cp">#error Unimplemented</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="_13">实现时钟中断相关函数<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<ol>
+<li>在 <code>arch/riscv/kernel/</code> 目录下添加 <code>clock.c</code> 文件</li>
+<li>在 <code>clock.c</code> 中实现 <code>get_cycles()</code><ul>
+<li>使用 <code>rdtime</code> 汇编指令获得当前 <code>time</code> 寄存器中的值</li>
+</ul>
+</li>
+<li>在 <code>clock.c</code> 中实现 <code>clock_set_next_event()</code><ul>
+<li>调用 <code>sbi_set_timer</code>，设置下一个时钟中断事件</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><span class="filename">arch/riscv/kernel/clock.c</span><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stdint.h&quot;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1">// QEMU 中时钟的频率是 10MHz，也就是 1 秒钟相当于 10000000 个时钟周期</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="n">TIMECLOCK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000000</span><span class="p">;</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">get_cycles</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span><span class="c1">// 编写内联汇编，使用 rdtime 获取 time 寄存器中（也就是 mtime 寄存器）的值并返回</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">    </span><span class="cp">#error Unimplemented</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="p">}</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clock_set_next_event</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">    </span><span class="c1">// 下一次时钟中断的时间点</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_cycles</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">TIMECLOCK</span><span class="p">;</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">    </span><span class="c1">// 使用 sbi_set_timer 来完成对下一次时钟中断的设置</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="w">    </span><span class="cp">#error Unimplemented</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="p">}</span><span class="w"> </span>
+</code></pre></div>
+<h4 id="test">修改 test 函数<a class="headerlink" href="#test" title="Permanent link">&para;</a></h4>
+<p>为了让 kernel 持续运行，并使中断更容易观察，将 <code>test.c</code> 中的 <code>test()</code> 函数修改为如下内容：</p>
+<div class="highlight"><span class="filename">init/test.c</span><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;printk.h&quot;</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">test</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100000000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">            </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;kernel is running!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="_14">编译及测试<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<p>由于加入了一些新的 <code>.c</code> 文件，可能需要修改一些 Makefile 文件，请同学自己尝试修改，使项目可以编译并运行。</p>
+<p>下面是一个正确实现的输出样例。（仅供参考，实际情况可能略有不同，时钟中断输出位置不一样无所谓，也可以适当调整上面 <code>test()</code> 函数中的输出条件）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>2024 ZJU Operating System
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>kernel is running!
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>kernel is running!
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>kernel is running!
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>kernel is running!
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>kernel is running!
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>kernel is running!
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>kernel is running!
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>kernel is running!
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>[S] Supervisor Mode Timer Interrupt
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>kernel is running!
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>[S] Supervisor Mode Timer Interrupt
+</code></pre></div>
+<h2 id="aarch64">其他架构的交叉编译——以 Aarch64 为例<a class="headerlink" href="#aarch64" title="Permanent link">&para;</a></h2>
+<h3 id="_15">交叉编译工具链的安装<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>那么如何安装不同架构的交叉编译工具链呢？最简单的方法是用 Ubuntu 自带的软件包管理器 <code>apt</code>，先找到有什么交叉编译工具可以装：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># 搜索包含 aarch64 的软件包，一般是交叉编译工具</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>apt-cache<span class="w"> </span>search<span class="w"> </span>aarch64
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>...
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># 搜索结果中如果有 gcc-xxx-linux-gnu，一般需求下装它就行了（具体情况具体分析哈）</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gcc-aarch64-linux-gnu
+</code></pre></div>
+<p>现在我们有 aarch64 的交叉编译工具链了，开始编译吧！</p>
+<h3 id="_16">怎么获得编译过程的中间产物<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">注意这里说的“编译过程”包括预处理、编译、汇编、链接</p>
+</div>
+<p>对于 Linux kernel，编译命令和选项在不同架构之间都大同小异，一般遵循以下形式（类比 lab0 做过的 riscv64 即可）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>make<span class="w"> </span><span class="nv">ARCH</span><span class="o">=</span>xxx<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>some-certain-arch-<span class="w"> </span>&lt;options&gt;<span class="w"> </span>&lt;files&gt;
+</code></pre></div>
+<p>比如，想获得 kernel 中 <code>xxx.c</code> 的预处理产物（回忆一下预处理做了什么）<code>xxx.i</code>，我们可以：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># 先 config（根据实际需求，这里不一定是 defconfig，可选的 config 可以在 `arch/&lt;ARCH&gt;/configs` 下找到）</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>make<span class="w"> </span><span class="nv">ARCH</span><span class="o">=</span>arm64<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span>defconfig
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># 然后指定要生成的文件</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>make<span class="w"> </span><span class="nv">ARCH</span><span class="o">=</span>arm64<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>aarch64-linux-gnu-<span class="w"> </span>&lt;path/to/file<span class="o">(</span>no<span class="w"> </span>suffix<span class="o">)</span>&gt;.i
+</code></pre></div>
+<p>课件里也给出了 <code>make</code> 工具。</p>
+<h2 id="_17">思考题<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<ol>
+<li>请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？</li>
+<li>编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值并截图。</li>
+<li>用 <code>csr_read</code> 宏读取 <code>sstatus</code> 寄存器的值，对照 RISC-V 手册解释其含义并截图。</li>
+<li>用 <code>csr_write</code> 宏向 <code>sscratch</code> 寄存器写入数据，并验证是否写入成功并截图。</li>
+<li>详细描述你可以通过什么步骤来得到 <code>arch/arm64/kernel/sys.i</code>，给出过程以及截图。</li>
+<li>寻找 Linux v6.0 中 ARM32 RV32 RV64 x86_64 架构的系统调用表；<ul>
+<li>请列出源代码文件，展示完整的系统调用表（宏展开后），每一步都需要截图。</li>
+</ul>
+</li>
+<li>阐述什么是 ELF 文件？尝试使用 readelf 和 objdump 来查看 ELF 文件，并给出解释和截图。<ul>
+<li>运行一个 ELF 文件，然后通过 <code>cat /proc/PID/maps</code> 来给出其内存布局并截图。</li>
+</ul>
+</li>
+<li>在我们使用 make run 时，OpenSBI 会产生如下输出：
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>    OpenSBI v1.5.1
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>     ____                    _____ ____ _____
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    / __ \                  / ____|  _ \_   _|
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>   | |  | |_ __   ___ _ __ | (___ | |_) || |
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>   | |  | | &#39;_ \ / _ \ &#39;_ \ \___ \|  _ &lt; | |
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>   | |__| | |_) |  __/ | | |____) | |_) || |_
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>    \____/| .__/ \___|_| |_|_____/|____/_____|
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>          | |
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>          |_|
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>    ......
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>    Boot HART MIDELEG         : 0x0000000000000222
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>    Boot HART MEDELEG         : 0x000000000000b109
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>    ......
+</code></pre></div><ul>
+<li>通过查看 <a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/priv-isa-asciidoc.pdf">RISC-V Privileged Spec</a> 中的 <code>medeleg</code> 和 <code>mideleg</code> 部分，解释上面 <code>MIDELEG</code> 和 <code>MEDELEG</code> 值的含义。</li>
+</ul>
+</li>
+</ol>
+<h2 id="_18">实验任务与要求<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<ul>
+<li>请各位同学独立完成作业，任何抄袭行为都将使本次作业判为 0 分。</li>
+<li>在学在浙大中提交：<ul>
+<li>整个工程代码的压缩包（提交之前请使用 <code>make clean</code> 清除所有构建产物）</li>
+<li>pdf 格式的实验报告：<ul>
+<li>记录实验过程并截图（4.1-4.3），并对每一步的命令以及结果进行必要的解释；</li>
+<li>记录遇到的问题和心得体会；</li>
+<li>完成思考题。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">关于实验报告内容要求，可见：<a href="../faq/#_2">常见问题及解答 - 实验提交要求</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lab0/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 实验指导零">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                实验指导零
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab2/" class="md-footer__link md-footer__link--next" aria-label="Next: 实验指导二">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                实验指导二
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.action.edit", "navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

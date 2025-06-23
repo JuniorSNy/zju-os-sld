@@ -1,0 +1,1722 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://juniorsny.github.io/zju-os-sld/lab6/">
+      
+      
+        <link rel="prev" href="../lab5/">
+      
+      
+        <link rel="next" href="../spike/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>实验指导六 - 浙江大学25年秋冬操作系统实验</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:500,500i,600,600i&display=fallback">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab6-vfs-fat32" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-header__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            浙江大学25年秋冬操作系统实验
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验指导六
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-nav__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    浙江大学25年秋冬操作系统实验
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导零
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导一
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导二
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导三
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导五
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    实验指导六
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导六
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      VFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtio" class="md-nav__link">
+    <span class="md-ellipsis">
+      VirtIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mbr" class="md-nav__link">
+    <span class="md-ellipsis">
+      MBR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAT32
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shell: 与内核进行交互
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shell: 与内核进行交互">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      文件系统抽象
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdouterrin" class="md-nav__link">
+    <span class="md-ellipsis">
+      stdout/err/in 初始化
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdouterr" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 stdout/err 的写入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdin" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 stdin 的读取
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAT32：持久存储
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAT32：持久存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化 FAT32 分区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      完善系统调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      打开文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取与写入文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      lseek 操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spike 工具链使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aigc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AIGC 使用指北
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题及解答
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    附录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      VFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtio" class="md-nav__link">
+    <span class="md-ellipsis">
+      VirtIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mbr" class="md-nav__link">
+    <span class="md-ellipsis">
+      MBR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAT32
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shell: 与内核进行交互
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shell: 与内核进行交互">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      文件系统抽象
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdouterrin" class="md-nav__link">
+    <span class="md-ellipsis">
+      stdout/err/in 初始化
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdouterr" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 stdout/err 的写入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stdin" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 stdin 的读取
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAT32：持久存储
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAT32：持久存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fat32_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化 FAT32 分区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      完善系统调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      打开文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取与写入文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      lseek 操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/JuniorSNy/zju-os-sld/tree/main/docs/lab6.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="lab6-vfs-fat32">Lab6: VFS &amp; FAT32 文件系统<a class="headerlink" href="#lab6-vfs-fat32" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">本实验为 bonus，不做硬性要求</p>
+</div>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>为用户态的 Shell 提供 <code>read</code> 和 <code>write</code> syscall 的实现（完成该部分的所有实现方得 60 分）</li>
+<li>实现 FAT32 文件系统的基本功能，并对其中的文件进行读写（完成该部分的所有实现方得 40 分）</li>
+</ul>
+<h2 id="_2">实验环境<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Environment in previous labs</li>
+</ul>
+<h2 id="_3">背景知识<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="vfs">VFS<a class="headerlink" href="#vfs" title="Permanent link">&para;</a></h3>
+<p>虚拟文件系统（Virtual File System，VFS）或虚拟文件系统交换机是位于更具体的文件系统之上的抽象层。VFS 的目的是允许客户端应用程序以统一的方式访问不同类型的具体文件系统。例如，可以使用 VFS 透明地访问本地和网络存储设备，而客户机应用程序不会注意到其中的差异。它可以用来弥合 Windows、macOS 等不同操作系统所使用的文件系统之间的差异，这样应用程序就可以访问这些类型的本地文件系统上的文件，而不必知道它们正在访问什么类型的文件系统。</p>
+<p>VFS 指定内核和具体文件系统之间的接口（或“协议”）。因此，只需完成协议，就可以很容易地向内核添加对新文件系统类型的支持。协议可能会随着版本的不同而不兼容地改变，这将需要重新编译具体的文件系统支持，并且可能在重新编译之前进行修改，以允许它与新版本的操作系统一起工作；或者操作系统的供应商可能只对协议进行向后兼容的更改，以便为操作系统的给定版本构建的具体文件系统支持将与操作系统的未来版本一起工作。</p>
+<h3 id="virtio">VirtIO<a class="headerlink" href="#virtio" title="Permanent link">&para;</a></h3>
+<p>VirtIO 是一个开放标准，它定义了一种协议，用于不同类型的驱动程序和设备之间的通信。在 QEMU 上我们可以基于 VirtIO 使用许多模拟出来的外部设备，在本次实验中我们使用 VirtIO 模拟存储设备，并在其上构建文件系统。</p>
+<div class="admonition note">
+<p class="admonition-title">本次实验中涉及 VirtIO 的部分已经为大家实现好了，同学们只需要调用相关函数即可</p>
+</div>
+<h3 id="mbr">MBR<a class="headerlink" href="#mbr" title="Permanent link">&para;</a></h3>
+<p>主引导记录（Master Boot Record，MBR），又叫做主引导扇区，是计算机开机后访问硬盘时所必须要读取的首个扇区，它在硬盘上位于第一个扇区。在深入讨论主引导扇区内部结构的时候，有时也将其开头的 446 字节内容特指为“主引导记录”（MBR），其后是 4 个 16 字节的“磁盘分区表”（DPT），以及 2 字节的结束标志（55AA）。因此，在使用“主引导记录”（MBR）这个术语的时候，需要根据具体情况判断其到底是指整个主引导扇区，还是主引导扇区的前 446 字节。</p>
+<h3 id="fat32">FAT32<a class="headerlink" href="#fat32" title="Permanent link">&para;</a></h3>
+<p>文件分配表（File Allocation Table，FAT），是一种由微软发明并拥有部分专利的文件系统，供 MS-DOS 使用，也是所有非 NT 核心的 Windows 系统使用的文件系统。最早的 FAT 文件系统直接使用扇区号来作为存储的索引，但是这样做的缺点是显然易见的：当磁盘的大小不断扩大，存储扇区号的位数越来越多，越发占用存储空间。以 32 位扇区号的文件系统为例，如果磁盘的扇区大小为 512B，那么文件系统能支持的最大磁盘大小仅为 2TB。</p>
+<p>所以在 FAT32 中引入的新的存储管理单位“簇”，一个簇包含一个或多个扇区，文件系统中记录的索引不再为扇区号，而是<strong>簇号</strong>，以此来支持更大的存储设备。你可以参考这些资料来学习 FAT32 文件系统的标准与实现：</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=YfDU6g0CmZE&amp;t=344s">FAT32文件系统？盘它！</a></li>
+<li><a href="https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf">Microsoft FAT Specification</a></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">上述两个材料对于完成本次实验非常关键，希望同学们仔细阅读</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=YfDU6g0CmZE&amp;t=344s">FAT32文件系统？盘它！</a> 里提到的“块”可以对标本次实验里的“扇区”（sector）<ul>
+<li><code>fat32_init</code> 函数里各种参数的计算方式可以参考本视频；</li>
+</ul>
+</li>
+<li><a href="https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf">Microsoft FAT Specification</a> 是本次实验参考的标准，<code>fat32_bpb</code> <code>fat32_dir_entry</code> 等结构体各个字段的含义，可以直接参考本材料，例如：<ul>
+<li>Page 7 讲解了 <code>fat32_bpb</code>，在 <code>fat32_init</code> 中用得上；</li>
+<li>Page 23 处讲解了 <code>fat32_dir_entry</code>，在文件操作函数中用得上。</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="_4">实验步骤<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>本次实验的内容分为两个部分：</p>
+<ul>
+<li>Shell：实现 VFS，编写虚拟文件设备 stdin, stdout, stderr 的读写操作；</li>
+<li>FAT32：实现 FAT32 文件系统的读写操作。</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">本实验中不涉及 fork 的实现和缺页异常，只需要完成 Lab4 即可开始本实验（当然，本实验也兼容 Lab5）</p>
+</div>
+<h3 id="_5">准备工作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">代码与调试建议</p>
+<p>框架代码中可能会使用到 <code>Log</code> <code>Err</code> 宏或者其他你可能未定义的东西，如果编译时出现报错可以自行补充，如果有不清楚的奇怪报错可以询问助教。</p>
+<p>在本次实验中，以往实验的部分可能会变得完全不重要，因为本次实验中只需要考虑文件系统和系统调用，所以你可以选择将原来调试用的 Log 宏禁用，以减少输出，比如在根目录下的 Makefile 中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">LOG</span><span class="w">     </span><span class="o">:=</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">CFLAG</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span>...<span class="w"> </span>-DLOG<span class="o">=</span><span class="k">$(</span>LOG<span class="k">)</span>
+</code></pre></div>
+<p>然后在 <code>include/printk.h</code> 中：</p>
+<div class="highlight"><span class="filename">include/printk.h</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#if LOG</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#define Log(format, ...) \</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">    printk(&quot;\33[1;35m[%s,%d,%s] &quot; format &quot;\33[0m\n&quot;, \</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">        __FILE__, __LINE__, __func__, ## __VA_ARGS__)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">#else</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="cp">#define Log(format, ...);</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="cp">#endif</span>
+</code></pre></div>
+<p>这样在 <code>make run LOG=0</code> 时就不会输出 Log 信息了。</p>
+</div>
+<p>此次实验基于 lab4/5 同学所实现的代码进行。</p>
+<ul>
+<li>从仓库同步以下文件：
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>src/lab6
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ├── disk.img.zip  // FAT32 磁盘镜像，需解压
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├── fs
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  │   ├── Makefile
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  │   ├── fat32.c   // FAT32 文件系统实现
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  │   ├── fs.c      // 供系统内核使用的文件系统相关函数实现
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  │   ├── mbr.c     // MBR 初始化（无需修改）
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  │   ├── vfs.c     // VFS 实现
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  │   └── virtio.c  // VirtIO 驱动（无需修改）
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  ├── include
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  │   ├── fat32.h   // FAT32 相关数据结构与函数声明
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  │   ├── fs.h      // 供系统内核使用的文件系统相关数据结构及函数声明
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  │   ├── mbr.h     // MBR 相关数据结构与函数声明（无需关注）
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  │   ├── vfs.h     // VFS 操作函数声明
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  │   └── virtio.h  // VirtIO 驱动相关数据结构与函数声明（无需关注）
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>  └── user              // 用户态程序部分不需同学们修改，所以这里给出完整的代码
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>      ├── Makefile      // 未作修改
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>      ├── link.lds      // 未作修改
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>      ├── main.c    // nish 用户态程序（需要阅读）
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>      ├── printf.c      // 未作修改
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>      ├── start.S       // 未作修改
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>      ├── stddef.h      // 未作修改
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>      ├── stdint.h      // 同步了内核的 stdint.h
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>      ├── stdio.h       // 未作修改
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>      ├── string.c      // 新文件，添加了 strlen
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>      ├── string.h      // 新文件，添加了 strlen
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>      ├── syscall.h     // 更新了系统调用号
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>      ├── uapp.S        // 未作修改
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>      ├── unistd.c  // 系统调用实现（需要阅读）
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>      └── unistd.h
+</code></pre></div></li>
+<li>同时需要修改 proc.h/c，在初始化时只创建一个用户态进程</li>
+<li>因为加了一个根目录下的 fs 文件夹，所以需要在 <code>arch/riscv/Makefile</code> 里面添加相关编译产物来进行链接：
+    <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">arch/riscv/Makefile</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="err">${LD}</span><span class="w"> </span><span class="err">-T</span><span class="w"> </span><span class="err">kernel/vmlinux.lds</span><span class="w"> </span><span class="err">kernel/*.o</span><span class="w"> </span><span class="err">../../init/*.o</span><span class="w"> </span><span class="err">../../lib/*.o</span><span class="w"> </span><span class="err">../../fs/*.o</span><span class="w"> </span><span class="err">../../user/uapp.o</span><span class="w"> </span><span class="err">-o</span><span class="w"> </span><span class="err">../../vmlinux</span><span class="w"> </span>
+</code></pre></div></td></tr></table></div></li>
+</ul>
+<h3 id="shell">Shell: 与内核进行交互<a class="headerlink" href="#shell" title="Permanent link">&para;</a></h3>
+<p>我们为大家提供了用户态程序 "nish" (Not Implemented SHell) 来与我们在实验中完成的 kernel 进行交互。它提供了简单的用户交互和文件读写功能，有如下的命令：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">echo</span><span class="w"> </span><span class="o">[</span>string<span class="o">]</span><span class="w">   </span><span class="c1"># 将 string 输出到 stdout</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cat<span class="w"> </span><span class="o">[</span>path<span class="o">]</span><span class="w">      </span><span class="c1"># 将路径为 path 的文件的内容输出到 stdout</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>edit<span class="w"> </span><span class="o">[</span>path<span class="o">]</span><span class="w"> </span><span class="o">[</span>offset<span class="o">]</span><span class="w"> </span><span class="o">[</span>string<span class="o">]</span><span class="w"> </span><span class="c1"># 将路径为 path 的文件，偏移量为 offset 的部分开始，写为 string</span>
+</code></pre></div>
+<p>我们在启动一个用户态程序（包括 nish）时默认打开了三个文件，<code>stdin</code>，<code>stdout</code> 和 <code>stderr</code>，他们对应的 file descriptor 分别为 <code>0</code>，<code>1</code>，<code>2</code>。在 nish 启动时，会首先向 <code>stdout</code> 和 <code>stderr</code> 分别写入一段内容作为测试：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">user/main.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-134">134</a></span>
+<span class="normal"><a href="#__codelineno-5-135">135</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-134" name="__codelineno-5-134"></a><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello, stdout!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">);</span>
+<a id="__codelineno-5-135" name="__codelineno-5-135"></a><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello, stderr!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>而在这之前，我们也曾处理过 write 系统调用，不过当时是根据 stdin 的 fd 来特判的。接下来在本次实验中我们会将这一操作包装为文件系统的操作。</p>
+<h4 id="_6">文件系统抽象<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<p>我们在 <code>include/fs.h</code> 中定义了文件系统的数据结构：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">include/fs.h</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span>
+<span class="normal"><a href="#__codelineno-6-38">38</a></span>
+<span class="normal"><a href="#__codelineno-6-39">39</a></span>
+<span class="normal"><a href="#__codelineno-6-40">40</a></span>
+<span class="normal"><a href="#__codelineno-6-41">41</a></span>
+<span class="normal"><a href="#__codelineno-6-42">42</a></span>
+<span class="normal"><a href="#__codelineno-6-43">43</a></span>
+<span class="normal"><a href="#__codelineno-6-44">44</a></span>
+<span class="normal"><a href="#__codelineno-6-45">45</a></span>
+<span class="normal"><a href="#__codelineno-6-46">46</a></span>
+<span class="normal"><a href="#__codelineno-6-47">47</a></span>
+<span class="normal"><a href="#__codelineno-6-48">48</a></span>
+<span class="normal"><a href="#__codelineno-6-49">49</a></span>
+<span class="normal"><a href="#__codelineno-6-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="c1">// Opened file in a thread.</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">opened</span><span class="p">;</span><span class="w">    </span><span class="c1">// 文件是否打开</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">perms</span><span class="p">;</span><span class="w">     </span><span class="c1">// 文件的读写权限</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">cfo</span><span class="p">;</span><span class="w">        </span><span class="c1">// 当前文件指针偏移量</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">fs_type</span><span class="p">;</span><span class="w">   </span><span class="c1">// 文件系统类型</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36"></a>
+<a id="__codelineno-6-37" name="__codelineno-6-37"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">fat32_file</span><span class="w"> </span><span class="n">fat32_file</span><span class="p">;</span><span class="w">   </span><span class="c1">// 后续 FAT32 文件系统的文件需要的额外信息</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40"></a>
+<a id="__codelineno-6-41" name="__codelineno-6-41"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">lseek</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span><span class="w">  </span><span class="c1">// 文件指针操作</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">write</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w">    </span><span class="c1">// 写文件</span>
+<a id="__codelineno-6-43" name="__codelineno-6-43"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read</span><span class="p">)</span><span class="w">  </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w">          </span><span class="c1">// 读文件</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44"></a>
+<a id="__codelineno-6-45" name="__codelineno-6-45"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">path</span><span class="p">[</span><span class="n">MAX_PATH_LENGTH</span><span class="p">];</span><span class="w"> </span><span class="c1">// 文件路径</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46"></a><span class="p">};</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47"></a>
+<a id="__codelineno-6-48" name="__codelineno-6-48"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-49" name="__codelineno-6-49"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="n">fd_array</span><span class="p">[</span><span class="n">MAX_FILE_NUMBER</span><span class="p">];</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50"></a><span class="p">};</span>
+</code></pre></div></td></tr></table></div>
+<p>可以看出我们为每个文件都保存了三个函数指针，这样针对不同文件的同一操作就可以调用到不同函数了。同时为了方便实现，我们直接通过数组来保存 file 结构体，默认情况下会创建 <code>MAX_FILE_NUMBER=16</code> 个可用的文件描述符。</p>
+<p>接下来需要同学们修改 proc.h，为进程 task_struct 结构体添加一个指向文件表的指针：</p>
+<div class="highlight"><span class="filename">arch/riscv/include/proc.h</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">};</span>
+</code></pre></div>
+<h4 id="stdouterrin">stdout/err/in 初始化<a class="headerlink" href="#stdouterrin" title="Permanent link">&para;</a></h4>
+<p>在 <code>fs/fs.c</code> 文件中，我们定义了一个函数 <code>file_init</code>：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">fs/fs.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">file_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="c1">// todo: alloc pages for files_struct, and initialize stdin, stdout, stderr</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>这个函数需要大家在 proc.c 中的 <code>task_init</code> 函数中为每个进程调用，创建文件表并保存在 task struct 中。</p>
+<p>在这个函数中，你需要：</p>
+<ul>
+<li>根据 <code>files_struct</code> 的大小分配页空间</li>
+<li>为 stdin、stdout、stderr 赋值，比如 stdin 你可以：
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">opened</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">perms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FILE_READABLE</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">cfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">lseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">ret</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+</code></pre></div><ul>
+<li>这里的 read / write 函数可以留到等下来实现</li>
+</ul>
+</li>
+<li>保证其他未使用的文件的 <code>opened</code> 字段为 0</li>
+</ul>
+<h4 id="stdouterr">处理 stdout/err 的写入<a class="headerlink" href="#stdouterr" title="Permanent link">&para;</a></h4>
+<p>正如 4.2 开头所说，用户态程序在开始的时候会通过 <code>write</code> 函数来向内核发起 syscall 进行测试。在捕获到 write 的 syscall 之后，我们就可以查找对应的 fd，并通过对应的 write 函数调用来进行输出了。一个参考实现如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int64_t</span><span class="w"> </span><span class="nf">sys_write</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">files</span><span class="o">-&gt;</span><span class="n">fd_array</span><span class="p">[</span><span class="n">fd</span><span class="p">]);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">opened</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">        </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;file not opened</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ERROR_FILE_NOT_OPEN</span><span class="p">;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">        </span><span class="c1">// check perms and call write function of file</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="p">}</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_syscall</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="o">*</span><span class="w"> </span><span class="n">regs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a7</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_WRITE</span><span class="p">:</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">            </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_write</span><span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a2</span><span class="p">);</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_GETPID</span><span class="p">:</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">            </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">;</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_CLONE</span><span class="p">:</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">            </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">do_fork</span><span class="p">(</span><span class="n">regs</span><span class="p">);</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">        </span><span class="k">default</span><span class="o">:</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">            </span><span class="n">Err</span><span class="p">(</span><span class="s">&quot;not support syscall id = %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">a7</span><span class="p">);</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">    </span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">sepc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="p">}</span>
+</code></pre></div>
+<p>对于 stdout 和 stderr 的输出，我们直接通过 <code>printk</code> 进行串口输出即可：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">fs/vfs.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-22">22</a></span>
+<span class="normal"><a href="#__codelineno-11-23">23</a></span>
+<span class="normal"><a href="#__codelineno-11-24">24</a></span>
+<span class="normal"><a href="#__codelineno-11-25">25</a></span>
+<span class="normal"><a href="#__codelineno-11-26">26</a></span>
+<span class="normal"><a href="#__codelineno-11-27">27</a></span>
+<span class="normal"><a href="#__codelineno-11-28">28</a></span>
+<span class="normal"><a href="#__codelineno-11-29">29</a></span>
+<span class="normal"><a href="#__codelineno-11-30">30</a></span>
+<span class="normal"><a href="#__codelineno-11-31">31</a></span>
+<span class="normal"><a href="#__codelineno-11-32">32</a></span>
+<span class="normal"><a href="#__codelineno-11-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-22" name="__codelineno-11-22"></a><span class="kt">int64_t</span><span class="w"> </span><span class="nf">stdout_write</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-23" name="__codelineno-11-23"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">to_print</span><span class="p">[</span><span class="n">len</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-25" name="__codelineno-11-25"></a><span class="w">        </span><span class="n">to_print</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">)[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-11-26" name="__codelineno-11-26"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-27" name="__codelineno-11-27"></a><span class="w">    </span><span class="n">to_print</span><span class="p">[</span><span class="n">len</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-11-28" name="__codelineno-11-28"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">printk</span><span class="p">(</span><span class="n">to_print</span><span class="p">);</span>
+<a id="__codelineno-11-29" name="__codelineno-11-29"></a><span class="p">}</span>
+<a id="__codelineno-11-30" name="__codelineno-11-30"></a>
+<a id="__codelineno-11-31" name="__codelineno-11-31"></a><span class="kt">int64_t</span><span class="w"> </span><span class="nf">stderr_write</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-32" name="__codelineno-11-32"></a><span class="w">    </span><span class="c1">// todo</span>
+<a id="__codelineno-11-33" name="__codelineno-11-33"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>实现好后，你应该已经能够打印出输出了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>2024 ZJU Operating System
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>hello, stdout!
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>hello, stderr!
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>SHELL &gt;
+</code></pre></div>
+<h4 id="stdin">处理 stdin 的读取<a class="headerlink" href="#stdin" title="Permanent link">&para;</a></h4>
+<p>此时 nish 已经打印出命令行等待输入命令以进行交互了，但是还需要读入从终端输入的命令才能够与人进行交互，所以我们要实现 <code>stdin</code> 以获取键盘键入的内容。</p>
+<p>对于输入的读取就是对于 fd=0 的 stdin 文件进行 read 操作，所以需要我们实现 vfs.c 中的 stdin_read 函数。而对于终端的输入，我们需要通过 sbi 来完成，需要大家在 <code>arch/riscv/include/sbi.h</code> 中添加函数：</p>
+<div class="highlight"><span class="filename">arch/riscv/include/sbi.h</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sbiret</span><span class="w"> </span><span class="n">sbi_debug_console_read</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">num_bytes</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">base_addr_lo</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">base_addr_hi</span><span class="p">);</span>
+</code></pre></div>
+<p>并在 sbi.c 中进行实现（eid 和 <code>console_write_byte</code> 一样为 <code>0x4442434e</code>，fid 为 1）。其中参数 <code>num_bytes</code> 为读取的字节数，<code>base_addr_lo</code> 和 <code>base_addr_hi</code> 为写入的目的地址（<code>base_addr_hi</code> 在 64 位架构中不会用到）。</p>
+<p>接下来在 vfs.c 中我们为大家定义了函数 <code>uart_getchar()</code>，因为 <code>sbi_debug_console_read</code> 是非阻塞的，所以我们需要一个函数来不断进行读取，直到读到了有效字符，然后在 <code>stdin_read</code> 中只需要这样读取 <code>len</code> 个字符就好了。</p>
+<div class="admonition note">
+<p class="admonition-title">关于 read 阻塞的说明</p>
+<p>同学们可以发现我们这里实现的 <code>read</code> 其实是完全阻塞的，即读取到了 <code>len</code> 个字符才会返回，实际上这只是简化的操作。</p>
+<p>实际情况下 <code>read</code> 只会在没有任何输入的情况下阻塞，一旦可以读到数据，则不论是否达到 <code>len</code> 都会立即返回，但本次实验中不考虑这种情况即可。</p>
+</div>
+<p>完成了 <code>stdin_read</code> 后，还需要捕获 63 号系统调用 read，来和 write 一样类似处理即可。</p>
+<p>全部完成后，你应该就可以在 nish 中使用 <code>echo</code> 命令了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>SHELL &gt; echo &quot;test&quot;
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>test
+</code></pre></div>
+<details class="tip">
+<summary>为什么我觉得写的完全没问题但是没法读入</summary>
+<p>有些同学可能已经顺利进入了 <code>sbi_debug_console_read</code> 和 <code>sbi_ecall</code> 中，但是传给 <code>sbi_ecall</code> 的参数正确也不能获取输入。这时候你需要检查一下 vmlinux.asm 中生成的 <code>sbi_ecall</code> 的汇编，这可能是你的实现长久以来就有问题但一直没触发。比如你可能会在 ecall 前看到：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="err">00078893</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a7</span><span class="p">,</span><span class="no">a5</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="err">00070813</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a6</span><span class="p">,</span><span class="no">a4</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="err">00068513</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a0</span><span class="p">,</span><span class="no">a3</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="err">00060593</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a1</span><span class="p">,</span><span class="no">a2</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="err">00058613</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a2</span><span class="p">,</span><span class="no">a1</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="err">00050693</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a3</span><span class="p">,</span><span class="no">a0</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="err">00080713</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a4</span><span class="p">,</span><span class="no">a6</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="err">00088793</span><span class="w">            </span><span class="nf">mv</span><span class="w">  </span><span class="no">a5</span><span class="p">,</span><span class="no">a7</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="err">00000073</span><span class="w">            </span><span class="nf">ecall</span>
+</code></pre></div>
+<p>你会发现在你的内联汇编生成出了非预期的指令序列（比如 a5-&gt;a7-&gt;a5，这样 a5 的值就被覆盖了），这可能是你在内联汇编的最后一个破坏描述部分没有说明 a0-a7 是会被破坏的（即让编译器不要使用 a0-a7 作为临时变量），你需要再参考相关文档进行修改。</p>
+</details>
+<h3 id="fat32_1">FAT32：持久存储<a class="headerlink" href="#fat32_1" title="Permanent link">&para;</a></h3>
+<p>在本次实验中我们仅需实现 FAT32 文件系统中很小一部分功能，我们为实验中的测试做如下限制：</p>
+<ul>
+<li>文件名长度小于等于 8 个字符，并且不包含后缀名和字符 <code>.</code> .</li>
+<li>不包含目录的实现，所有文件都保存在磁盘根目录 <code>/fat32/</code> 下。</li>
+<li>不涉及磁盘上文件的创建和删除。</li>
+<li>不涉及文件大小的修改。</li>
+</ul>
+<h4 id="_7">准备工作<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<h5 id="virtio-qemu">利用 VirtIO 为 QEMU 添加虚拟存储<a class="headerlink" href="#virtio-qemu" title="Permanent link">&para;</a></h5>
+<p>我们为大家准备了一个 FAT32 的磁盘映像，其中包含了一个 MBR 分区表以及一个存储有一些文件的 FAT32 分区，需要大家解压 <code>src/lab6/disk.img.zip</code> 得到 <code>disk.img</code> 并放在根目录下。</p>
+<p>接下来可以使用如下的命令来启动 QEMU，这会将磁盘连接到 QEMU 的一个 VirtIO 接口上，构成一个 <code>virtio-blk-device</code>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nf">run</span><span class="o">:</span><span class="w"> </span><span class="n">all</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span>@echo<span class="w"> </span>Launch<span class="w"> </span>qemu...
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span>@qemu-system-riscv64<span class="w"> </span>-nographic<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-kernel<span class="w"> </span>vmlinux<span class="w"> </span>-bios<span class="w"> </span>default<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">        </span>-global<span class="w"> </span>virtio-mmio.force-legacy<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">        </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>disk.img,if<span class="o">=</span>none,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">        </span>-device<span class="w"> </span>virtio-blk-device,drive<span class="o">=</span>hd0
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="nf">debug</span><span class="o">:</span><span class="w"> </span><span class="n">all</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span>@echo<span class="w"> </span>Launch<span class="w"> </span>qemu<span class="w"> </span><span class="k">for</span><span class="w"> </span>debug...
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span>@qemu-system-riscv64<span class="w"> </span>-nographic<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-kernel<span class="w"> </span>vmlinux<span class="w"> </span>-bios<span class="w"> </span>default<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">        </span>-global<span class="w"> </span>virtio-mmio.force-legacy<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">        </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>disk.img,if<span class="o">=</span>none,format<span class="o">=</span>raw,id<span class="o">=</span>hd0<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">        </span>-device<span class="w"> </span>virtio-blk-device,drive<span class="o">=</span>hd0<span class="w"> </span>-S<span class="w"> </span>-s
+</code></pre></div>
+<p>VirtIO 所需的驱动我们已经为大家编写完成了，在 <code>fs/virtio.c</code> 中给出，为了正常使用这部分外设，还需要在 <code>setup_vm_final</code> 中添加对 VritIO 外设的映射：</p>
+<div class="highlight"><span class="filename">arch/riscv/kernel/vm.c</span><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">create_mapping</span><span class="p">(</span><span class="n">swapper_pg_dir</span><span class="p">,</span><span class="w"> </span><span class="n">io_to_virt</span><span class="p">(</span><span class="n">VIRTIO_START</span><span class="p">),</span><span class="w"> </span><span class="n">VIRTIO_START</span><span class="p">,</span><span class="w"> </span><span class="n">VIRTIO_SIZE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">VIRTIO_COUNT</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_W</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">);</span>
+</code></pre></div>
+<h5 id="virtio-mbr">初始化 VirtIO 与 MBR<a class="headerlink" href="#virtio-mbr" title="Permanent link">&para;</a></h5>
+<p>除了 VirtIO，我们还为大家实现了读取 MBR 这一磁盘初始化过程。该过程会搜索磁盘中存在的分区，然后对分区进行初步的初始化。</p>
+<p>这两部分分别需要使用 <code>virtio_dev_init()</code> 和 <code>mbr_init()</code> 进行初始化，需要在 <code>head.S</code> 中 <code>task_init</code> 结束后调用。</p>
+<h4 id="fat32_2">初始化 FAT32 分区<a class="headerlink" href="#fat32_2" title="Permanent link">&para;</a></h4>
+<p>在 FAT32 分区的第一个扇区中存储了关于这个分区的元数据，首先需要读取并解析这些元数据。我们提供了两个数据结构的定义，<code>fat32_bpb</code> 为 FAT32 BIOS Parameter Block 的简写。这是一个物理扇区，其中对应的是这个分区的元数据。首先需要将该扇区的内容读到一个 <code>fat32_bpb</code> 数据结构中进行解析。</p>
+<p><code>fat32_volume</code> 是用来存储我们后续代码中需要用到的元数据的，需要根据 <code>fat32_bpb</code> 中的数据来进行计算并初始化。</p>
+<div class="admonition note">
+<p class="admonition-title">为了简单起见，本次实验中每个簇都只包含 1 个扇区。所以你的代码可能会以各种灵车的方式跑起来，但是你仍需要对簇和扇区有所区分，并在报告里有所体现。</p>
+</div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">fs/fat32.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-26">26</a></span>
+<span class="normal"><a href="#__codelineno-18-27">27</a></span>
+<span class="normal"><a href="#__codelineno-18-28">28</a></span>
+<span class="normal"><a href="#__codelineno-18-29">29</a></span>
+<span class="normal"><a href="#__codelineno-18-30">30</a></span>
+<span class="normal"><a href="#__codelineno-18-31">31</a></span>
+<span class="normal"><a href="#__codelineno-18-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-26" name="__codelineno-18-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">fat32_init</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">lba</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-27" name="__codelineno-18-27"></a><span class="w">    </span><span class="n">virtio_blk_read_sector</span><span class="p">(</span><span class="n">lba</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">fat32_header</span><span class="p">);</span><span class="w">  </span><span class="c1">// 从第 lba 个扇区读取 FAT32 BPB</span>
+<a id="__codelineno-18-28" name="__codelineno-18-28"></a><span class="w">    </span><span class="n">fat32_volume</span><span class="p">.</span><span class="n">first_fat_sec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span><span class="w">    </span><span class="c1">// 记录第一个 FAT 表所在的扇区号</span>
+<a id="__codelineno-18-29" name="__codelineno-18-29"></a><span class="w">    </span><span class="n">fat32_volume</span><span class="p">.</span><span class="n">sec_per_cluster</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span><span class="w">  </span><span class="c1">// 每个簇的扇区数</span>
+<a id="__codelineno-18-30" name="__codelineno-18-30"></a><span class="w">    </span><span class="n">fat32_volume</span><span class="p">.</span><span class="n">first_data_sec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span><span class="w">   </span><span class="c1">// 记录第一个数据簇所在的扇区号</span>
+<a id="__codelineno-18-31" name="__codelineno-18-31"></a><span class="w">    </span><span class="n">fat32_volume</span><span class="p">.</span><span class="n">fat_sz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span><span class="w">           </span><span class="c1">// 记录每个 FAT 表占的扇区数（并未用到）</span>
+<a id="__codelineno-18-32" name="__codelineno-18-32"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<div class="admonition tip">
+<p class="admonition-title">指导与调试建议</p>
+<p>为了完成这一部分，你需要了解 FAT32 中扇区的排列方式与用途。</p>
+<p>即 <code>lba</code> 扇区为 BPB，这之后紧接着的是一些保留扇区，然后是第一个 FAT 表所在的扇区（这个表会占很多个扇区，需要从 bpb 读取），接下来是第二个 FAT 表所在的扇区（为第一个 FAT 表的备份），然后接下来是数据区。</p>
+<p>在得到这些之后，你可以尝试从 <code>fat32_volume.first_fat_sec</code> 读取一个扇区到 <code>fat32_buf</code> 中，如果正确的话，开头四个字节应该是 <code>F8FFFF0F</code>。</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">物理层面读写扇区的原语</p>
+<ul>
+<li>出于实验难度的考虑，物理层面通过 virtio 读写扇区的驱动函数已经写好；<ul>
+<li><code>virtio_blk_read_sector</code> 可以将扇区号对应的扇区读入到一个 buffer 内；</li>
+<li><code>virtio_blk_write_sector</code> 可以将一个 buffer 的内容写入到特定扇区号的扇区里；</li>
+</ul>
+</li>
+<li>不论是 <code>openat</code> <code>read</code> <code>write</code> <code>lseek</code>，都可能需要调用这两个函数，来完成跟扇区内容的交互；</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">更多调试建议</p>
+<p>你可以使用 16 进制文件查看软件打开 <code>disk.img</code> 文件，来查看其中的内容，每个扇区的大小都为 <code>VIRTIO_BLK_SECTOR_SIZE</code>。</p>
+<p>虽然文件中大部分内容都为 0，但是你可以搜索得到一些有意义的部分：</p>
+<ul>
+<li>字符串 <code>mkfs.fat</code>，这八个字节是 bpb 中的 oem 代号，即 <code>fat32_bpb-&gt;oem_name</code>；<ul>
+<li>根据这个位置，你可以找到 BPB 的开始位置；</li>
+</ul>
+</li>
+<li>字节序列 <code>F8 FF FF 0F</code>，这是 FAT 表的开头，也是第一个 FAT 项的内容；</li>
+<li>字符串 <code>EMAIL</code>，这是我们要读取的文件的名字，它会在数据区开头的根目录扇区中出现，标志着一个短文件名目录项的开始；<ul>
+<li>你可能会看到有其他的目录项，你可以不用管它们，在本次实验中不会用到；</li>
+</ul>
+</li>
+<li>字符串 <code>From</code>，这是要读取的文件内容的开头，它也会处于一个扇区的开头。</li>
+</ul>
+</div>
+<h4 id="_8">完善系统调用<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>在读取文件之前，首先需要打开对应的文件，这需要实现 <code>openat</code> syscall，调用号为 56。你需要寻找一个空闲的文件描述符，然后调用 <code>file_open</code> 函数来初始化这个文件描述符。</p>
+<div class="admonition note">
+<p class="admonition-title">关于判断文件系统类型</p>
+<p>我们使用最简单的判别文件系统的方式，文件前缀为 <code>/fat32/</code> 的即是本次 FAT32 文件系统中的文件，例如，在 <code>nish</code> 中我们尝试读取文件，使用的命令是 <code>cat /fat32/$FILENAME</code>. <code>file_open</code> 会根据前缀决定是否调用 <code>fat32_open_file</code> 函数（后面实现）。</p>
+<p>注意因为我们的文件一定在 FAT32 的根目录下，也即 <code>/fat32/</code> 下，所以无需实现与目录遍历相关的逻辑。此外需要注意的是，需要将文件名统一转换为大写或小写，因为我们的实现是不区分大小写的。</p>
+</div>
+<p>读取完成后 nish 会调用 close 来关闭文件，所以你需要实现 57 号系统调用 close，来为指定的文件描述符关闭文件。</p>
+<p>最后在 nish 处理 edit 的时候，会先进行 lseek 调整文件指针，然后再进行 write，所以你需要参考 write 和 read 实现类似的 62 号系统调用 lseek。</p>
+<h4 id="_9">打开文件<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>接下来就是本次实验中比较复杂的部分了，首先在 <code>fat32_open_file</code> 函数中，我们需要读取出被打开的文件所在的簇和目录项位置的信息，来供后面 read write lseek 使用，目标是获取到：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">include/fs.h</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-21">21</a></span>
+<span class="normal"><a href="#__codelineno-19-22">22</a></span>
+<span class="normal"><a href="#__codelineno-19-23">23</a></span>
+<span class="normal"><a href="#__codelineno-19-24">24</a></span>
+<span class="normal"><a href="#__codelineno-19-25">25</a></span>
+<span class="normal"><a href="#__codelineno-19-26">26</a></span>
+<span class="normal"><a href="#__codelineno-19-27">27</a></span>
+<span class="normal"><a href="#__codelineno-19-28">28</a></span>
+<span class="normal"><a href="#__codelineno-19-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-21" name="__codelineno-19-21"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fat32_dir</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cluster</span><span class="p">;</span><span class="w">   </span><span class="c1">// 文件的目录项所在的簇</span>
+<a id="__codelineno-19-23" name="__codelineno-19-23"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">index</span><span class="p">;</span><span class="w">     </span><span class="c1">// 文件的目录项是该簇中的第几个目录项</span>
+<a id="__codelineno-19-24" name="__codelineno-19-24"></a><span class="p">};</span>
+<a id="__codelineno-19-25" name="__codelineno-19-25"></a>
+<a id="__codelineno-19-26" name="__codelineno-19-26"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fat32_file</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-27" name="__codelineno-19-27"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cluster</span><span class="p">;</span><span class="w">       </span><span class="c1">// 文件开头所在的簇</span>
+<a id="__codelineno-19-28" name="__codelineno-19-28"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fat32_dir</span><span class="w"> </span><span class="n">dir</span><span class="p">;</span><span class="w">   </span><span class="c1">// 文件的目录项信息</span>
+<a id="__codelineno-19-29" name="__codelineno-19-29"></a><span class="p">};</span>
+</code></pre></div></td></tr></table></div>
+<p>你需要遍历数据区开头的根目录扇区，找到 name 和 <code>path</code> 末尾的 <code>filename</code> 相匹配的 <code>fat32_dir_entry</code> 目录项结构体，再从其中得到这些信息。</p>
+<div class="admonition tip">
+<p class="admonition-title">为什么我匹配不到要打开的文件</p>
+<p>如果是使用 <code>memcmp</code> 来逐一比较 FAT32 文件系统根目录下的各个文件名和想要打开的文件名，则需要 8 个字节完全匹配。但是需要注意的是，FAT32 文件系统根目录下的文件名并不是以 "\0" 结尾的字符串，你需要参考 spec 或者 <code>disk.img</code> 中的内容来了解 FAT32 文件名的存储方式。</p>
+</div>
+<h4 id="_10">读取与写入文件<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<p>对于 FAT32 文件系统的文件读取，会调用到 <code>fat32_read</code> 函数，你需要根据 <code>file-&gt;fat32_file</code> 中的信息（即 open 的时候获取的信息）找到文件内容所在的簇，然后读取出文件内容到 <code>buf</code> 中。</p>
+<div class="admonition tip">
+<p class="admonition-title">Hint</p>
+<ul>
+<li>通过 <code>cluster_to_sector</code> 可以得到簇号对应的扇区号；</li>
+<li>通过 <code>virtio_blk_read_sector</code> 对扇区进行读取；</li>
+<li>你可能需要再通过读取目录项来获取文件长度；</li>
+<li>读取是要从 <code>file-&gt;cfo</code> 开始的；</li>
+<li>读取的长度可能会使得内容跨越了一个或几个扇区，你需要多次读取；</li>
+<li>读取到了文件末尾就应该截止，并返回实际读取的长度；</li>
+<li>如果 read 返回了 0，则说明已经读取到了文件末尾，这样用户态程序就知道文件已经完全读取结束了。</li>
+</ul>
+</div>
+<p>正确实现后，你应该可以看到 <code>cat /fat32/email</code> 的输出了：</p>
+<details class="success">
+<summary>示例输出</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>...buddy_init done!
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>...mm_init done!
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>...proc_init done!
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>...virtio_blk_init done!
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>...fat32 partition #1 init done!
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>2024 ZJU Operating System
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>hello, stdout!
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>hello, stderr!
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>SHELL &gt; cat /fat32/email
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>From: TORVALDS@klaava.Helsinki.FI (Linus Benedict Torvalds)
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>Newsgroups: comp.os.minix
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>Subject: What would you like to see most in minix?
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>Summary: small poll for my new operating system
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>Message-ID:
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>Date: 25 Aug 91 20:57:08 GMT
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>Organization: University of Helsinki
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>Hello everybody out there using minix -
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>I&#39;m doing a (free) operating system (just a hobby, won&#39;t be big and professional like gnu) for 386(486) AT cones. This has been brewing since april, and is starting to get ready. I&#39;d Tike any feedback on things people like/dislike in minix, as my 0S resembles it somewhat (same physical layout of the file-system (due to practical reasons) among other things) .
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>
+<a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>I&#39;ve currently ported bash(1.08) and gcc(1.40), and things seem to work. This implies that I&#39;ll get something practical within a few months, andI&#39;d like to know what features most people would want. Any suggestions are welcome, but I won&#39;t promise I&#39;ll implement them :-)
+<a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>
+<a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>            Linus (torvalds@kruuna.helsinki.fi)
+<a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a>
+<a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a>PS. Yes . it&#39;s free of any minix code, and it has a multi-threaded fs. It is NOT protable (uses 386 task switching etc), and it probably never will support anything other than AT-hard disks, as that&#39;s all I have :-($
+<a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a>SHELL &gt;
+</code></pre></div>
+</details>
+<p>write 操作和 read 非常相似，只需要修改后再通过 <code>virtio_blk_write_sector</code> 写回扇区即可。</p>
+<div class="admonition tip">
+<p class="admonition-title">本次实验不要求实现根据访问时间更新目录项信息</p>
+</div>
+<h4 id="lseek">lseek 操作<a class="headerlink" href="#lseek" title="Permanent link">&para;</a></h4>
+<p>在 nish 处理 edit 的时候，会先进行 lseek 调整文件指针，然后再进行 write。而 lseek 在做的就是调整指针 <code>file-&gt;cfo</code> 的值，你需要实现：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">fs/fat32.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-67">67</a></span>
+<span class="normal"><a href="#__codelineno-21-68">68</a></span>
+<span class="normal"><a href="#__codelineno-21-69">69</a></span>
+<span class="normal"><a href="#__codelineno-21-70">70</a></span>
+<span class="normal"><a href="#__codelineno-21-71">71</a></span>
+<span class="normal"><a href="#__codelineno-21-72">72</a></span>
+<span class="normal"><a href="#__codelineno-21-73">73</a></span>
+<span class="normal"><a href="#__codelineno-21-74">74</a></span>
+<span class="normal"><a href="#__codelineno-21-75">75</a></span>
+<span class="normal"><a href="#__codelineno-21-76">76</a></span>
+<span class="normal"><a href="#__codelineno-21-77">77</a></span>
+<span class="normal"><a href="#__codelineno-21-78">78</a></span>
+<span class="normal"><a href="#__codelineno-21-79">79</a></span>
+<span class="normal"><a href="#__codelineno-21-80">80</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-67" name="__codelineno-21-67"></a><span class="kt">int64_t</span><span class="w"> </span><span class="nf">fat32_lseek</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="o">*</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">whence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-68" name="__codelineno-21-68"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">whence</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SEEK_SET</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-69" name="__codelineno-21-69"></a><span class="w">        </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">cfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span>
+<a id="__codelineno-21-70" name="__codelineno-21-70"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">whence</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SEEK_CUR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-71" name="__codelineno-21-71"></a><span class="w">        </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">cfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span>
+<a id="__codelineno-21-72" name="__codelineno-21-72"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">whence</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SEEK_END</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-73" name="__codelineno-21-73"></a><span class="w">        </span><span class="cm">/* Calculate file length */</span>
+<a id="__codelineno-21-74" name="__codelineno-21-74"></a><span class="w">        </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">cfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* to calculate */</span><span class="p">;</span>
+<a id="__codelineno-21-75" name="__codelineno-21-75"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-76" name="__codelineno-21-76"></a><span class="w">        </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;fat32_lseek: whence not implemented</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-21-77" name="__codelineno-21-77"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-21-78" name="__codelineno-21-78"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-21-79" name="__codelineno-21-79"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">cfo</span><span class="p">;</span>
+<a id="__codelineno-21-80" name="__codelineno-21-80"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>具体 <code>whence</code> 的含义请自行搜索 spec。</p>
+<h4 id="_11">测试<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<p>全部实现完成后，就可以实现文件的读写操作了：</p>
+<details class="success" open="open">
+<summary>示例输出</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>...buddy_init done!
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>...mm_init done!
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>...proc_init done!
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>...virtio_blk_init done!
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>...fat32 partition #1 init done!
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>2024 ZJU Operating System
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>hello, stdout!
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>hello, stderr!
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>SHELL &gt; echo &quot;test&quot;
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>test
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>SHELL &gt; cat /fat32/email
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>From: torvalds@klaava.Helsinki.FI (Linus Benedict Torvalds)
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>...
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>SHELL &gt; edit /fat32/email 6 TORVALDS
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>SHELL &gt; cat /fat32/email
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>From: TORVALDS@klaava.Helsinki.FI (Linus Benedict Torvalds)
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>...
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>SHELL &gt;
+</code></pre></div>
+<p>这里通过 <code>edit /fat32/email 6 TORVALDS</code> 来将文件 "From" 后面的 torvalds 改成了大写。除此之外你也可以发现重新 <code>make run</code> 运行，并直接 <code>cat /fat32/email</code>，输出的也是修改后的大写 TORVALDS，因为这部分修改是持久保存在 disk.img 磁盘中的。</p>
+</details>
+<h2 id="_12">实验任务与要求<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">本次实验为 bonus，无思考题</p>
+</div>
+<ul>
+<li>请各位同学独立完成作业，任何抄袭行为都将使本次作业判为 0 分。</li>
+<li>在学在浙大中提交：<ul>
+<li>整个工程代码的压缩包（提交之前请使用 <code>make clean</code> 清除所有构建产物）</li>
+<li>pdf 格式的实验报告：<ul>
+<li>记录实验过程并截图（4.1-4.3），并对每一步的命令以及结果进行必要的解释；</li>
+<li>记录遇到的问题和心得体会。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">关于实验报告内容要求，可见：<a href="../faq/#_2">常见问题及解答 - 实验提交要求</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lab5/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 实验指导五">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                实验指导五
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../spike/" class="md-footer__link md-footer__link--next" aria-label="Next: Spike 工具链使用">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Spike 工具链使用
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.action.edit", "navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

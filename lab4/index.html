@@ -1,0 +1,1842 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://juniorsny.github.io/zju-os-sld/lab4/">
+      
+      
+        <link rel="prev" href="../lab3/">
+      
+      
+        <link rel="next" href="../lab5/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>实验指导四 - 浙江大学25年秋冬操作系统实验</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:500,500i,600,600i&display=fallback">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-4-rv64" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-header__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            浙江大学25年秋冬操作系统实验
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验指导四
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-nav__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    浙江大学25年秋冬操作系统实验
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导零
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导一
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导二
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导三
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    实验指导四
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导四
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户模式和内核模式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      目标
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      系统调用约定
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstatussum-pteu" class="md-nav__link">
+    <span class="md-ellipsis">
+      sstatus[SUM] 与 PTE[U]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户态栈与内核态栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 程序
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建用户态进程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="创建用户态进程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      结构体更新
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 task_init()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__switch_to" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 __switch_to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新中断处理逻辑
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新中断处理逻辑">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__dummy" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 __dummy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_traps" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 _traps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 trap_handler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加系统调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      调整时钟中断
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试纯二进制文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加 ELF 解析与加载
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="添加 ELF 解析与加载">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elf_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 文件解析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导五
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导六
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spike 工具链使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aigc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AIGC 使用指北
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题及解答
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    附录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户模式和内核模式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      目标
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      系统调用约定
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sstatussum-pteu" class="md-nav__link">
+    <span class="md-ellipsis">
+      sstatus[SUM] 与 PTE[U]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户态栈与内核态栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 程序
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建用户态进程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="创建用户态进程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      结构体更新
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 task_init()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__switch_to" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 __switch_to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新中断处理逻辑
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新中断处理逻辑">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__dummy" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 __dummy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_traps" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 _traps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 trap_handler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加系统调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      调整时钟中断
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试纯二进制文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加 ELF 解析与加载
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="添加 ELF 解析与加载">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elf_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elf_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF 文件解析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/JuniorSNy/zju-os-sld/tree/main/docs/lab4.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="lab-4-rv64">Lab 4: RV64 用户态程序<a class="headerlink" href="#lab-4-rv64" title="Permanent link">&para;</a></h1>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>创建<strong>用户态进程</strong>，并完成内核态与用户态的转换</li>
+<li>正确设置用户进程的<strong>用户态栈</strong>和<strong>内核态栈</strong>，并在异常处理时正确切换</li>
+<li>补充异常处理逻辑，完成指定的<strong>系统调用</strong>（SYS_WRITE, SYS_GETPID）功能</li>
+<li>实现用户态 ELF 程序的解析和加载</li>
+</ul>
+<h2 id="_2">实验环境<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Environment in previous labs</li>
+</ul>
+<h2 id="_3">背景知识<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">用户模式和内核模式<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>处理器存在两种不同的模式：<strong>用户模式</strong>（U-Mode）和<strong>内核模式</strong>（S-Mode）。</p>
+<ul>
+<li>在用户模式下，执行代码无法直接访问硬件，必须委托给系统提供的接口才能访问硬件或内存；</li>
+<li>在内核模式下，执行代码对底层硬件具有完整且不受限制的访问权限，它可以执行任何 CPU 指令并引用任何内存地址。</li>
+</ul>
+<p>处理器根据处理器上运行的代码类型在这两种模式之间切换。应用程序以用户模式运行，而核心操作系统组件以内核模式运行。</p>
+<h3 id="_5">目标<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>在 <a href="../lab3/">Lab3</a> 中，我们启用了<strong>虚拟内存</strong>，这为进程间地址空间相互隔离打下了基础。然而，我们当时只创建了内核线程，它们共用了地址空间（共用一个内核页表 <code>swapper_pg_dir</code>）。在本次实验中，我们将引入<strong>用户态进程</strong>：</p>
+<ul>
+<li>当启动用户态应用程序时，内核将为该应用程序创建一个进程，并提供了专用虚拟地址空间等资源<ul>
+<li>每个应用程序的虚拟地址空间是私有的，一个应用程序无法更改属于另一个应用程序的数据</li>
+<li>每个应用程序都是独立运行的，如果一个应用程序崩溃，其他应用程序和操作系统将不会受到影响</li>
+</ul>
+</li>
+<li>用户态应用程序可访问的虚拟地址空间是受限的<ul>
+<li>在用户态下，应用程序无法访问内核的虚拟地址，防止其修改关键操作系统数据</li>
+<li>当用户态程序需要访问关键资源的时候，可以通过<strong>系统调用</strong>来完成用户态程序与操作系统之间的互动</li>
+</ul>
+</li>
+</ul>
+<h3 id="_6">系统调用约定<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>系统调用</strong>是用户态应用程序请求内核服务的一种方式。在 RISC-V 中，我们使用 <code>ecall</code> 指令进行系统调用，当执行这条指令时，处理器会提升特权模式，跳转到异常处理函数，处理这条系统调用。</p>
+<p>Linux 中 RISC-V 相关的系统调用可以在 <a href="https://elixir.bootlin.com/linux/v6.11/source/include/uapi/asm-generic/unistd.h"><code>include/uapi/asm-generic/unistd.h</code></a> 中找到，<a href="https://man7.org/linux/man-pages/man2/syscall.2.html">syscall(2)</a> 手册页上对 RISC-V 架构上的调用说明进行了总结，系统调用参数使用 a0 - a5，系统调用号使用 a7，系统调用的返回值会被保存到 a0, a1 中。</p>
+<h3 id="sstatussum-pteu"><code>sstatus[SUM]</code> 与 <code>PTE[U]</code><a class="headerlink" href="#sstatussum-pteu" title="Permanent link">&para;</a></h3>
+<ul>
+<li>当页表项 <code>PTE[U]</code> 置 0 时，该页表项对应的内存页为内核页，U-Mode 下的代码<em>无法</em>访问</li>
+<li>当页表项 <code>PTE[U]</code> 置 1 时，该页表项对应的内存页为用户页，S-Mode 下的代码<em>无法</em>访问</li>
+</ul>
+<p>如果想让 S 特权级下的程序能够访问用户页，需要对 <code>sstatus[SUM]</code> 位置 1。</p>
+<div class="admonition tip">
+<p class="admonition-title">但是无论什么样的情况下，用户页中的指令对于 S-Mode 而言都是无法执行的</p>
+</div>
+<h3 id="_7">用户态栈与内核态栈<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>当用户态程序进行系统调用陷入内核处理时，内核态程序也需要使用栈空间，而这肯定不能和用户态使用同一个栈，所以我们需要为用户态程序和内核态程序分别分配栈空间，并在异常处理的过程中对栈进行切换。</p>
+<h3 id="elf">ELF 程序<a class="headerlink" href="#elf" title="Permanent link">&para;</a></h3>
+<p>ELF（Executable and Linkable Format）是当今被广泛使用的应用程序格式。例如当我们运行 <code>gcc &lt;some-name&gt;.c</code> 后产生的 <code>a.out</code> 输出文件的格式就是 ELF。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ cat hello.c
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>#include &lt;stdio.h&gt;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>int main() {
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    printf(&quot;hello, world\n&quot;);
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    return 0;
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>}
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>$ gcc hello.c
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>$ file a.out
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>a.out: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, 
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=dd33139196142abd22542134c20d85c571a78b0c, 
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>for GNU/Linux 3.2.0, not stripped
+</code></pre></div>
+<p>将程序封装成 ELF 格式的意义包括以下几点：</p>
+<ul>
+<li>ELF 文件可以包含将程序正确加载入内存的元数据（metadata）</li>
+<li>ELF 文件在运行时可以由加载器（loader）将动态链接在程序上的动态链接库（shared library）正确地从硬盘或内存中加载</li>
+<li>ELF 文件包含的重定位信息可以让该程序继续和其他可重定位文件和库再次链接，构成新的可执行文件</li>
+</ul>
+<p>为了简化实验步骤，我们使用的是静态链接的程序，不会涉及链接动态链接库的内容。</p>
+<h2 id="_8">实验步骤<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="_9">准备工程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>此次实验基于 lab3 同学所实现的代码进行。</p>
+<ul>
+<li>需要修改 <code>vmlinux.lds</code>，将用户态程序 <code>uapp</code> 加载至 <code>.data</code> 段：
+    <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">arch/riscv/kernel/vmlinux.lds</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span>
+<span class="normal"><a href="#__codelineno-1-49">49</a></span>
+<span class="normal"><a href="#__codelineno-1-50">50</a></span>
+<span class="normal"><a href="#__codelineno-1-51">51</a></span>
+<span class="normal"><a href="#__codelineno-1-52">52</a></span>
+<span class="normal"><a href="#__codelineno-1-53">53</a></span>
+<span class="normal"><a href="#__codelineno-1-54">54</a></span>
+<span class="normal"><a href="#__codelineno-1-55">55</a></span>
+<span class="normal"><a href="#__codelineno-1-56">56</a></span>
+<span class="normal"><a href="#__codelineno-1-57">57</a></span>
+<span class="normal"><a href="#__codelineno-1-58">58</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-45" name="__codelineno-1-45"></a>    .data : ALIGN(0x1000) {
+<a id="__codelineno-1-46" name="__codelineno-1-46"></a>        _sdata = .;
+<a id="__codelineno-1-47" name="__codelineno-1-47"></a>
+<a id="__codelineno-1-48" name="__codelineno-1-48"></a>        *(.sdata .sdata*)
+<a id="__codelineno-1-49" name="__codelineno-1-49"></a>        *(.data .data.*)
+<a id="__codelineno-1-50" name="__codelineno-1-50"></a>
+<a id="__codelineno-1-51" name="__codelineno-1-51"></a>        _edata = .;
+<a id="__codelineno-1-52" name="__codelineno-1-52"></a>
+<a id="__codelineno-1-53" name="__codelineno-1-53"></a>        . = ALIGN(0x1000);
+<a id="__codelineno-1-54" name="__codelineno-1-54"></a>        _sramdisk = .;
+<a id="__codelineno-1-55" name="__codelineno-1-55"></a>        *(.uapp .uapp*)
+<a id="__codelineno-1-56" name="__codelineno-1-56"></a>        _eramdisk = .;
+<a id="__codelineno-1-57" name="__codelineno-1-57"></a>        . = ALIGN(0x1000);
+<a id="__codelineno-1-58" name="__codelineno-1-58"></a>    } &gt;ramv AT&gt;ram
+</code></pre></div></td></tr></table></div></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>如果你要使用 <code>_sramdisk</code> 这个符号，可以在代码里这样来声明它：<code class="highlight"><span class="k">extern</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">_sramdisk</span><span class="p">[]</span></code>，这样就可以像一个字符数组一样来访问这块内存的内容，例如，程序的第一个字节就是 <code>_sramdisk[0]</code>。</p>
+</div>
+<ul>
+<li>
+<p>需要修改 <code>defs.h</code>，在 <code>defs.h</code> <strong>添加</strong>如下内容：
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define USER_START (0x0000000000000000) </span><span class="c1">// user space start virtual address</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#define USER_END (0x0000004000000000) </span><span class="c1">// user space end virtual address</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>从本仓库同步以下文件和文件夹，并按照下面的位置来放置这些新文件：
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── arch
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   └── riscv
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│       ├── Makefile    # 添加了链接 uapp 的部分
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│       ├── include
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│       │   └── mm.h    # 修改为了 buddy system
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│       └── kernel
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│           └── mm.c    # 修改为了 buddy system
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>├── include
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   └── elf.h           # 来自 musl libc
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>└── user
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    ├── Makefile
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    ├── getpid.c        # 用户态程序
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    ├── link.lds
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    ├── printf.c        # 类似 printk
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    ├── start.S         # 用户态程序入口
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    ├── stddef.h
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    ├── stdio.h
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    ├── syscall.h
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    └── uapp.S          # 提取二进制内容
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">关于 buddy system</p>
+<p>值得注意的是，我们在 <code>mm</code> 中添加了 buddy system，但是也保证了原来调用的 <code>kalloc</code> 和 <code>kfree</code> 的兼容。你应该无需修改原先使用了 <code>kalloc</code> 的相关代码，如果出现兼容性问题可以联系助教。为了减小大家的工作量，我们替大家实现了 buddy system，大家也可以直接使用这些函数来管理内存：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">alloc_pages</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">nrpages</span><span class="p">);</span><span class="w">    </span><span class="c1">// 分配 nrpages 个页</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">alloc_page</span><span class="p">();</span><span class="w">         </span><span class="c1">// 分配一个页，即 alloc_pages(1)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">free_pages</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">va</span><span class="p">);</span><span class="w">  </span><span class="c1">// 释放 va 开始的内存</span>
+</code></pre></div>
+</div>
+</li>
+<li>
+<p>修改<strong>根目录</strong>下的 Makefile, 将 <code>user</code> 文件夹下的内容纳入工程管理</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>在根目录下 <code>make</code> 会生成 <code>user/uapp.o</code>（这个会被链接到 vmlinux 中）<code>user/uapp.elf</code> <code>user/uapp.bin</code>，以及我们最终测试使用的 ELF 可执行文件 <code>user/uapp</code>。</p>
+<p>通过 <code>objdump</code> 我们可以看到 uapp 使用 ecall 来调用 SYSCALL（在 U-Mode 下使用 ecall 会触发 <code>environment-call-from-U-mode</code> 异常），从而将控制权交给处在 S-Mode 的 OS，由内核来处理相关异常：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>0000000000000004 &lt;getpid&gt;:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>   4:   fe010113            add sp,sp,-32
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>   8:   00813c23            sd  s0,24(sp)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>   c:   02010413            add s0,sp,32
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  10:   fe843783            ld  a5,-24(s0)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  14:   0ac00893            li  a7,172
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  18:   00000073            ecall               &lt;- SYS_GETPID                        
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>...
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>0000000000000f70 &lt;printf&gt;:
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>...
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>1030:   00070513            mv  a0,a4
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>1034:   00068593            mv  a1,a3
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>1038:   00060613            mv  a2,a2
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>103c:   00000073            ecall               &lt;- SYS_WRITE
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>...
+</code></pre></div>
+</div>
+</li>
+</ul>
+<p>在本次实验中，我们首先会将用户态程序 strip 成纯二进制文件来运行。这种情况下，用户程序运行的第一条指令位于二进制文件的开始位置, 也就是说 <code>_sramdisk</code> 处的指令就是我们要执行的第一条指令。我们将运行纯二进制文件作为第一步，在确认用户态的纯二进制文件能够运行后，我们再将存储到内存中的用户程序文件换为 ELF 来进行执行。</p>
+<h3 id="_10">创建用户态进程<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h4 id="_11">结构体更新<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li>本次实验只需要创建 4 个用户态进程，修改 <code>proc.h</code> 中的 <code>NR_TASKS</code> 即可</li>
+<li>由于创建用户态进程要对 <code>sepc</code>, <code>sstatus</code>, <code>sscratch</code> 做设置，我们需要将其加入 <code>thread_struct</code> 中</li>
+<li>由于多个用户态进程需要保证相对隔离，因此不可以共用页表，我们需要为每个用户态进程都创建一个页表并记录在 <code>task_struct</code> 中，可以参考的修改如下：
+    <div class="highlight"><span class="filename">arch/riscv/kernel/proc.c</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">thread_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span><span class="w">                     </span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="mi">12</span><span class="p">];</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">sepc</span><span class="p">,</span><span class="w"> </span><span class="n">sstatus</span><span class="p">,</span><span class="w"> </span><span class="n">sscratch</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">};</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">thread_struct</span><span class="w"> </span><span class="kr">thread</span><span class="p">;</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="o">*</span><span class="n">pgd</span><span class="p">;</span><span class="w">  </span><span class="c1">// 用户态页表</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="p">};</span>
+</code></pre></div></li>
+</ul>
+<h4 id="task_init">修改 <code>task_init()</code><a class="headerlink" href="#task_init" title="Permanent link">&para;</a></h4>
+<ul>
+<li>对于每个进程，初始化我们刚刚在 <code>thread_struct</code> 中添加的三个变量，具体而言：<ul>
+<li>将 <code>sepc</code> 设置为 <code>USER_START</code></li>
+<li>配置 <code>sstatus</code> 中的 <code>SPP</code>（使得 sret 返回至 U-Mode）、<code>SUM</code>（S-Mode 可以访问 User 页面）</li>
+<li>将 <code>sscratch</code> 设置为 U-Mode 的 sp，其值为 <code>USER_END</code> （将用户态栈放置在 user space 的最后一个页面）</li>
+</ul>
+</li>
+<li>
+<p>对于每个进程，创建属于它自己的页表：</p>
+<ul>
+<li>为了避免 U-Mode 和 S-Mode 切换的时候切换页表，我们将内核页表 <code>swapper_pg_dir</code> 复制到每个进程的页表中</li>
+<li>对于每个进程，分配一块新的内存地址，将 <code>uapp</code> 二进制文件内容<strong>拷贝</strong>过去，之后再将其所在的页面映射到对应进程的页表中</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>在程序运行过程中，有部分数据不在栈上，而在初始化的过程中就已经被分配了空间（比如我们的 <code>uapp</code> 中的全局变量 <code>counter</code>）。所以，二进制文件需要先被拷贝到一块新的、供某个进程专用的内存之后再进行映射，来防止所有的进程共享数据，造成预期外的进程间相互影响。</p>
+<p>那么应该如何进行拷贝呢？很简单，先计算所需的页数（<code>uapp</code> 的大小除以 PGSIZE 后<strong>向上取整</strong>），调用 <code>alloc_pages()</code> 函数，再将 <code>uapp</code> memcpy 过去。</p>
+</div>
+</li>
+<li>
+<p>设置用户态栈，对每个用户态进程，其拥有两个栈：</p>
+<ul>
+<li>用户态栈：我们可以申请一个空的页面来作为用户态栈，并映射到进程的页表中</li>
+<li>内核态栈；在 lab3 中已经设置好了，就是 <code>thread.sp</code></li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>                PHY_START                                                                PHY_END
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>                     new allocated memory            allocated space end
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>                   │         │                                │                                                 │
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>                   ▼         ▼                                ▼                                                 ▼
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>       ┌───────────┬─────────┬────────────────────────────────┬─────────────────────────────────────────────────┐
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a> PA    │           │         │ uapp (copied from _sramdisk)   │                                                 │
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>       └───────────┴─────────┴────────────────────────────────┴─────────────────────────────────────────────────┘
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>                             ▲                                ▲
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>       ┌─────────────────────┘                                │
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>       │            (map)                                     │
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>       │                        ┌─────────────────────────────┘
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>       │                        │
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>       │                        │
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>       ├────────────────────────┼───────────────────────────────────────────────────────────────────┬────────────┐
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a> VA    │           UAPP         │                                                                   │u mode stack│
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>       └────────────────────────┴───────────────────────────────────────────────────────────────────┴────────────┘
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>       ▲                                                                                                         ▲
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>       │                                                                                                         │
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>   USER_START                                                                                                USER_END
+</code></pre></div>
+<h3 id="__switch_to">修改 <code>__switch_to</code><a class="headerlink" href="#__switch_to" title="Permanent link">&para;</a></h3>
+<p>在前面新增了 sepc、sstatus、sscratch 之后，需要将这些变量在切换进程时保存在栈上，因此需要更新 <code>__switch_to</code> 中的逻辑，同时需要增加切换页表的逻辑。在切换了页表之后，需要通过 <code>sfence.vma</code> 来刷新 TLB 和 ICache。</p>
+<div class="admonition tip">
+<p class="admonition-title">关于切换页表</p>
+<p>切换页表的逻辑分为两步，一个是写 <code>satp</code>，一个是刷新 TLB，我们用 <code>task_struct</code> 上的 <code>pgd</code> 保存了下一个用户进程的页表的虚拟地址，需要通过一些变换得到 PPN，加上 MODE 写入 <code>satp</code>。</p>
+<p>可以参考 <a href="https://zju-sec.github.io/os24fall-stu/lab3/#satp">lab3 中 satp 寄存器</a>部分。</p>
+</div>
+<h3 id="_12">更新中断处理逻辑<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>与 ARM 架构不同的是，RISC-V 中只有一个栈指针寄存器 <code>sp</code>，因此需要我们来完成用户栈与内核栈的切换。</p>
+<p>由于我们的用户态进程运行在 U-Mode 下，使用的运行栈也是用户栈，因此当触发异常时，我们首先要对栈进行切换（从用户栈切换到内核栈）。同理，当我们完成了异常处理，从 S-Mode 返回至 U-Mode 时，也需要进行栈切换（从内核栈切换到用户栈）。</p>
+<h4 id="__dummy">修改 <code>__dummy</code><a class="headerlink" href="#__dummy" title="Permanent link">&para;</a></h4>
+<p>在我们初始化线程时，<code>thread_struct.sp</code> 保存了内核态栈 sp，<code>thread_struct.sscratch</code> 保存了用户态栈 sp，因此在 <code>__dummy</code> 进入用户态模式的时候，我们需要切换这两个栈，只需要交换对应的寄存器的值即可。</p>
+<h4 id="_traps">修改 <code>_traps</code><a class="headerlink" href="#_traps" title="Permanent link">&para;</a></h4>
+<p>同理，在 <code>_traps</code> 的首尾我们都需要做类似的操作，进入 trap 的时候需要切换到内核栈，处理完成后需要再切换回来。</p>
+<p>注意如果是内核线程（没有用户栈）触发了异常，则不需要进行切换。（内核线程的 <code>sp</code> 永远指向的内核栈，且 <code>sscratch</code> 为 0）</p>
+<h4 id="trap_handler">修改 <code>trap_handler</code><a class="headerlink" href="#trap_handler" title="Permanent link">&para;</a></h4>
+<p><code>uapp</code> 使用 <code>ecall</code> 会产生 Environment Call from U-mode，而且处理系统调用的时候还需要寄存器的值，因此我们需要在 <code>trap_handler()</code> 里面进行捕获。修改 <code>trap_handler()</code> 如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">trap_handler</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">scause</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">sepc</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>在 <code>_traps</code> 中我们将寄存器的内容<strong>连续</strong>的保存在内核栈上，因此我们可以将这一段看做一个叫做 <code>pt_regs</code> 的结构体。我们可以从这个结构体中取到相应的寄存器的值（比如 <code>syscall</code> 中我们需要从 a0 ~ a7 寄存器中取到参数）。这个结构体中的值也可以按需添加，同时需要在 <code>_traps</code> 中存入对应的寄存器值以供使用，示例如下图：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>    High Addr ───►  ┌─────────────┐
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                    │   sstatus   │
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>                    │             │
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>                    │     sepc    │
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>                    │             │
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>                    │     x31     │
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>                    │             │
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>                    │      .      │
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>                    │      .      │
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>                    │      .      │
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>                    │             │
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>                    │     x1      │
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>                    │             │
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>                    │     x0      │
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a> sp (pt_regs)  ──►  ├─────────────┤
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>                    │             │
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>                    │             │
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>                    │             │
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>                    │             │
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>                    │             │
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>                    │             │
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>                    │             │
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>                    │             │
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>                    │             │
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    Low  Addr ───►  └─────────────┘
+</code></pre></div>
+<p>请同学自己补充 <code>struct pt_regs</code>的定义，以及在 <code>trap_handler</code> 中补充处理 syscall 的逻辑。</p>
+<h3 id="_13">添加系统调用<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>本次实验要求的系统调用函数原型以及具体功能如下：</p>
+<ul>
+<li>64 号系统调用 <code class="highlight"><span class="n">sys_write</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">)</span></code> 该调用将用户态传递的字符串打印到屏幕上，此处 <code>fd</code> 为标准输出即 <code>1</code>，<code>buf</code> 为用户需要打印的起始地址，<code>count</code> 为字符串长度，返回打印的字符数；</li>
+<li>172 号系统调用 <code>sys_getpid()</code> 该调用从 <code>current</code> 中获取当前的 pid 放入 a0 中返回，无参数</li>
+</ul>
+<p>同学们需要：</p>
+<ul>
+<li>增加 <code>syscall.c</code>, <code>syscall.h</code> 文件，并在其中实现 <code>getpid()</code> 以及 <code>write()</code> 逻辑</li>
+<li>系统调用的返回参数放置在 <code>a0</code> 中（不可以直接修改寄存器，应该修改 regs 中保存的内容）</li>
+<li>针对系统调用这一类异常，我们需要手动完成 <code>sepc + 4</code></li>
+</ul>
+<h3 id="_14">调整时钟中断<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>接下来我们需要修改 head.S 以及 start_kernel：</p>
+<ul>
+<li>在之前的 lab 中，在 OS boot 之后，我们需要等待一个时间片，才会进行调度，我们现在更改为 OS boot 完成之后立即调度 uapp 运行<ul>
+<li>即在 <code>start_kernel()</code> 中，<code>test()</code> 之前调用 <code>schedule()</code></li>
+</ul>
+</li>
+<li>将 <code>head.S</code> 中设置 sstatus.SIE 的逻辑注释掉，确保 schedule 过程不受中断影响</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">关于 SIE 与 SPIE</p>
+<p>这里保持 sstatus.SIE 为 0 可以在 S 态禁用中断来防止被时钟中断打断。曾经我们让大家在用户态进程初始化的时候设置 sstatus.SPIE 使得进入用户态进程后 sstatus.SIE 自动被置为 sstatus.SPIE 的值（即 1），这样在用户态进程中可以接收到时钟中断。但是 <a href="https://github.com/riscv/riscv-isa-manual/releases/download/20240411/priv-isa-asciidoc.pdf">RISC-V Privileged Spec</a> 第 3.1.6.1 节写道：</p>
+<blockquote>
+<p>When a hart is executing in privilege mode <em>x</em>, interrupts are globally enabled when <em>x</em>IE=1 and globally disabled when <em>x</em>IE=0. ... Interrupts for higher-privilege modes, <em>y</em>&gt;<em>x</em>, are always globally enabled regardless of the setting of the global <em>y</em>IE bit for the higher-privilege mode.</p>
+</blockquote>
+<p>也就是说 CPU 在用户态 <em>x</em>=U 运行的时候，不论高特权级（<em>y</em>=S）的 SIE 位是否为 1，都会全局开启高特权级的中断。所以在用户态不管 sstatus.SIE 如何设置，都会始终接收到 S 态的时钟中断，因此之前对于 sstatus.SPIE 的设置并无必要。</p>
+</div>
+<h3 id="_15">测试纯二进制文件<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>由于加入了一些新的 .c 文件，可能需要修改一些 Makefile 文件，请同学自己尝试修改，使项目可以编译并运行。</p>
+<details class="success">
+<summary>输出示例</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>...buddy_init done!
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>...mm_init done!
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>...task_init done!
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>2024 ZJU Operating System
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>SET [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>SET [PID = 3 PRIORITY = 4 COUNTER = 4]
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>SET [PID = 4 PRIORITY = 1 COUNTER = 1]
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>switch to [PID = 2 COUNTER = 10]
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>[U-MODE] pid: 2, sp is 0000003fffffffe0, this is print No.1
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>[U-MODE] pid: 2, sp is 0000003fffffffe0, this is print No.2
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>switch to [PID = 1 COUNTER = 7]
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>[U-MODE] pid: 1, sp is 0000003fffffffe0, this is print No.1
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>switch to [PID = 3 COUNTER = 4]
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>[U-MODE] pid: 3, sp is 0000003fffffffe0, this is print No.1
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>switch to [PID = 4 COUNTER = 1]
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>[U-MODE] pid: 4, sp is 0000003fffffffe0, this is print No.1
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>SET [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>SET [PID = 3 PRIORITY = 4 COUNTER = 4]
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>SET [PID = 4 PRIORITY = 1 COUNTER = 1]
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>switch to [PID = 2 COUNTER = 10]
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>[U-MODE] pid: 2, sp is 0000003fffffffe0, this is print No.3
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>switch to [PID = 1 COUNTER = 7]
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>[U-MODE] pid: 1, sp is 0000003fffffffe0, this is print No.2
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a>
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a>switch to [PID = 3 COUNTER = 4]
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a>[U-MODE] pid: 3, sp is 0000003fffffffe0, this is print No.2
+<a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a>...
+</code></pre></div>
+</details>
+<h3 id="elf_1">添加 ELF 解析与加载<a class="headerlink" href="#elf_1" title="Permanent link">&para;</a></h3>
+<h4 id="elf_2">ELF 格式<a class="headerlink" href="#elf_2" title="Permanent link">&para;</a></h4>
+<p>ELF 文件中包含了将程序加载到内存所需的信息，可以参考<a href="https://blog.csdn.net/u014358031/article/details/143691591">这个链接</a></p>
+<p>当我们通过 <code>readelf</code> 来查看一个 ELF 可执行文件的时候，我们可以读到被包含在 ELF Header 中的信息：</p>
+<details class="abstract">
+<summary><code>readelf -a -W uapp</code></summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$ readelf -a -W uapp
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>ELF Header:
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Class:                             ELF64
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Data:                              2&#39;s complement, little endian
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Version:                           1 (current)
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>OS/ABI:                            UNIX - System V
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>ABI Version:                       0
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Type:                              EXEC (Executable file)
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>Machine:                           RISC-V
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>Version:                           0x1
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>Entry point address:               0x100e8
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>Start of program headers:          64 (bytes into file)
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>Start of section headers:          6040 (bytes into file)
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>Flags:                             0x0
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>Size of this header:               64 (bytes)
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>Size of program headers:           56 (bytes)
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>Number of program headers:         3
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>Size of section headers:           64 (bytes)
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>Number of section headers:         9
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>Section header string table index: 8
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>Section Headers:
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>[Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>[ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>[ 1] .text             PROGBITS        00000000000100e8 0000e8 00106c 00  AX  0   0  4
+<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>[ 2] .rodata           PROGBITS        0000000000011158 001158 000081 00   A  0   0  8
+<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>[ 3] .bss              NOBITS          00000000000121e0 0011d9 0003f0 00  WA  0   0  8
+<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>[ 4] .comment          PROGBITS        0000000000000000 0011d9 00001f 01  MS  0   0  1
+<a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>[ 5] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0011f8 00004e 00      0   0  1
+<a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>[ 6] .symtab           SYMTAB          0000000000000000 001248 0003d8 18      7  24  8
+<a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>[ 7] .strtab           STRTAB          0000000000000000 001620 000129 00      0   0  1
+<a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>[ 8] .shstrtab         STRTAB          0000000000000000 001749 000049 00      0   0  1
+<a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>Key to Flags:
+<a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+<a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>L (link order), O (extra OS processing required), G (group), T (TLS),
+<a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>C (compressed), x (unknown), o (OS specific), E (exclude),
+<a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>D (mbind), p (processor specific)
+<a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>
+<a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>There are no section groups in this file.
+<a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>
+<a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a>Program Headers:
+<a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a>Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+<a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a>RISCV_ATTRIBUT 0x0011f8 0x0000000000000000 0x0000000000000000 0x00004e 0x000000 R   0x1
+<a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a>LOAD           0x0000e8 0x00000000000100e8 0x00000000000100e8 0x0010f1 0x0024e8 RWE 0x8
+<a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a>GNU_STACK      0x000000 0x0000000000000000 0x0000000000000000 0x000000 0x000000 RW  0x10
+<a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a>
+<a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a>Section to Segment mapping:
+<a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a>Segment Sections...
+<a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a>00     .riscv.attributes 
+<a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a>01     .text .rodata .bss 
+<a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a>02     
+<a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a>
+<a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a>There is no dynamic section in this file.
+<a id="__codelineno-11-55" name="__codelineno-11-55" href="#__codelineno-11-55"></a>
+<a id="__codelineno-11-56" name="__codelineno-11-56" href="#__codelineno-11-56"></a>There are no relocations in this file.
+<a id="__codelineno-11-57" name="__codelineno-11-57" href="#__codelineno-11-57"></a>
+<a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a>The decoding of unwind sections for machine type RISC-V is not currently supported.
+<a id="__codelineno-11-59" name="__codelineno-11-59" href="#__codelineno-11-59"></a>
+<a id="__codelineno-11-60" name="__codelineno-11-60" href="#__codelineno-11-60"></a>Symbol table &#39;.symtab&#39; contains 41 entries:
+<a id="__codelineno-11-61" name="__codelineno-11-61" href="#__codelineno-11-61"></a>Num:    Value          Size Type    Bind   Vis      Ndx Name
+<a id="__codelineno-11-62" name="__codelineno-11-62" href="#__codelineno-11-62"></a>    0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+<a id="__codelineno-11-63" name="__codelineno-11-63" href="#__codelineno-11-63"></a>    1: 00000000000100e8     0 SECTION LOCAL  DEFAULT    1 .text
+<a id="__codelineno-11-64" name="__codelineno-11-64" href="#__codelineno-11-64"></a>    2: 0000000000011158     0 SECTION LOCAL  DEFAULT    2 .rodata
+<a id="__codelineno-11-65" name="__codelineno-11-65" href="#__codelineno-11-65"></a>    3: 00000000000121e0     0 SECTION LOCAL  DEFAULT    3 .bss
+<a id="__codelineno-11-66" name="__codelineno-11-66" href="#__codelineno-11-66"></a>    4: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .comment
+<a id="__codelineno-11-67" name="__codelineno-11-67" href="#__codelineno-11-67"></a>    5: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .riscv.attributes
+<a id="__codelineno-11-68" name="__codelineno-11-68" href="#__codelineno-11-68"></a>    6: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS start.o
+<a id="__codelineno-11-69" name="__codelineno-11-69" href="#__codelineno-11-69"></a>    7: 00000000000100e8     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-70" name="__codelineno-11-70" href="#__codelineno-11-70"></a>    8: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS getpid.c
+<a id="__codelineno-11-71" name="__codelineno-11-71" href="#__codelineno-11-71"></a>    9: 00000000000100ec    52 FUNC    LOCAL  DEFAULT    1 getpid
+<a id="__codelineno-11-72" name="__codelineno-11-72" href="#__codelineno-11-72"></a>    10: 00000000000100ec     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-73" name="__codelineno-11-73" href="#__codelineno-11-73"></a>    11: 0000000000010120     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-74" name="__codelineno-11-74" href="#__codelineno-11-74"></a>    12: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS printf.c
+<a id="__codelineno-11-75" name="__codelineno-11-75" href="#__codelineno-11-75"></a>    13: 00000000000101a4     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-76" name="__codelineno-11-76" href="#__codelineno-11-76"></a>    14: 000000000001020c     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-77" name="__codelineno-11-77" href="#__codelineno-11-77"></a>    15: 000000000001026c     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-78" name="__codelineno-11-78" href="#__codelineno-11-78"></a>    16: 00000000000104d8   136 FUNC    LOCAL  DEFAULT    1 puts_wo_nl
+<a id="__codelineno-11-79" name="__codelineno-11-79" href="#__codelineno-11-79"></a>    17: 00000000000104d8     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-80" name="__codelineno-11-80" href="#__codelineno-11-80"></a>    18: 0000000000010560   776 FUNC    LOCAL  DEFAULT    1 print_dec_int
+<a id="__codelineno-11-81" name="__codelineno-11-81" href="#__codelineno-11-81"></a>    19: 0000000000010560     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-82" name="__codelineno-11-82" href="#__codelineno-11-82"></a>    20: 0000000000010868     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-83" name="__codelineno-11-83" href="#__codelineno-11-83"></a>    21: 00000000000111b0    17 OBJECT  LOCAL  DEFAULT    2 upperxdigits.1
+<a id="__codelineno-11-84" name="__codelineno-11-84" href="#__codelineno-11-84"></a>    22: 00000000000111c8    17 OBJECT  LOCAL  DEFAULT    2 lowerxdigits.0
+<a id="__codelineno-11-85" name="__codelineno-11-85" href="#__codelineno-11-85"></a>    23: 0000000000011058     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0
+<a id="__codelineno-11-86" name="__codelineno-11-86" href="#__codelineno-11-86"></a>    24: 0000000000011058   252 FUNC    GLOBAL DEFAULT    1 printf
+<a id="__codelineno-11-87" name="__codelineno-11-87" href="#__codelineno-11-87"></a>    25: 00000000000129d9     0 NOTYPE  GLOBAL DEFAULT  ABS __global_pointer$
+<a id="__codelineno-11-88" name="__codelineno-11-88" href="#__codelineno-11-88"></a>    26: 0000000000010868  2032 FUNC    GLOBAL DEFAULT    1 vprintfmt
+<a id="__codelineno-11-89" name="__codelineno-11-89" href="#__codelineno-11-89"></a>    27: 00000000000121d9     0 NOTYPE  GLOBAL DEFAULT    2 __SDATA_BEGIN__
+<a id="__codelineno-11-90" name="__codelineno-11-90" href="#__codelineno-11-90"></a>    28: 000000000001020c    96 FUNC    GLOBAL DEFAULT    1 isspace
+<a id="__codelineno-11-91" name="__codelineno-11-91" href="#__codelineno-11-91"></a>    29: 000000000001026c   620 FUNC    GLOBAL DEFAULT    1 strtol
+<a id="__codelineno-11-92" name="__codelineno-11-92" href="#__codelineno-11-92"></a>    30: 00000000000121e4     4 OBJECT  GLOBAL DEFAULT    3 tail
+<a id="__codelineno-11-93" name="__codelineno-11-93" href="#__codelineno-11-93"></a>    31: 00000000000100e8     0 NOTYPE  GLOBAL DEFAULT    1 _start
+<a id="__codelineno-11-94" name="__codelineno-11-94" href="#__codelineno-11-94"></a>    32: 00000000000121e8  1000 OBJECT  GLOBAL DEFAULT    3 buffer
+<a id="__codelineno-11-95" name="__codelineno-11-95" href="#__codelineno-11-95"></a>    33: 00000000000125d0     0 NOTYPE  GLOBAL DEFAULT    3 __BSS_END__
+<a id="__codelineno-11-96" name="__codelineno-11-96" href="#__codelineno-11-96"></a>    34: 00000000000121e0     4 OBJECT  GLOBAL DEFAULT    3 counter
+<a id="__codelineno-11-97" name="__codelineno-11-97" href="#__codelineno-11-97"></a>    35: 00000000000121d9     0 NOTYPE  GLOBAL DEFAULT    3 __bss_start
+<a id="__codelineno-11-98" name="__codelineno-11-98" href="#__codelineno-11-98"></a>    36: 0000000000010120   132 FUNC    GLOBAL DEFAULT    1 main
+<a id="__codelineno-11-99" name="__codelineno-11-99" href="#__codelineno-11-99"></a>    37: 00000000000101a4   104 FUNC    GLOBAL DEFAULT    1 putc
+<a id="__codelineno-11-100" name="__codelineno-11-100" href="#__codelineno-11-100"></a>    38: 00000000000121d9     0 NOTYPE  GLOBAL DEFAULT    2 __DATA_BEGIN__
+<a id="__codelineno-11-101" name="__codelineno-11-101" href="#__codelineno-11-101"></a>    39: 00000000000121d9     0 NOTYPE  GLOBAL DEFAULT    2 _edata
+<a id="__codelineno-11-102" name="__codelineno-11-102" href="#__codelineno-11-102"></a>    40: 00000000000125d0     0 NOTYPE  GLOBAL DEFAULT    3 _end
+<a id="__codelineno-11-103" name="__codelineno-11-103" href="#__codelineno-11-103"></a>
+<a id="__codelineno-11-104" name="__codelineno-11-104" href="#__codelineno-11-104"></a>No version information found in this file.
+<a id="__codelineno-11-105" name="__codelineno-11-105" href="#__codelineno-11-105"></a>Attribute Section: riscv
+<a id="__codelineno-11-106" name="__codelineno-11-106" href="#__codelineno-11-106"></a>File Attributes
+<a id="__codelineno-11-107" name="__codelineno-11-107" href="#__codelineno-11-107"></a>Tag_RISCV_stack_align: 16-bytes
+<a id="__codelineno-11-108" name="__codelineno-11-108" href="#__codelineno-11-108"></a>Tag_RISCV_arch: &quot;rv64i2p1_m2p0_a2p1_f2p2_d2p2_zicsr2p0_zifencei2p0_zmmul1p0&quot;
+</code></pre></div>
+</details>
+<p>其中包含了两种将程序分块的粒度，Segment 和 Section，我们以 segment 为粒度将程序加载进内存中。可以看到，给出的样例程序包含了三个 segment，这里我们只关注 Type 为 LOAD 的 segment，LOAD 表示它们需要在开始运行前被加载进内存中，这是我们在初始化进程的时候需要执行的工作。</p>
+<p>而 section 代表了更细分的语义，比如 <code>.text</code> 一般包含了程序的指令，<code>.rodata</code> 是只读的全局变量等，大家可以自行 Google 来学习更多相关内容。</p>
+<h4 id="elf_3">ELF 文件解析<a class="headerlink" href="#elf_3" title="Permanent link">&para;</a></h4>
+<p>首先我们需要将 <code>uapp.S</code> 中的 payload 给换成我们的 ELF 文件：</p>
+<p><div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">user/uapp.S</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="na">.section</span><span class="w"> </span><span class="no">.uapp</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="na">.incbin</span><span class="w"> </span><span class="s">&quot;uapp&quot;</span>
+</code></pre></div></td></tr></table></div>
+这时候从 <code>_sramdisk</code> 开始的数据就变成了名为 <code>uapp</code> 的 ELF 文件，也就是说 <code>_sramdisk</code> 处 32-bit 的数据不再是我们需要执行第一条指令了，而是 ELF Header 的开始。</p>
+<p>这时候就需要你对 <code>task_init</code> 中的初始化步骤进行修改。我们给出了 ELF 相关的结构体定义（见 <code>elf.h</code>），大家可以直接使用。你可能会使用到的结构体或者域如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">e_ident</span><span class="p">[</span><span class="n">EI_NIDENT</span><span class="p">];</span><span class="w"> </span><span class="c1">// magic number，判断是否是 Ehdr，固定为 7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_type</span><span class="p">;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_machine</span><span class="p">;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="n">Elf64_Word</span><span class="w">    </span><span class="n">e_version</span><span class="p">;</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="n">Elf64_Addr</span><span class="w">    </span><span class="n">e_entry</span><span class="p">;</span><span class="w">        </span><span class="c1">// 程序的第一条指令被存储的用户态虚拟地址</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="n">Elf64_Off</span><span class="w"> </span><span class="n">e_phoff</span><span class="p">;</span><span class="w">            </span><span class="c1">// ELF 文件包含的 Segment 数组（Phdr）相对于 Ehdr 的偏移量</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="n">Elf64_Off</span><span class="w"> </span><span class="n">e_shoff</span><span class="p">;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="n">Elf64_Word</span><span class="w">    </span><span class="n">e_flags</span><span class="p">;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_ehsize</span><span class="p">;</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_phentsize</span><span class="p">;</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_phnum</span><span class="p">;</span><span class="w">        </span><span class="c1">// ELF 文件包含的 Segment 的数量</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_shentsize</span><span class="p">;</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_shnum</span><span class="p">;</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">  </span><span class="n">Elf64_Half</span><span class="w">    </span><span class="n">e_shstrndx</span><span class="p">;</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="p">}</span><span class="w"> </span><span class="n">Elf64_Ehdr</span><span class="p">;</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">  </span><span class="n">Elf64_Word</span><span class="w">    </span><span class="n">p_type</span><span class="p">;</span><span class="w">     </span><span class="c1">// Segment 的类型</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">  </span><span class="n">Elf64_Word</span><span class="w">    </span><span class="n">p_flags</span><span class="p">;</span><span class="w">    </span><span class="c1">// Segment 的权限（包括了读、写和执行）</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">  </span><span class="n">Elf64_Off</span><span class="w"> </span><span class="n">p_offset</span><span class="p">;</span><span class="w">       </span><span class="c1">// Segment 在文件中相对于 Ehdr 的偏移量</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">  </span><span class="n">Elf64_Addr</span><span class="w">    </span><span class="n">p_vaddr</span><span class="p">;</span><span class="w">    </span><span class="c1">// Segment 起始的用户态虚拟地址</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">  </span><span class="n">Elf64_Addr</span><span class="w">    </span><span class="n">p_paddr</span><span class="p">;</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">  </span><span class="n">Elf64_Xword</span><span class="w">   </span><span class="n">p_filesz</span><span class="p">;</span><span class="w">   </span><span class="c1">// Segment 在文件中占的大小</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">  </span><span class="n">Elf64_Xword</span><span class="w">   </span><span class="n">p_memsz</span><span class="p">;</span><span class="w">    </span><span class="c1">// Segment 在内存中占的大小</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="w">  </span><span class="n">Elf64_Xword</span><span class="w">   </span><span class="n">p_align</span><span class="p">;</span>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="p">}</span><span class="w"> </span><span class="n">Elf64_Phdr</span><span class="p">;</span><span class="w">   </span><span class="c1">// 存储了程序各个 Segment 相关的 metadata</span>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="w">                </span><span class="c1">// 你可以将 _sramdisk + e_phoff 强制转化为此类型，就会指向第一个 Phdr</span>
+</code></pre></div>
+<p>我们可以按照这些信息，从 _sramdisk 开始的 ELF 文件中<strong>拷贝</strong>内容到我们开辟的内存中。</p>
+<p>其中相对文件偏移 <code>p_offset</code> 指出相应 segment 的内容从 ELF 文件的第 <code>p_offset</code> 字节开始，在文件中的大小为 <code>p_filesz</code>，它需要被分配到以 <code>p_vaddr</code> 为首地址的虚拟内存位置，在内存中它占用大小为 <code>p_memsz</code>。也就是说，这个 segment 使用的内存就是 <code>[p_vaddr, p_vaddr + p_memsz)</code> 这一连续区间，然后将 segment 的内容从ELF文件中读入到这一内存区间，并将 <code>[p_vaddr + p_filesz, p_vaddr + p_memsz)</code> 对应的物理区间清零。（本段内容引用自<a href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/3.3.html">南京大学 PA</a>）</p>
+<p>你也可以参考<a href="https://www.gabriel.urdhr.fr/2015/01/22/elf-linking/">这篇 blog</a> 中关于<strong>静态</strong>链接程序的载入过程来进行你的载入。</p>
+<p>这里有不少例子可以举，为了避免同学们在实验中花太多时间，我们告诉大家可以怎么找到实验中这些相关变量：（注意以下的 <code>_sramdisk</code> 类型使用的是 <code>char*</code>，如果你在使用其他类型，需要根据你使用的类型去调整针对指针的算数运算）</p>
+<ul>
+<li><code class="highlight"><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="n">ehdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">_sramdisk</span></code>，从地址 _sramdisk 开始，便是我们要找的 Ehdr</li>
+<li><code class="highlight"><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="n">phdrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">_sramdisk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">phoff</span><span class="p">)</span></code>，是一个 Phdr 数组，其中的每个元素都是一个 <code>Elf64_Phdr</code></li>
+<li><code class="highlight"><span class="n">phdrs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span></code> 是指向第二个 Phdr 的指针</li>
+<li><code class="highlight"><span class="n">phdrs</span><span class="o">-&gt;</span><span class="n">p_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PT_LOAD</span></code>，说明这个 Segment 的类型是 LOAD，需要在初始化时被加载进内存</li>
+</ul>
+<p>剩下的域的用法我们希望同学们通过阅读 <code>man elf</code> 命令或在网上搜索。大家可以参考以下的代码来将程序 load 进入内存。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">load_program</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="n">ehdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">_sramdisk</span><span class="p">;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="n">phdrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">_sramdisk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">e_phoff</span><span class="p">);</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">e_phnum</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">        </span><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="n">phdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phdrs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">phdr</span><span class="o">-&gt;</span><span class="n">p_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PT_LOAD</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">            </span><span class="c1">// alloc space and copy content</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">            </span><span class="c1">// do mapping</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">            </span><span class="c1">// code...</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span><span class="n">task</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">.</span><span class="n">sepc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">e_entry</span><span class="p">;</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>需要注意的是，因为虚拟内存和物理内存的映射是按页为单位的，如果 <code>e_entry</code> 并没有按页对齐的话，需要在拷贝的时候考虑 offset 的问题。</p>
+</div>
+<h2 id="_16">思考题<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<ol>
+<li>我们在实验中使用的用户态线程和内核态线程的对应关系是怎样的？（一对一，一对多，多对一还是多对多）</li>
+<li>系统调用返回为什么不能直接修改寄存器？</li>
+<li>针对系统调用，为什么要手动将 sepc + 4？</li>
+<li>为什么 Phdr 中，<code>p_filesz</code> 和 <code>p_memsz</code> 是不一样大的，它们分别表示什么？</li>
+<li>为什么多个进程的栈虚拟地址可以是相同的？用户有没有常规的方法知道自己栈所在的物理地址？</li>
+</ol>
+<h2 id="_17">实验任务与要求<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<ul>
+<li>请各位同学独立完成作业，任何抄袭行为都将使本次作业判为 0 分。</li>
+<li>在学在浙大中提交：<ul>
+<li>整个工程代码的压缩包（提交之前请使用 <code>make clean</code> 清除所有构建产物）</li>
+<li>pdf 格式的实验报告：<ul>
+<li>记录实验过程并截图（4.1-4.3），并对每一步的命令以及结果进行必要的解释；</li>
+<li>记录遇到的问题和心得体会；</li>
+<li>完成思考题。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">关于实验报告内容要求，可见：<a href="../faq/#_2">常见问题及解答 - 实验提交要求</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lab3/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 实验指导三">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                实验指导三
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab5/" class="md-footer__link md-footer__link--next" aria-label="Next: 实验指导五">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                实验指导五
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.action.edit", "navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
