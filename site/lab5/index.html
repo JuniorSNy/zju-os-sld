@@ -1,0 +1,2014 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://juniorsny.github.io/zju-os-sld/lab5/">
+      
+      
+        <link rel="prev" href="../lab4/">
+      
+      
+        <link rel="next" href="../lab6/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>实验指导五 - 浙江大学25年秋冬操作系统实验</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:500,500i,600,600i&display=fallback">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-5-rv64-fork" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-header__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            浙江大学25年秋冬操作系统实验
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验指导五
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="浙江大学25年秋冬操作系统实验" class="md-nav__button md-logo" aria-label="浙江大学25年秋冬操作系统实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    浙江大学25年秋冬操作系统实验
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JuniorSNy/zju-os-sld" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JuniorSNy/zju-os-sld
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导零
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导一
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导二
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导三
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    实验指导五
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导五
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vm_area_struct" class="md-nav__link">
+    <span class="md-ellipsis">
+      vm_area_struct 介绍
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺页异常 page fault
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="缺页异常 page fault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demand-paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Demand Paging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-page-faults" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V Page Faults
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 page fault 的方式
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork 系统调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fork 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fork-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork 在 Linux 中的实际应用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺页异常处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="缺页异常处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现虚拟内存管理功能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 task_init
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 page fault handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试缺页处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 fork 系统调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实现 fork 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      表面的准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#do_fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考 do_fork 要做什么
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      拷贝内核栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建子进程页表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理进程返回逻辑
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试 fork
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cow" class="md-nav__link">
+    <span class="md-ellipsis">
+      写时复制 COW
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验指导六
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spike 工具链使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spike 工具链使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题及解答
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    附录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景知识
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="背景知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vm_area_struct" class="md-nav__link">
+    <span class="md-ellipsis">
+      vm_area_struct 介绍
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺页异常 page fault
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="缺页异常 page fault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demand-paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Demand Paging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risc-v-page-faults" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V Page Faults
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理 page fault 的方式
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork 系统调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fork 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fork-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork 在 Linux 中的实际应用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺页异常处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="缺页异常处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现虚拟内存管理功能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改 task_init
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-fault-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 page fault handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试缺页处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现 fork 系统调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实现 fork 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      表面的准备工作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#do_fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考 do_fork 要做什么
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      拷贝内核栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建子进程页表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理进程返回逻辑
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试 fork
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cow" class="md-nav__link">
+    <span class="md-ellipsis">
+      写时复制 COW
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      思考题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验任务与要求
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/JuniorSNy/zju-os-sld/tree/main/docs/lab5.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="lab-5-rv64-fork">Lab 5: RV64 缺页异常处理与 fork 机制<a class="headerlink" href="#lab-5-rv64-fork" title="Permanent link">&para;</a></h1>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>通过 <strong>vm_area_struct</strong> 数据结构实现对进程<strong>多区域</strong>虚拟内存的管理</li>
+<li>在 Lab4 实现用户态程序的基础上，添加缺页异常处理 <strong>page fault handler</strong></li>
+<li>为进程加入 <strong>fork</strong> 机制，能够支持通过 <strong>fork</strong> 创建新的用户态进程</li>
+</ul>
+<h2 id="_2">实验环境<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Environment in previous labs</li>
+</ul>
+<h2 id="_3">背景知识<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">下面是 Linux 中对于 VMA（virtual memory area）和 page fault handler 的介绍（顺便帮大家复习下期末考）。由于 Linux 巨大的体量，无论是 VMA 还是 page fault 的逻辑都较为复杂，这里只要求大家实现简化版本的，所以不要在阅读背景介绍的时候有太大的压力。</p>
+</div>
+<h3 id="vm_area_struct">vm_area_struct 介绍<a class="headerlink" href="#vm_area_struct" title="Permanent link">&para;</a></h3>
+<p>在 Linux 系统中，<code>vm_area_struct</code> 是虚拟内存管理的基本单元，<code>vm_area_struct</code> 保存了有关连续虚拟内存区域（简称 vma）的信息。Linux 具体某一进程的虚拟内存区域映射关系可以通过 <a href="https://man7.org/linux/man-pages/man5/procfs.5.html">procfs</a> 读取 <code>/proc/&lt;pid&gt;/maps</code> 的内容来获取:</p>
+<p>比如，如下面一个常规的 <code>bash</code> 进程，假设它的 pid 为 <code>7884</code>，则通过输入如下命令，就可以查看该进程具体的虚拟地址内存映射情况（部分信息已省略）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>cat<span class="w"> </span>/proc/7884/maps
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>556f22759000-556f22786000<span class="w"> </span>r--p<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16515165</span><span class="w">                   </span>/usr/bin/bash
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>556f22786000-556f22837000<span class="w"> </span>r-xp<span class="w"> </span>0002d000<span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16515165</span><span class="w">                   </span>/usr/bin/bash
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>556f22837000-556f2286e000<span class="w"> </span>r--p<span class="w"> </span>000de000<span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16515165</span><span class="w">                   </span>/usr/bin/bash
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>556f2286e000-556f22872000<span class="w"> </span>r--p<span class="w"> </span><span class="m">00114000</span><span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16515165</span><span class="w">                   </span>/usr/bin/bash
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>556f22872000-556f2287b000<span class="w"> </span>rw-p<span class="w"> </span><span class="m">00118000</span><span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16515165</span><span class="w">                   </span>/usr/bin/bash
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>556f22fa5000-556f2312c000<span class="w"> </span>rw-p<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">00</span>:00<span class="w"> </span><span class="m">0</span><span class="w">                          </span><span class="o">[</span>heap<span class="o">]</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>7fb9edb0f000-7fb9edb12000<span class="w"> </span>r--p<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16517264</span><span class="w">                   </span>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>7fb9edb12000-7fb9edb19000<span class="w"> </span>r-xp<span class="w"> </span><span class="m">00003000</span><span class="w"> </span><span class="m">08</span>:05<span class="w"> </span><span class="m">16517264</span><span class="w">                   </span>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so<span class="w">                 </span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>...
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>7ffee5cdc000-7ffee5cfd000<span class="w"> </span>rw-p<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">00</span>:00<span class="w"> </span><span class="m">0</span><span class="w">                          </span><span class="o">[</span>stack<span class="o">]</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>7ffee5dce000-7ffee5dd1000<span class="w"> </span>r--p<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">00</span>:00<span class="w"> </span><span class="m">0</span><span class="w">                          </span><span class="o">[</span>vvar<span class="o">]</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>7ffee5dd1000-7ffee5dd2000<span class="w"> </span>r-xp<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">00</span>:00<span class="w"> </span><span class="m">0</span><span class="w">                          </span><span class="o">[</span>vdso<span class="o">]</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>ffffffffff600000-ffffffffff601000<span class="w"> </span>--xp<span class="w"> </span><span class="m">00000000</span><span class="w"> </span><span class="m">00</span>:00<span class="w"> </span><span class="m">0</span><span class="w">                  </span><span class="o">[</span>vsyscall<span class="o">]</span>
+</code></pre></div>
+<p>从中我们可以读取如下一些有关该进程内虚拟内存映射的关键信息：</p>
+<ul>
+<li><code>vm_start</code>：（第1列）该段虚拟内存区域的开始地址</li>
+<li><code>vm_end</code>：（第2列）该段虚拟内存区域的结束地址</li>
+<li><code>vm_flags</code>：（第3列）该段虚拟内存区域的一组权限 (rwx) 标志，<code>vm_flags</code> 的具体取值定义可参考 Linux 源代码的 <a href="https://elixir.bootlin.com/linux/v6.6.4/source/include/linux/mm.h#L261">linux/mm.h</a></li>
+<li><code>vm_pgoff</code>：（第4列）虚拟内存映射区域在文件内的偏移量</li>
+<li><code>vm_file</code>：（第5/6/7列）分别表示：映射文件所属设备号/以及指向关联文件结构的指针/以及文件名</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">关于虚拟内存区域</p>
+<p>注意这里记录的 <code>vm_start</code> 和 <code>vm_end</code> 都是用户态的虚拟地址，并且内核并不会将除了用户程序会用到的内存区域以外的部分添加成为 VMA。</p>
+</div>
+<p>我们注意到，一段内存中的内容可能是由磁盘中的文件映射的。如果这样的内存的 VMA 产生了缺页异常，说明文件中对应的页不在操作系统的 buffer pool 中，或者是由于 buffer pool 的调度策略被换出到磁盘上了。这时候操作系统会用驱动读取硬盘上的内容，放入 buffer pool，然后修改当前进程的页表来让其能够用原来的地址访问文件内容，而这一切对用户程序来说是完全透明的，除了访问延迟。</p>
+<p>除了跟文件建立联系以外，VMA 还可能是一块匿名（anonymous）的区域。例如被标成 <code>[stack]</code> 的这一块区域，并没有对应的文件。</p>
+<p>其它保存在 <code>vm_area_struct</code> 中的信息还有：</p>
+<ul>
+<li><code>vm_ops</code>：该 <code>vm_area</code> 中的一组工作函数，其中是一系列函数指针，可以根据需要进行定制</li>
+<li><code>vm_next/vm_prev</code>：同一进程的所有虚拟内存区域由<strong>链表结构</strong>链接起来，这是分别指向前后两个 <code>vm_area_struct</code> 结构体的指针</li>
+</ul>
+<p>可以发现，原本的 Linux 使用链表对一个进程内的 VMA 进行管理。但是由于如今一个程序可能体量非常巨大，所以现在的 Linux 已经用虚拟地址为索引来建立红黑树了。</p>
+<h3 id="page-fault">缺页异常 page fault<a class="headerlink" href="#page-fault" title="Permanent link">&para;</a></h3>
+<p>在一个启用了虚拟内存的系统上，若正在运行的程序访问当前未由内存管理单元（MMU）映射到虚拟内存的页面，或访问权限不足，则会由计算机硬件引发的缺页异常（page fault）。</p>
+<p>处理缺页异常通常是操作系统内核的一部分，当处理缺页异常时，操作系统将尝试使所需页面在物理内存中的位置变得可访问（建立新的映射关系到虚拟内存）。而如果在非法访问内存的情况下，即发现触发 page fault 的虚拟内存地址（Bad Address）不在当前进程的 <code>vm_area_struct</code> 链表中所定义的允许访问的虚拟内存地址范围内，或访问位置的权限条件不满足时，缺页异常处理将终止该程序的继续运行。</p>
+<h4 id="demand-paging">Demand Paging<a class="headerlink" href="#demand-paging" title="Permanent link">&para;</a></h4>
+<p>Demand paging 遵循的原则是，只有在执行进程需要时，才应将页面放入内存中。这样做的好处是，仅加载执行进程所需的页面，从而节省内存空间。例如，若一个页面从未被访问过，那么它就不需要被放入内存中。</p>
+<p>在 Lab4 的代码中，我们在 <code>task_init</code> 的时候创建了用户栈，<code>load_program</code> 的时候拷贝了 load segment，并通过 <code>create_mapping</code> 在页表中创建了映射。在本次实验中，我们将修改为 demand paging 的方式，也就是在初始化 task 的时候不进行任何的映射（除了内核栈以及页表以外也不需要开辟其他空间），而是在发生缺页异常的时候检测到是记录在 vma 中的合法地址后，再分配页面并进行映射。</p>
+<h4 id="risc-v-page-faults">RISC-V Page Faults<a class="headerlink" href="#risc-v-page-faults" title="Permanent link">&para;</a></h4>
+<p>在 RISC-V 中，当系统运行发生异常时，可通过解析 <code>scause</code> 寄存器的值，识别如下三种不同的 page fault：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Interrupt</th>
+<th style="text-align: center;">Exception Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">12</td>
+<td>Instruction Page Fault</td>
+</tr>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">13</td>
+<td>Load Page Fault</td>
+</tr>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">15</td>
+<td>Store/AMO Page Fault</td>
+</tr>
+</tbody>
+</table>
+<h4 id="page-fault_1">处理 page fault 的方式<a class="headerlink" href="#page-fault_1" title="Permanent link">&para;</a></h4>
+<p>处理缺页异常时可能所需的信息如下：</p>
+<ul>
+<li>触发 page fault 时访问的虚拟内存地址。当触发 page fault 时，<code>stval</code> 寄存器被被硬件自动设置为该出错的 VA 地址</li>
+<li>导致 page fault 的类型，保存在 <code>scause</code> 寄存器中<ul>
+<li>Exception Code = 12: page fault caused by an instruction fetch </li>
+<li>Exception Code = 13: page fault caused by a read  </li>
+<li>Exception Code = 15: page fault caused by a write </li>
+</ul>
+</li>
+<li>发生 page fault 时的指令执行位置，保存在 <code>sepc</code> 中</li>
+<li>当前进程合法的 VMA 映射关系，保存在 <code>vm_area_struct</code> 链表中</li>
+<li>发生异常的虚拟地址对应的 PTE (page table entry) 中记录的信息</li>
+</ul>
+<p>总的说来，处理缺页异常需要进行以下步骤：</p>
+<ul>
+<li>捕获异常</li>
+<li>寻找当前 task 中导致产生了异常的地址对应的 VMA<ul>
+<li>如果当前访问的虚拟地址在 VMA 中没有记录，即是不合法的地址，则运行出错（本实验不涉及）</li>
+<li>如果当前访问的虚拟地址在 VMA 中存在记录，则需要判断产生异常的原因：<ul>
+<li>如果是匿名区域，那么开辟一页内存，然后把这一页映射到产生异常的 task 的页表中</li>
+<li>如果不是，则访问的页是存在数据的（如代码），需要从相应位置读取出内容，然后映射到页表中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>返回到产生了该缺页异常的那条指令，并继续执行程序</li>
+</ul>
+<h3 id="fork">Fork 系统调用<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h3>
+<p>Fork 是 Linux 中的重要系统调用，它的作用是将进行了该系统调用的 task 完整地复制一份，并加入 Ready Queue。这样在下一次调度发生时，调度器就能够发现多了一个 task。从这时候开始，新的 task 就可能被正式从 Ready 调度到 Running，而开始执行了。需留意，fork 具有以下特点：</p>
+<ul>
+<li>Fork 通过复制当前进程创建一个新的进程，新进程称为子进程，而原进程称为父进程</li>
+<li>子进程和父进程在不同的内存空间上运行</li>
+<li>Fork 成功时，父进程返回子进程的 PID，子进程返回 <code>0</code>；失败时，父进程返回 <code>-1</code></li>
+<li>创建的子 task 需要深拷贝 <code>task_struct</code>，调整自己的页表、栈和 CSR 寄存器等信息，复制一份在用户态会用到的内存信息（用户态的栈、程序的代码和数据等），并且将自己伪装成是一个因为调度而加入了 Ready Queue 的普通程序来等待调度。在调度发生时，这个新 task 就像是原本就在等待调度一样，被调度器选择并调度。</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">关于 copy-on-write</p>
+<p>Linux 中使用了 copy-on-write 写时复制机制，fork 创建的子进程首先与父进程共享物理内存空间，直到父子进程有修改内存的操作发生时再为子进程分配物理内存。</p>
+<p>因为本实验其他部分工作量已经足够，不要求所有同学都实现，如果你觉得这个机制很有趣，可以在实验中完成 COW 机制，相应代码并不复杂。</p>
+</div>
+<h4 id="fork-linux">Fork 在 Linux 中的实际应用<a class="headerlink" href="#fork-linux" title="Permanent link">&para;</a></h4>
+<p>Linux 的另一个重要系统调用是 <code>exec</code>，它的作用是将进行了该系统调用的 task 换成另一个 task 。这两个系统调用一起，支撑起了 Linux 处理多任务的基础。当我们在 shell 里键入一个程序的目录时，shell（比如 zsh 或 bash）会先进行一次 fork，这时候相当于有两个 shell 正在运行。然后其中的一个 shell 根据 fork 的返回值（是否为 0），发现自己和原本的 shell 不同，再调用 exec 来把自己给换成另一个程序，这样 shell 外的程序就得以执行了。</p>
+<h2 id="_4">实验步骤<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">准备工作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">代码与调试建议</p>
+<p>由于本次实验中调试过程可能比较复杂，在实验开始前建议同学们先回顾一下前面的 lab 写过的代码，将自己写的时候可能还没来得及整理的代码梳理一下，以便后续调试。</p>
+<p>这里建议大家在本次实验中多使用 <a href="../lab2/#_16">Lab2</a> 中介绍的彩色输出，以及 <code>Log</code> 宏，方便调试。除此之外也可以自定义一个 <code>Err</code> 宏，并依靠 <code>while(1)</code> 卡住程序以便查找问题，防止因为异常未解决而反复出现 trap 导致终端刷屏：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define Err(format, ...) {                              \</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">    printk(&quot;\33[1;31m[%s,%d,%s] &quot; format &quot;\33[0m\n&quot;,    \</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">        __FILE__, __LINE__, __func__, ## __VA_ARGS__);  \</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">    while(1);                                           \</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">}</span>
+</code></pre></div>
+<p>建议大家将代码中所有出现非预期的异常（比如暂未实现的 trap 处理、暂未实现的系统调用等）都使用 <code>Err</code> 宏来输出。</p>
+</div>
+<p>此次实验基于 lab4 同学所实现的代码进行。</p>
+<ul>
+<li>从仓库同步 <code>user/main.c</code> 文件并删除原来的 <code>getpid.c</code></li>
+<li>
+<p>修改 <code>user/Makefile</code>：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">user/Makefile</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nv">TEST</span><span class="w">        </span><span class="o">=</span><span class="w"> </span>PFH1
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="nv">CFLAG</span><span class="w">       </span><span class="o">=</span><span class="w"> </span>...末尾添加<span class="w"> </span>-D<span class="k">$(</span>TEST<span class="k">)</span>
+</code></pre></div></td></tr></table></div>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">关于 user/main.c 的说明</p>
+<p>在 <code>user/main.c</code> 中我们定义了五个 <code>main</code> 函数，两个用来测试 page fault handler，三个用来测试 fork。</p>
+<ul>
+<li><code>make run</code> 默认运行 PFH1 也就是第一个 main 函数（和 lab4 的 getpid 一致）</li>
+<li><code>make run TEST=PFH2</code> 运行第二个 main 函数</li>
+<li><code>make run TEST=FORK1</code> 运行第三个 main 函数，检测单个 fork 与全局变量</li>
+<li><code>make run TEST=FORK2</code> 运行第四个 main 函数，检测单个 fork 与用户栈复制</li>
+<li><code>make run TEST=FORK3</code> 运行第五个 main 函数，检测多个 fork</li>
+</ul>
+<p>具体测试表现和预期见后文。同时 main.c 中我们通过 <code>wait</code> 函数忙等待，参数为 <code>WAIT_TIME</code> 宏定义，同学们可以自行修改这个数值来改变输出速度方便调试。为了加快实验表现，也可以修改时钟中断间隔。</p>
+</div>
+<h3 id="_6">缺页异常处理<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h4 id="_7">实现虚拟内存管理功能<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<p>每块 vma 都有自己的 flag 来定义权限以及分类（是否匿名），需要大家在适当的地方添加以下宏定义：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#define VM_ANON 0x1</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#define VM_READ 0x2</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#define VM_WRITE 0x4</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#define VM_EXEC 0x8</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">这里 R/W/X 的位置和 PTE 项的 R/W/X 位是一样的，可以简化设计。但一定注意 vma 的 flags 和 pte 的 flags 是不一样的，后面在实现的时候注意不要把 vma 的 flags 直接填到 pte 中。</p>
+</div>
+<p>接下来要添加 vma 的数据结构，我们采用链表的实现（其实并不复杂，因为只用考虑插入和遍历）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">vm_mm</span><span class="p">;</span><span class="w">    </span><span class="c1">// 所属的 mm_struct</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_start</span><span class="p">;</span><span class="w">          </span><span class="c1">// VMA 对应的用户态虚拟地址的开始</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_end</span><span class="p">;</span><span class="w">            </span><span class="c1">// VMA 对应的用户态虚拟地址的结束</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="n">vm_next</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">vm_prev</span><span class="p">;</span><span class="w">   </span><span class="c1">// 链表指针</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_flags</span><span class="p">;</span><span class="w">          </span><span class="c1">// VMA 对应的 flags</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// struct file *vm_file;    // 对应的文件（目前还没实现，而且我们只有一个 uapp 所以暂不需要）</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_pgoff</span><span class="p">;</span><span class="w">          </span><span class="c1">// 如果对应了一个文件，那么这块 VMA 起始地址对应的文件内容相对文件起始位置的偏移量</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_filesz</span><span class="p">;</span><span class="w">         </span><span class="c1">// 对应的文件内容的长度</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">};</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mmap</span><span class="p">;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">};</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">    </span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span><span class="w">    </span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">thread_struct</span><span class="w"> </span><span class="kr">thread</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="o">*</span><span class="n">pgd</span><span class="p">;</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="n">mm</span><span class="p">;</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="p">};</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">关于 <code>vm_pgoff</code> 和 <code>vm_filesz</code></p>
+<p>这两个变量需要记录在这里是因为我们在 <code>load_program</code> 里加载 ELF 时做的 memcpy 等一系列操作都要后移到发生缺页的时候再处理，所以需要记录这些值。<code>vm_pgoff</code> 即代表原来的 <code>phdr-&gt;p_offset</code>，<code>vm_filesz</code> 代表原来的 <code>phdr-&gt;p_filesz</code>，而原来的 <code>phdr-&gt;p_memsz</code> 则由 <code>vm_end - vm_start</code> 来表示（其中 <code>vm_start</code> 是 <code>phdr-&gt;p_vaddr</code>）。</p>
+<p>这样我们需要的信息就都可以通过 <code>vm_area_struct</code> 来获取了。同时同学们也要注意 <code>vm_filesz</code> 和 <code>vm_end - vm_start</code> 的区别。</p>
+</div>
+<p>每一个 <code>vm_area_struct</code> 都对应于 task 地址空间的唯一<strong>连续</strong>区间。</p>
+<p>为了支持 demand paging，我们需要支持对 <code>vm_area_struct</code> 的添加和查找：</p>
+<ul>
+<li><code>find_vma</code> 函数：实现对 <code>vm_area_struct</code> 的查找<ul>
+<li>根据传入的地址 <code>addr</code>，遍历链表 <code>mm</code> 包含的 VMA 链表，找到该地址所在的 <code>vm_area_struct</code></li>
+<li>如果链表中所有的 <code>vm_area_struct</code> 都不包含该地址，则返回 <code>NULL</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cm">/*</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cm">* @mm       : current thread&#39;s mm_struct</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cm">* @addr     : the va to look up</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="cm">*</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="cm">* @return   : the VMA if found or NULL if not found</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="cm">*/</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="n">find_vma</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div></li>
+</ul>
+</li>
+<li><code>do_mmap</code> 函数：实现 <code>vm_area_struct</code> 的添加<ul>
+<li>新建 <code>vm_area_struct</code> 结构体，根据传入的参数对结构体赋值，并添加到 <code>mm</code> 指向的 VMA 链表中
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cm">/*</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cm">* @mm       : current thread&#39;s mm_struct</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="cm">* @addr     : the va to map</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="cm">* @len      : memory size to map</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="cm">* @vm_pgoff : phdr-&gt;p_offset</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="cm">* @vm_filesz: phdr-&gt;p_filesz</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="cm">* @flags    : flags for the new VMA</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="cm">*</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="cm">* @return   : start va</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="cm">*/</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">do_mmap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_pgoff</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">vm_filesz</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h4 id="task_init">修改 task_init<a class="headerlink" href="#task_init" title="Permanent link">&para;</a></h4>
+<p>接下来我们要修改 <code>task_init</code> 来实现 demand paging。</p>
+<p>Linux 在 page fault handler 中需要考虑多种情况。我们的实验经过简化，只需要根据 <code>vm_area_struct</code> 中的 <code>vm_flags</code> 来确定当前发生了什么样的错误，并且需要如何处理。在初始化一个 task 时我们既不分配内存，又不更改页表项来建立映射。回退到用户态进行程序执行的时候就会因为没有映射而发生 page fault，进入我们的 page fault handler 后，我们再分配空间（按需要拷贝内容）进行映射。</p>
+<p>例如，我们原本要为用户态虚拟地址映射一个页，需要进行如下操作：</p>
+<ol>
+<li>使用 <code>kalloc</code> 或者 <code>alloc_page</code> 分配一个页的空间</li>
+<li>对这个页中的数据进行填充</li>
+<li>将这个页映射到用户空间，供用户程序访问。并设置好对应的 U, W, X, R 权限，最后将 V 置为 1，代表其有效。</li>
+</ol>
+<p>而为了减少 task 初始化时的开销，我们这样对一个 <strong>Segment</strong> 或者<strong>用户态的栈</strong>建立映射的操作只需改成分别建立一个 VMA 即可，具体的分配空间、填充数据的操作等后面再来完成。</p>
+<p>所以我们需要修改 <code>task_init</code> 函数代码，更改为 demand paging：</p>
+<ul>
+<li>删除（注释）掉之前实验中对用户栈、代码 load segment 的映射操作（alloc 和 create_mapping）</li>
+<li>调用 <code>do_mmap</code> 函数，建立用户 task 的虚拟地址空间信息，在本次实验中仅包括两个区域:<ul>
+<li>代码和数据区域：该区域从 ELF 给出的 Segment 起始用户态虚拟地址 <code>phdr-&gt;p_vaddr</code> 开始，对应文件中偏移量为 <code>phdr-&gt;p_offset</code> 开始的部分</li>
+<li>用户栈：范围为 <code>[USER_END - PGSIZE, USER_END)</code>，权限为 <code>VM_READ | VM_WRITE</code>，并且是匿名的区域（<code>VM_ANON</code>）</li>
+</ul>
+</li>
+</ul>
+<p>在完成上述修改之后，如果运行代码我们就可以截获一个 page fault，如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>[trap.c,129,trap_handler] [S] Unhandled Exception: scause=12, sepc=0x100e8, stval=0x100e8
+</code></pre></div>
+<p>可以看到，发生了缺页异常的 <code>sepc</code> 是 <code>0x100e8</code>，说明我们在 <code>sret</code> 来执行用户态程序的时候，第一条指令就因为 <code>V-bit</code> 为 0 表征其映射的地址无效而发生了异常，并且发生的异常是 12 号 Insturction Page Fault。</p>
+<h4 id="page-fault-handler">实现 page fault handler<a class="headerlink" href="#page-fault-handler" title="Permanent link">&para;</a></h4>
+<p>接下来我们需要修改 <code>trap.c</code>，为 <code>trap_handler</code> 添加捕获 page fault 的逻辑，分别需要捕获 12, 13, 15 号异常。</p>
+<p>当捕获了 page fault 之后，需要实现缺页异常的处理函数 <code>do_page_fault</code>，它可以同时处理三种不同的 page fault。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_page_fault</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="cp">#error Unimplemented</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>函数的具体逻辑为：</p>
+<ol>
+<li>通过 <code>stval</code> 获得访问出错的虚拟内存地址（Bad Address）</li>
+<li>通过 <code>find_vma()</code> 查找 bad address 是否在某个 vma 中<ul>
+<li>如果不在，则出现非预期错误，可以通过 <code>Err</code> 宏输出错误信息</li>
+<li>如果在，则根据 vma 的 flags 权限判断当前 page fault 是否合法<ul>
+<li>如果非法（比如触发的是 instruction page fault 但 vma 权限不允许执行），则 <code>Err</code> 输出错误信息</li>
+<li>其他情况合法，需要我们按接下来的流程创建映射</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分配一个页，接下来要将这个页映射到对应的用户地址空间</li>
+<li>通过 <code>(vma-&gt;vm_flags &amp; VM_ANON)</code> 获得当前的 VMA 是否是匿名空间<ul>
+<li>如果是匿名空间，则直接映射即可</li>
+<li>如果不是，则需要根据 <code>vma-&gt;vm_pgoff</code> 等信息从 ELF 中读取数据，填充后映射到用户空间</li>
+</ul>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">需要注意 bad address 并不一定是页对齐的，但在映射的时候 pa va 需要是页对齐的，要善用 <code>PGROUNDUP</code> 和 <code>PGROUNDDOWN</code> 宏。</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">因为我们从 <code>load_program</code> 一次性拷贝空间变成了一次只拷贝一页，所以同学们需要仔细区分填充页数据的情况，必要的时候画个图会有很大帮助。</p>
+</div>
+<h4 id="_8">测试缺页处理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>正确完成上述的修改后，应该就可以正常运行 <code>PFH1</code> 和 <code>PFH2</code> 两个测试了，这里给大家一些输出示例供参考：</p>
+<details class="success">
+<summary><code>make run TEST=PFH1</code></summary>
+<p>可以看到直到 <code>task_init</code> 完成，都只有 <code>setup_vm_final</code> 的时候创建了映射，用户态进程的拷贝和映射都在调度之后遇到 page fault 才触发，并且只有第一次触发了：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>...buddy_init done!
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>...mm_init done!
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80200000, 80204000) -&gt; [ffffffe000200000, ffffffe000204000), perm: cb
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80204000, 80205000) -&gt; [ffffffe000204000, ffffffe000205000), perm: c3
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80205000, 88000000) -&gt; [ffffffe000205000, ffffffe008000000), perm: c7
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>...task_init done!
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>2024 ZJU Operating System
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>SET [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>SET [PID = 3 PRIORITY = 4 COUNTER = 4]
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>SET [PID = 4 PRIORITY = 1 COUNTER = 1]
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>switch to [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>[vm.c,52,create_mapping] root: ffffffe0002d2000, [802dd000, 802de000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x10178] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>[vm.c,52,create_mapping] root: ffffffe0002d2000, [802e0000, 802e1000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x10198] valid page fault at `0x12230` with cause 13
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>[vm.c,52,create_mapping] root: ffffffe0002d2000, [802e3000, 802e4000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x110ac] valid page fault at `0x110ac` with cause 12
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>[vm.c,52,create_mapping] root: ffffffe0002d2000, [802e4000, 802e5000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>[U-MODE] pid: 2, sp is 0x3fffffffe0, this is print No.1
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>[U-MODE] pid: 2, sp is 0x3fffffffe0, this is print No.2
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>[U-MODE] pid: 2, sp is 0x3fffffffe0, this is print No.3
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802e5000, 802e6000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x10178] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802e8000, 802e9000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x10198] valid page fault at `0x12230` with cause 13
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802eb000, 802ec000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x110ac] valid page fault at `0x110ac` with cause 12
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802ec000, 802ed000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>[U-MODE] pid: 1, sp is 0x3fffffffe0, this is print No.1
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>[U-MODE] pid: 1, sp is 0x3fffffffe0, this is print No.2
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>switch to [PID = 3 PRIORITY = 4 COUNTER = 4]
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>[trap.c,59,do_page_fault] [PID = 3 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>[vm.c,52,create_mapping] root: ffffffe0002d6000, [802ed000, 802ee000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>[trap.c,59,do_page_fault] [PID = 3 PC = 0x10178] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>[vm.c,52,create_mapping] root: ffffffe0002d6000, [802f0000, 802f1000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>[trap.c,59,do_page_fault] [PID = 3 PC = 0x10198] valid page fault at `0x12230` with cause 13
+<a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>[vm.c,52,create_mapping] root: ffffffe0002d6000, [802f3000, 802f4000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a>[trap.c,59,do_page_fault] [PID = 3 PC = 0x110ac] valid page fault at `0x110ac` with cause 12
+<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>[vm.c,52,create_mapping] root: ffffffe0002d6000, [802f4000, 802f5000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>[U-MODE] pid: 3, sp is 0x3fffffffe0, this is print No.1
+<a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a>
+<a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>switch to [PID = 4 PRIORITY = 1 COUNTER = 1]
+<a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a>[trap.c,59,do_page_fault] [PID = 4 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>[vm.c,52,create_mapping] root: ffffffe0002da000, [802f5000, 802f6000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>[trap.c,59,do_page_fault] [PID = 4 PC = 0x10178] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>[vm.c,52,create_mapping] root: ffffffe0002da000, [802f8000, 802f9000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>[trap.c,59,do_page_fault] [PID = 4 PC = 0x10198] valid page fault at `0x12230` with cause 13
+<a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a>[vm.c,52,create_mapping] root: ffffffe0002da000, [802fb000, 802fc000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a>[trap.c,59,do_page_fault] [PID = 4 PC = 0x110ac] valid page fault at `0x110ac` with cause 12
+<a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a>[vm.c,52,create_mapping] root: ffffffe0002da000, [802fc000, 802fd000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a>[U-MODE] pid: 4, sp is 0x3fffffffe0, this is print No.1
+<a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a>
+<a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a>SET [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a>SET [PID = 3 PRIORITY = 4 COUNTER = 4]
+<a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a>SET [PID = 4 PRIORITY = 1 COUNTER = 1]
+<a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a>
+<a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a>switch to [PID = 2 PRIORITY = 10 COUNTER = 10]
+<a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a>[U-MODE] pid: 2, sp is 0x3fffffffe0, this is print No.4
+<a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a>[U-MODE] pid: 2, sp is 0x3fffffffe0, this is print No.5
+</code></pre></div>
+</details>
+<p><code>make run TEST=PFH2</code> 的效果与前面类似，只不过它通过全局变量空出了一整页大小的未使用 <code>.data</code> 区域，这段区域在运行的时候也不会触发 page fault，所以在 log 中应该可以发现 <code>create_mapping</code> 映射的虚拟地址空间会缺少一页。</p>
+<div class="admonition note">
+<p class="admonition-title">和之前的实验一样，这里的输出只要能确定是正确的就可以，具体每个进程打印几次、log 输出了什么都不重要</p>
+</div>
+<h3 id="fork_1">实现 fork 系统调用<a class="headerlink" href="#fork_1" title="Permanent link">&para;</a></h3>
+<h4 id="_9">表面的准备工作<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>在实现较为复杂的 fork 流程之前，我们先将框架搭好，具体要做的有以下两件事：</p>
+<ul>
+<li>
+<p>修改 proc 相关代码，使其只初始化一个进程，其他进程保留为 NULL 等待 fork 创建</p>
+<div class="admonition tip">
+<p class="admonition-title">如何实现？</p>
+<p>因为我们的实验中不考虑进程的结束或者因为异常导致的退出，所以可以只考虑增加进程不考虑删除进程。这样的话我们保留原来的 <code>tasks</code> 数组就可以了。</p>
+<p><code>NR_TASKS</code> 表示最多可容纳的进程数（为了完成 FORK3 测试，它至少是 <code>1+8</code>），然后生成一个 <code>tasks[NR_TASKS]</code> 数组。最后添加一个 <code>nr_tasks</code> 变量来记录当前进程数，并作为 <code>tasks</code> 的栈顶指针来使用，这样 <code>tasks</code> 就是一个只考虑压栈操作的栈结构了。</p>
+<p>剩下的更改就是把 <code>task_init</code> <code>schedule</code> 等用到 <code>NR_TASKS</code> 表示进程个数的地方改成 <code>nr_tasks</code> 就好了。</p>
+</div>
+</li>
+<li>
+<p>添加系统调用处理</p>
+<div class="admonition tip">
+<p class="admonition-title">如何实现？</p>
+<p>Fork 在 Linux 中的系统调用是 <code>SYS_CLONE</code>，其调用号为 220，所以需要在合适的位置加上 <code class="highlight"><span class="cp">#define SYS_CLONE 220</span></code>（包括 <code>user/</code> 下的 <code>syscall.h</code>）。</p>
+<p>然后在系统调用的处理函数中，检测到 <code>regs-&gt;a7 == SYS_CLONE</code> 时，调用 <code>do_fork</code> 函数来完成 fork 的工作。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">do_fork</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">);</span>
+</code></pre></div>
+<p>这个 <code>do_fork</code> 函数就是我们最后剩下的重点了。</p>
+</div>
+</li>
+</ul>
+<h4 id="do_fork">思考 do_fork 要做什么<a class="headerlink" href="#do_fork" title="Permanent link">&para;</a></h4>
+<p>在了解了 fork 的原理之后，我们可以梳理一下 fork 的工作：</p>
+<ul>
+<li>创建一个新进程：<ul>
+<li>拷贝内核栈（包括了 <code>task_struct</code> 等信息）</li>
+<li>创建一个新的页表<ul>
+<li>拷贝内核页表 <code>swapper_pg_dir</code></li>
+<li>遍历父进程 vma，并遍历父进程页表<ul>
+<li>将这个 vma 也添加到新进程的 vma 链表中</li>
+<li>如果该 vma 项有对应的页表项存在（说明已经创建了映射），则需要深拷贝一整页的内容并映射到新页表中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>将新进程加入调度队列</li>
+<li>处理父子进程的返回值<ul>
+<li>父进程通过 <code>do_fork</code> 函数直接返回子进程的 pid，并回到自身运行</li>
+<li>子进程通过被调度器调度后（跳到 <code>thread.ra</code>），开始执行并返回 0</li>
+</ul>
+</li>
+</ul>
+<h4 id="_10">拷贝内核栈<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<p>因为内核栈和 <code>task_struct</code> 在同一个页的高低地址上，所以我们直接 <code>memcpy</code> 深拷贝这个页就可以得到我们需要的所有信息了。</p>
+<p>但除此之外还要略微修改 <code>task_struct</code> 内容，假设新的一页为指针 <code>_task</code>，则需要修改：</p>
+<ul>
+<li><code>_task-&gt;pid</code> 根据 <code>nr_tasks</code> 来赋值</li>
+<li><code>_task-&gt;thread.ra/sp/sscratch</code> 根据后面的指导赋值</li>
+<li><code>_task-&gt;pgd</code> 为新分配的页表地址</li>
+<li><code>_task-&gt;mm.mmap</code> 为 <code>NULL</code>，因为新进程还没有任何映射</li>
+</ul>
+<h4 id="_11">创建子进程页表<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<p>根据前面所说，流程为：</p>
+<ul>
+<li>拷贝内核页表 <code>swapper_pg_dir</code></li>
+<li>遍历父进程 vma，并遍历父进程页表<ul>
+<li>将这个 vma 也添加到新进程的 vma 链表中</li>
+<li>如果该 vma 项有对应的页表项存在（说明已经创建了映射），则需要深拷贝一整页的内容并映射到新页表中</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">编写提示</p>
+<p>这里需要根据 vma 一大片区域里面每一页的虚拟地址寻找其对应的物理地址（通过遍历页表），如果找不到（PTE V 为 0）则不需要拷贝，如果找到则需要拷贝一整页的内容。</p>
+<p>同时需要注意，在内核态拷贝内容也需要使用虚拟地址（因为内核态在 S 模式，只有 M 模式可以直接访问物理地址，内核态访问物理地址会触发 page fault）。但我们的实现中内核态的物理地址和虚拟地址是只差了 <code>PA2VA_OFFSET</code> 的，可以依此来简化实现。</p>
+</div>
+<h4 id="_12">处理进程返回逻辑<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p>父进程的返回逻辑非常简单，直接为 <code>do_fork</code> 函数返回子进程的 pid 即可。麻烦的是子进程开始执行的逻辑，也是这部分的重点和最后一部分。</p>
+<p>父进程的返回路径为：<code>do_fork</code> -&gt; <code>do_syscall</code> -&gt; <code>trap_handler</code> -&gt; <code>_traps</code> -&gt; 用户程序；而子进程要通过被调度了才能开始执行：<code>schedule</code> -&gt; <code>switch_to</code> -&gt; <code>__switch_to</code> -&gt; "<code>thread.ra</code>" -&gt; 用户程序。</p>
+<p>那么很显然，我们要返回到的 <code>thread.ra</code> 这个位置的作用和 <code>_traps</code> 应该是类似的。再仔细想想，子进程既然是父进程状态的复制，那么对于子进程而言，它是不是也像父进程从 <code>trap_handler</code> 中返回一样，认为自己是刚执行完一个系统调用呢？</p>
+<p>这样的话，需要进行的工作就比较显然了。利用 <code>__switch_to</code> 时恢复的 ra 与 sp，我们可以直接跳转到 _traps 中从 trap_handler 返回的位置，只需要加一个标号：</p>
+<div class="highlight"><span class="filename">arch/riscv/kernel/entry.S</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nl">_traps:</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="na">...</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nf">jal</span><span class="w"> </span><span class="no">trap_handler</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">__ret_from_fork</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nl">__ret_from_fork:</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="na">...</span>
+</code></pre></div>
+<p>这样我们的 <code>_task-&gt;thread.ra</code> 就很显然是 <code>__ret_from_fork</code> 的地址了。</p>
+<p>剩下的就是处理几个乱七八糟的 sp 问题了，它们分别是：</p>
+<ul>
+<li><code>_task-&gt;thread.sp</code></li>
+<li><code>_task-&gt;thread.sscratch</code></li>
+<li>当前的 <code>sscratch</code> 寄存器值</li>
+<li>子进程和父进程 <code>pt_regs</code> 中的 <code>regs-&gt;sp</code></li>
+</ul>
+<p>首先要肯定的是子进程和父进程的 <code>pt_regs</code> 肯定是不一样的了（整个内核页都发生了拷贝），在 <code>do_fork</code> 函数中参数的 <code>regs</code> 是父进程的，而子进程的 <code>regs</code> 则需要大家自己计算出来。</p>
+<p>这几个 sp 之所以“混乱”的原因是在进入 <code>_traps</code> 和退出 <code>_traps</code> 时，会发生内核栈和用户栈的切换，需要同学们自己分析并进行设置：</p>
+<ul>
+<li>在 <code>do_fork</code> 中，父进程的内核栈和用户栈指针分别是什么</li>
+<li>在 <code>do_fork</code> 中，子进程的内核栈和用户栈指针的值应该是什么</li>
+<li>在 <code>do_fork</code> 中，子进程的内核栈和用户栈指针分别应该赋值给谁</li>
+</ul>
+<p>思考之后就可以完成对子进程 <code>_task-&gt;thread.sp/sscratch</code> 以及子进程 <code>pt_regs</code> 的 <code>sp</code> 的设置了。</p>
+<p>最后就是为子进程 <code>pt_regs</code> 的 <code>a0</code> 设置返回值 0，为 <code>sepc</code> 手动加四。</p>
+<h4 id="fork_2">测试 fork<a class="headerlink" href="#fork_2" title="Permanent link">&para;</a></h4>
+<p>至此，正确实现的话就可以正常运行全部的测试了，接下来给出三个用于 fork 的测试的示例输出和测试目的：</p>
+<details class="success">
+<summary><code>make run TEST=FORK1</code></summary>
+<p>可以看到 PID 1 在 fork 出 PID 2 时将现有 <code>create_mapping</code> 过的两个页拷贝并在子进程的页表中创建了映射，然后调度后 PID 2 开始运行，而且 <code>global_variable</code> 的值互不影响，后续 page fault 也是各自为自己的页表添加映射。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>...buddy_init done!
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>...mm_init done!
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80200000, 80204000) -&gt; [ffffffe000200000, ffffffe000204000), perm: cb
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80204000, 80205000) -&gt; [ffffffe000204000, ffffffe000205000), perm: c3
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80205000, 88000000) -&gt; [ffffffe000205000, ffffffe008000000), perm: c7
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>...task_init done!
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>2024 ZJU Operating System
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d1000, 802d2000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x101ac] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d4000, 802d5000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>[vm.c,52,create_mapping] root: ffffffe0002d8000, [802da000, 802db000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>[vm.c,52,create_mapping] root: ffffffe0002d8000, [802de000, 802df000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>[PID = 2] forked from [PID = 1]
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x10228] valid page fault at `0x122d0` with cause 13
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802e1000, 802e2000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x11114] valid page fault at `0x11114` with cause 12
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802e2000, 802e3000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>[U-PARENT] pid: 1 is running! global_variable: 0
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>[U-PARENT] pid: 1 is running! global_variable: 1
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>switch to [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x101e0] valid page fault at `0x122d0` with cause 13
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>[vm.c,52,create_mapping] root: ffffffe0002d8000, [802e3000, 802e4000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>[trap.c,59,do_page_fault] [PID = 2 PC = 0x11114] valid page fault at `0x11114` with cause 12
+<a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>[vm.c,52,create_mapping] root: ffffffe0002d8000, [802e4000, 802e5000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>[U-CHILD] pid: 2 is running! global_variable: 0
+<a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>[U-CHILD] pid: 2 is running! global_variable: 1
+<a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>
+<a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>SET [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>
+<a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>[U-PARENT] pid: 1 is running! global_variable: 2
+<a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>
+<a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a>switch to [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>[U-CHILD] pid: 2 is running! global_variable: 2
+<a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>[U-CHILD] pid: 2 is running! global_variable: 3
+<a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>
+<a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a>SET [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a>
+<a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a>[U-PARENT] pid: 1 is running! global_variable: 3
+</code></pre></div>
+</details>
+<details class="success">
+<summary><code>make run TEST=FORK2</code></summary>
+<p>本测试的主要输出现象为，父进程在给 <code>global_variable</code> 自增了三次，为 <code>placeholder</code> 中赋值了字符串之后才 fork 出子进程，子进程应该要通过深拷贝页表来保留这些信息。PID 2 开始运行时也应该正确输出 <code>ZJU OS Lab5</code> 字符串，并且 <code>global_variable</code> 从 3 开始自增，且后续和父进程互不影响。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>...buddy_init done!
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>...mm_init done!
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80200000, 80204000) -&gt; [ffffffe000200000, ffffffe000204000), perm: cb
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80204000, 80205000) -&gt; [ffffffe000204000, ffffffe000205000), perm: c3
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>[vm.c,52,create_mapping] root: ffffffe00020b000, [80205000, 88000000) -&gt; [ffffffe000205000, ffffffe008000000), perm: c7
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>...task_init done!
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>2024 ZJU Operating System
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x100e8] valid page fault at `0x100e8` with cause 12
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d1000, 802d2000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x101ac] valid page fault at `0x3ffffffff8` with cause 15
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d4000, 802d5000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x101d0] valid page fault at `0x12518` with cause 13
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d7000, 802d8000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x112cc] valid page fault at `0x112cc` with cause 12
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d8000, 802d9000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x10434] valid page fault at `0x14520` with cause 13
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802d9000, 802da000) -&gt; [14000, 15000), perm: df
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>[U] pid: 1 is running! global_variable: 0
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>[U] pid: 1 is running! global_variable: 1
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>[U] pid: 1 is running! global_variable: 2
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>[trap.c,59,do_page_fault] [PID = 1 PC = 0x10228] valid page fault at `0x13520` with cause 15
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>[vm.c,52,create_mapping] root: ffffffe0002ce000, [802da000, 802db000) -&gt; [13000, 14000), perm: df
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802de000, 802df000) -&gt; [10000, 11000), perm: df
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802e1000, 802e2000) -&gt; [11000, 12000), perm: df
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802e2000, 802e3000) -&gt; [12000, 13000), perm: df
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802e3000, 802e4000) -&gt; [13000, 14000), perm: df
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802e4000, 802e5000) -&gt; [14000, 15000), perm: df
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>[vm.c,52,create_mapping] root: ffffffe0002dc000, [802e6000, 802e7000) -&gt; [3ffffff000, 4000000000), perm: d7
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>[PID = 2] forked from [PID = 1]
+<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>
+<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>[U-PARENT] pid: 1 is running! Message: ZJU OS Lab5
+<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>[U-PARENT] pid: 1 is running! global_variable: 3
+<a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>[U-PARENT] pid: 1 is running! global_variable: 4
+<a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a>
+<a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>switch to [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>[U-CHILD] pid: 2 is running! Message: ZJU OS Lab5
+<a id="__codelineno-13-42" name="__codelineno-13-42" href="#__codelineno-13-42"></a>[U-CHILD] pid: 2 is running! global_variable: 3
+<a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a>[U-CHILD] pid: 2 is running! global_variable: 4
+<a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a>
+<a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a>SET [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>SET [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a>
+<a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a>switch to [PID = 1 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a>[U-PARENT] pid: 1 is running! global_variable: 5
+<a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>
+<a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a>switch to [PID = 2 PRIORITY = 7 COUNTER = 7]
+<a id="__codelineno-13-52" name="__codelineno-13-52" href="#__codelineno-13-52"></a>[U-CHILD] pid: 2 is running! global_variable: 5
+</code></pre></div>
+</details>
+<div class="admonition question">
+<p class="admonition-title"><code>make run TEST=FORK3</code></p>
+<p>FORK3 的代码中有三个 <code>fork</code>，预期输出并不在这里呈现，需要你自己通过分析代码的预期结果来判断输出是否正确。同一个程序里多个 <code>fork</code> 也是在考试中较常见的题目，希望同学们可以通过本次实验以及分析这个测试更好掌握 fork 的原理。</p>
+</div>
+<h4 id="cow">写时复制 COW<a class="headerlink" href="#cow" title="Permanent link">&para;</a></h4>
+<div class="admonition abstract">
+<p class="admonition-title">此部分不要求完成，感兴趣的同学可以自行实现，完成本部分可以免写前四道思考题</p>
+</div>
+<p>COW 的核心是，再将 <code>do_fork</code> 中分配页面、拷贝内容的操作后移，移动到出现写操作的时候再进行拷贝，这样如果是只读的页面就可以在父子进程之间共享，免去拷贝的开销。</p>
+<p>因为要共享页面，所以我们要稍微更改 <code>mm.c</code> 中的 buddy system，为每个页添加一个引用计数 refcnt：</p>
+<details class="info">
+<summary>mm.h mm.c 的具体修改</summary>
+<div class="highlight"><span class="filename">arch/riscv/include/mm.h</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">buddy</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="o">*</span><span class="n">bitmap</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="o">*</span><span class="n">ref_cnt</span><span class="p">;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">};</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">get_page</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w">          </span><span class="c1">// 增加计数</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">put_page</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w">              </span><span class="c1">// 减少计数</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">get_page_refcnt</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w">   </span><span class="c1">// 获取计数</span>
+</code></pre></div>
+<div class="highlight"><span class="filename">arch/riscv/kernel/mm.c</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">buddy_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">bitmap</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">buddy</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">buddy</span><span class="p">.</span><span class="n">bitmap</span><span class="p">));</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_page_start</span><span class="p">;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="n">free_page_start</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">buddy</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">);</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">buddy</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">));</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="p">}</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="kt">void</span><span class="w"> </span><span class="nf">page_ref_inc</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="p">}</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">page_ref_dec</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">        </span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">        </span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;free page: %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">PFN2PHYS</span><span class="p">(</span><span class="n">pfn</span><span class="p">));</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">        </span><span class="n">buddy_free</span><span class="p">(</span><span class="n">pfn</span><span class="p">);</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="p">}</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">buddy_free</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">    </span><span class="c1">// if ref_cnt is not zero, do nothing</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="p">}</span>
+<a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>
+<a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">buddy_alloc</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">nrpages</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="w">    </span><span class="n">buddy</span><span class="p">.</span><span class="n">bitmap</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="w">    </span><span class="n">pfn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">node_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">buddy</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+<a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="w">    </span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="p">}</span>
+<a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a>
+<a id="__codelineno-15-41" name="__codelineno-15-41" href="#__codelineno-15-41"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">get_page</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">va</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PHYS2PFN</span><span class="p">(</span><span class="n">VA2PA</span><span class="p">((</span><span class="kt">uint64_t</span><span class="p">)</span><span class="n">va</span><span class="p">));</span>
+<a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a><span class="w">    </span><span class="c1">// check if the page is already allocated</span>
+<a id="__codelineno-15-44" name="__codelineno-15-44" href="#__codelineno-15-44"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-45" name="__codelineno-15-45" href="#__codelineno-15-45"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-15-46" name="__codelineno-15-46" href="#__codelineno-15-46"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a><span class="w">    </span><span class="n">page_ref_inc</span><span class="p">(</span><span class="n">pfn</span><span class="p">);</span>
+<a id="__codelineno-15-48" name="__codelineno-15-48" href="#__codelineno-15-48"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-15-49" name="__codelineno-15-49" href="#__codelineno-15-49"></a><span class="p">}</span>
+<a id="__codelineno-15-50" name="__codelineno-15-50" href="#__codelineno-15-50"></a>
+<a id="__codelineno-15-51" name="__codelineno-15-51" href="#__codelineno-15-51"></a><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">get_page_refcnt</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">va</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PHYS2PFN</span><span class="p">(</span><span class="n">VA2PA</span><span class="p">((</span><span class="kt">uint64_t</span><span class="p">)</span><span class="n">va</span><span class="p">));</span>
+<a id="__codelineno-15-53" name="__codelineno-15-53" href="#__codelineno-15-53"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">buddy</span><span class="p">.</span><span class="n">ref_cnt</span><span class="p">[</span><span class="n">pfn</span><span class="p">];</span>
+<a id="__codelineno-15-54" name="__codelineno-15-54" href="#__codelineno-15-54"></a><span class="p">}</span>
+<a id="__codelineno-15-55" name="__codelineno-15-55" href="#__codelineno-15-55"></a>
+<a id="__codelineno-15-56" name="__codelineno-15-56" href="#__codelineno-15-56"></a><span class="kt">void</span><span class="w"> </span><span class="nf">put_page</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">va</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-57" name="__codelineno-15-57" href="#__codelineno-15-57"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">pfn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PHYS2PFN</span><span class="p">(</span><span class="n">VA2PA</span><span class="p">((</span><span class="kt">uint64_t</span><span class="p">)</span><span class="n">va</span><span class="p">));</span>
+<a id="__codelineno-15-58" name="__codelineno-15-58" href="#__codelineno-15-58"></a><span class="w">    </span><span class="n">page_ref_dec</span><span class="p">(</span><span class="n">pfn</span><span class="p">);</span>
+<a id="__codelineno-15-59" name="__codelineno-15-59" href="#__codelineno-15-59"></a><span class="p">}</span>
+</code></pre></div>
+</details>
+<p>接下来在我们 <code>do_fork</code> 创建页面、拷贝内容、创建页表的时候，只需要：</p>
+<ul>
+<li>将物理页的引用计数加一</li>
+<li>将父进程的该地址对应的页表项的 <code>PTE_W</code> 位置 0<ul>
+<li>注意因为修改了页表项权限，所以全部修改完成后需要通过 <code>sfence.vma</code> 刷新 TLB</li>
+</ul>
+</li>
+<li>为子进程创建一个新的页表项，指向父进程的物理页，且权限不带 <code>PTE_W</code></li>
+</ul>
+<p>这样在父子进程想要写入的时候，就会触发 page fault，然后再由我们在 page fault handler 中进行 COW。在 handler 中，我们只需要判断，如果发生了写错误，且 vma 的 <code>VM_WRITE</code> 位为 1，而且对应地址有 pte（进行了映射）但 pte 的 <code>PTE_W</code> 位为 0，那么就可以断定这是一个写时复制的页面，我们只需要在这个时候拷贝一份原来的页面，重新创建一个映射即可。</p>
+<div class="admonition tip">
+<p class="admonition-title">关于引用计数</p>
+<p>拷贝了页面之后，别忘了将原来的页面引用计数减一。这样父子进程想要写入的时候，都会触发 COW，并拷贝一个新页面，都拷贝完成后，原来的页面将自动 free 掉。</p>
+<p>进一步的，父进程 COW 后，子进程再进行写入的时候，也可以在这时判断引用计数，如果计数为 1，说明这个页面只有一个引用，那么就可以直接将 pte 的 <code>PTE_W</code> 位再置 1，这样就可以直接写入了，免去一次额外的复制。</p>
+</div>
+<p>正确完成后，前面的测试应该都能正常完成。同时建议大家输出一些 COW 的信息来验证实现是否正确。</p>
+<h2 id="_13">思考题<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<ol>
+<li>呈现出你在 page fault 的时候拷贝 ELF 程序内容的逻辑。</li>
+<li>回答 <a href="#_12">4.3.5</a> 中的问题：<ul>
+<li>在 do_fork 中，父进程的内核栈和用户栈指针分别是什么？</li>
+<li>在 do_fork 中，子进程的内核栈和用户栈指针的值应该是什么？</li>
+<li>在 do_fork 中，子进程的内核栈和用户栈指针分别应该赋值给谁？</li>
+</ul>
+</li>
+<li>为什么要为子进程 <code>pt_regs</code> 的 <code>sepc</code> 手动加四？</li>
+<li>对于 <code>Fork main #2</code>（即 <code>FORK2</code>），在运行时，<code>ZJU OS Lab5</code> 位于内存的什么位置？是否在读取的时候产生了 page fault？请给出必要的截图以说明。</li>
+<li>画图分析 <code>make run TEST=FORK3</code> 的进程 fork 过程，并呈现出各个进程的 <code>global_variable</code> 应该从几开始输出，再与你的输出进行对比验证。</li>
+</ol>
+<h2 id="_14">实验任务与要求<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li>请各位同学独立完成作业，任何抄袭行为都将使本次作业判为 0 分。</li>
+<li>
+<p>在学在浙大中提交：</p>
+<ul>
+<li>
+<p>整个工程代码的压缩包（提交之前请使用 <code>make clean</code> 清除所有构建产物）</p>
+<div class="admonition tip">
+<p class="admonition-title">并不需要删除或注释掉程序中的 <code>Log</code> 等输出，这也会更好地帮助助教判断你程序的正确性 :)</p>
+</div>
+</li>
+<li>
+<p>pdf 格式的实验报告：</p>
+<ul>
+<li>记录实验过程并截图（4.1-4.3），并对每一步的命令以及结果进行必要的解释；</li>
+<li>记录遇到的问题和心得体会；</li>
+<li>完成思考题。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">关于实验报告内容要求，可见：<a href="../faq/#_2">常见问题及解答 - 实验提交要求</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lab4/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 实验指导四">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                实验指导四
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab6/" class="md-footer__link md-footer__link--next" aria-label="Next: 实验指导六">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                实验指导六
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.action.edit", "navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

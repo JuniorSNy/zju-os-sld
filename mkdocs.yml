@@ -43,6 +43,7 @@ nav:
   - Spike 工具链使用: spike.md
   - AIGC 使用指北: spike.md
   - 常见问题及解答: faq.md
+  - 附录: appendix.md
 
 markdown_extensions:
   - toc:
